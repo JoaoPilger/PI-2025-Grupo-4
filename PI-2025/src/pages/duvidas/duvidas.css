@@ -1,0 +1,49 @@
+* {
+    background-color: #e6ebdd;
+    overflow: hidden;
+}
+
+.pagina_duvidas {
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#titulo {
+    text-align: center;
+    font-size: 60px;
+}
+
+.barra-pesquisas {
+    width: 30%;
+    height: 8%;
+    border-radius: 100px;
+    background-color: white;
+    border: none;
+    background: white url('/public/imagens/img_lupa.png') no-repeat 10px center;
+    background-size: 40px 40px;
+    outline: none;
+}
+
+.barra-pesquisas img {
+    width: 70px;
+    height: 70%;
+}
+
+.perguntas {
+    width: 45%;
+    height: 25%;
+    padding: 20px;
+    background-color: #d5d8ba;
+    margin-top: 40px;
+}
+.perguntas p {
+    background-color: #d5d8ba;
+    padding: 10px;
+    border-bottom: 2px solid #999;
+    font-size: 22px;
+    margin: 0;
+}

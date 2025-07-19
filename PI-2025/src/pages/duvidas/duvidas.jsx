@@ -4,12 +4,12 @@ function Duvidas() {
     return (
         <div className="pagina_duvidas">
             <div id="titulo">
-                <p>DÚVIDAS E PERGUNTAS FREQUENTES</p>
+                <p>DÚVIDAS E PERGUNTAS <br />FREQUENTES</p>
             </div>
 
-            <div className="barra_pesquisas"></div>
+            <input className="barra-pesquisas" type="text" />
 
-            <div className="Perguntas">
+            <div className="perguntas">
                 <p>pergunta 1</p>
                 <p>pergunta 2</p>
                 <p>pergunta 3</p>
@@ -18,7 +18,7 @@ function Duvidas() {
 
             <div id="texto">Não achou o que procurava?</div>
 
-            <div className="enviar_duvida">Envie sua dúvida:</div>
+            <div className="enviar-duvida">Envie sua dúvida:</div>
         </div>
     );
 }
