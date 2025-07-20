@@ -16,9 +16,9 @@ function Duvidas() {
                 <p>pergunta 4</p>
             </div>
 
-            <div id="texto">Não achou o que procurava?</div>
+            <div id="texto-duvida"><strong>Não achou o que procurava?</strong></div>
 
-            <div className="enviar-duvida">Envie sua dúvida:</div>
+            <input className="enviar-duvida" type="text" placeholder='Envie sua dúvida:' />
         </div>
     );
 }
