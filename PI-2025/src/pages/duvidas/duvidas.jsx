@@ -1,4 +1,23 @@
+import { useState } from 'react';
 import './duvidas.css';
+
+function Pergunta({ pergunta, resposta }) {
+    const [aberta, setAberta] = useState(false);
+
+    return (
+        <div className='pergunta-item' onClick={() => setAberta(!aberta)}>
+            <p>{pergunta}</p>
+            {aberta && (
+                <div className='resposta'>
+                    {resposta}
+                    </div>
+            )}
+        </div>
+    )
+}
+
+
+
 
 function Duvidas() {
     return (
@@ -7,13 +26,17 @@ function Duvidas() {
                 <p>DÚVIDAS E PERGUNTAS <br />FREQUENTES</p>
             </div>
 
-            <input className="barra-pesquisas" type="text" />
+            <input className=" barra-pesquisas" type="text" />
 
             <div className="perguntas">
-                <p>pergunta 1</p>
-                <p>pergunta 2</p>
-                <p>pergunta 3</p>
-                <p>pergunta 4</p>
+                <Pergunta pergunta="Pergunta 1" resposta="Resposta." />
+                <Pergunta pergunta="Pergunta 2" resposta="Resposta." />
+                <Pergunta pergunta="Pergunta 3" resposta="Resposta." />
+                <Pergunta pergunta="Pergunta 4" resposta="Resposta." />
+                <Pergunta pergunta="Pergunta 5" resposta="Resposta." />
+                <Pergunta pergunta="Pergunta 6" resposta="Resposta." />
+                <Pergunta pergunta="Pergunta 7" resposta="Resposta." />
+                <Pergunta pergunta="Pergunta 8" resposta="Resposta." />
             </div>
 
             <div id="texto-duvida"><strong>Não achou o que procurava?</strong></div>
