@@ -5,13 +5,14 @@ body {
 }
 
 .login-page {
-  height: 100vh;
+  min-height: 100vh;
   display: flex;
   flex-direction: column;
   position: relative;
   justify-content: center;
   align-items: center;
-  padding: 40px;
+  padding: 40px 20px;
+  box-sizing: border-box;
 }
 
 .logo {
@@ -32,12 +33,14 @@ body {
 }
 
 .login-box {
-  width: 400px;
+  width: 100%;
+  max-width: 400px;
   background-color: #dde0bd;
   border: 2px solid #000;
   border-radius: 20px;
   padding: 30px;
   text-align: center;
+  box-sizing: border-box;
 }
 
 .user-image {
@@ -59,11 +62,18 @@ form {
 }
 
 input[type="text"],
-input[type="password"] {
+input[type="password"],
+input[type="email"] {
   padding: 8px;
   border: 1.5px solid #000;
   border-radius: 3px;
   width: 100%;
+  box-sizing: border-box;
+}
+
+input[type="radio"] {
+  width: auto;
+  margin-right: 6px;
 }
 
 .options {
@@ -91,6 +101,7 @@ button {
   border-radius: 5px;
   font-weight: bold;
   cursor: pointer;
+  width: 100%;
 }
 
 
@@ -99,29 +110,42 @@ button {
   box-shadow: 8px 8px 5px rgba(0, 0, 0, 0.3);
 }
 
-button[type="submit"] {
-  margin-top: 15px;
-  padding: 10px;
-  background-color: #f8f8f8;
-  border: 2px solid #000;
-  border-radius: 3px;
-  font-weight: bold;
-  width: 100%;
-  cursor: pointer;
-}
+/* RESPONSIVIDADE */
+@media (max-width: 600px) {
+  .logo {
+    position: static;
+    margin-bottom: 20px;
+  }
 
+  .login-page {
+    padding: 20px 15px;
+  }
 
-input[type="text"],
-input[type="password"],
-input[type="email"] {
-  padding: 8px;
-  border: 1.5px solid #000;
-  border-radius: 3px;
-  width: 100%;
-  box-sizing: border-box;
-}
+  .login-box {
+    padding: 20px;
+  }
 
-input[type="radio"] {
-  width: auto;
-  margin-right: 6px;
+  .links {
+    flex-direction: column;
+    gap: 5px;
+    align-items: flex-start;
+  }
+
+  .login-box h2 {
+    font-size: 1.3em;
+  }
+
+  .options {
+    font-size: 0.85em;
+  }
+
+  input[type="text"],
+  input[type="password"],
+  input[type="email"] {
+    font-size: 1em;
+  }
+
+  button {
+    font-size: 1em;
+  }
 }
