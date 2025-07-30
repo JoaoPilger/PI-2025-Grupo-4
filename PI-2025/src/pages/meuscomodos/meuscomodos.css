@@ -1,0 +1,476 @@
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
+}
+
+.pagina_meus_comodos {
+    width: 100%;
+    min-height: 100vh;
+    background-color: #e6ebdd;
+    padding: 40px 0;
+    overflow-y: auto;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+.titulo-secao {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.titulo-secao h1 {
+    font-size: 60px;
+    font-family: 'Findel', sans-serif;
+    color: #333;
+    margin: 0;
+}
+
+.resumo-consumo {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 40px;
+}
+
+.card-consumo {
+    background-color: #d5d8ba;
+    padding: 30px;
+    border-radius: 20px;
+    box-shadow: 8px 8px 10px rgba(0, 0, 0, 0.3);
+    text-align: center;
+    min-width: 300px;
+}
+
+.card-consumo h3 {
+    font-size: 24px;
+    font-family: 'Findel', sans-serif;
+    color: #333;
+    margin-bottom: 20px;
+}
+
+.valor-consumo {
+    display: flex;
+    align-items: baseline;
+    justify-content: center;
+    gap: 10px;
+}
+
+.valor-consumo .numero {
+    font-size: 48px;
+    font-family: 'Findel', sans-serif;
+    color: #333;
+    font-weight: bold;
+}
+
+.valor-consumo .unidade {
+    font-size: 24px;
+    font-family: "Open Sans", sans-serif;
+    color: #555;
+}
+
+.secao-adicionar-comodo {
+    background-color: #d5d8ba;
+    padding: 30px;
+    border-radius: 20px;
+    box-shadow: 8px 8px 10px rgba(0, 0, 0, 0.3);
+    margin-bottom: 40px;
+}
+
+.secao-adicionar-comodo h2 {
+    font-size: 28px;
+    font-family: 'Findel', sans-serif;
+    color: #333;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.form-adicionar-comodo {
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+    align-items: center;
+}
+
+.form-adicionar-comodo input {
+    flex: 1;
+    max-width: 300px;
+    padding: 15px;
+    border: none;
+    border-radius: 10px;
+    font-size: 18px;
+    font-family: "Open Sans", sans-serif;
+    outline: none;
+}
+
+.form-adicionar-comodo button {
+    padding: 15px 25px;
+    background-color: #333;
+    color: white;
+    border: none;
+    border-radius: 10px;
+    font-size: 18px;
+    font-family: "Open Sans", sans-serif;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.form-adicionar-comodo button:hover {
+    background-color: #555;
+}
+
+.lista-comodos {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+}
+
+.comodo-card {
+    background-color: #d5d8ba;
+    padding: 30px;
+    border-radius: 20px;
+    box-shadow: 8px 8px 10px rgba(0, 0, 0, 0.3);
+}
+
+.comodo-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.comodo-header h3 {
+    font-size: 28px;
+    font-family: 'Findel', sans-serif;
+    color: #333;
+    margin: 0;
+}
+
+.acoes-comodo {
+    display: flex;
+    gap: 10px;
+}
+
+.btn-adicionar-eletro {
+    padding: 10px 15px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 14px;
+    font-family: "Open Sans", sans-serif;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.btn-adicionar-eletro:hover {
+    background-color: #45a049;
+}
+
+.btn-remover-comodo {
+    padding: 10px 15px;
+    background-color: #f44336;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 14px;
+    font-family: "Open Sans", sans-serif;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.btn-remover-comodo:hover {
+    background-color: #da190b;
+}
+
+.consumo-comodo {
+    margin-bottom: 20px;
+}
+
+.consumo-comodo span {
+    font-size: 18px;
+    font-family: "Open Sans", sans-serif;
+    color: #555;
+    font-weight: bold;
+}
+
+.lista-eletrodomesticos {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.sem-eletrodomesticos {
+    text-align: center;
+    color: #999;
+    font-style: italic;
+    font-family: "Open Sans", sans-serif;
+    font-size: 16px;
+}
+
+.eletrodomestico-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #e6ebdd;
+    padding: 15px;
+    border-radius: 10px;
+    transition: transform 0.2s ease;
+}
+
+.eletrodomestico-item:hover {
+    transform: translateX(5px);
+}
+
+.info-eletro {
+    display: flex;
+    gap: 20px;
+    align-items: center;
+    flex: 1;
+}
+
+.nome-eletro {
+    font-size: 18px;
+    font-family: "Open Sans", sans-serif;
+    color: #333;
+    font-weight: bold;
+    min-width: 150px;
+}
+
+.potencia-eletro, .horas-eletro, .consumo-eletro {
+    font-size: 16px;
+    font-family: "Open Sans", sans-serif;
+    color: #555;
+    min-width: 80px;
+}
+
+.btn-remover-eletro {
+    background-color: #f44336;
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+    font-size: 18px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.btn-remover-eletro:hover {
+    background-color: #da190b;
+}
+
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.modal-eletrodomestico {
+    background-color: #d5d8ba;
+    padding: 30px;
+    border-radius: 20px;
+    box-shadow: 8px 8px 10px rgba(0, 0, 0, 0.3);
+    min-width: 400px;
+    max-width: 500px;
+}
+
+.modal-eletrodomestico h3 {
+    font-size: 24px;
+    font-family: 'Findel', sans-serif;
+    color: #333;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.form-eletrodomestico {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.form-eletrodomestico input {
+    padding: 15px;
+    border: none;
+    border-radius: 10px;
+    font-size: 16px;
+    font-family: "Open Sans", sans-serif;
+    outline: none;
+}
+
+.botoes-modal {
+    display: flex;
+    gap: 15px;
+    margin-top: 10px;
+}
+
+.botoes-modal button {
+    flex: 1;
+    padding: 15px;
+    border: none;
+    border-radius: 10px;
+    font-size: 16px;
+    font-family: "Open Sans", sans-serif;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.botoes-modal button:first-child {
+    background-color: #4CAF50;
+    color: white;
+}
+
+.botoes-modal button:first-child:hover {
+    background-color: #45a049;
+}
+
+.botoes-modal button:last-child {
+    background-color: #f44336;
+    color: white;
+}
+
+.botoes-modal button:last-child:hover {
+    background-color: #da190b;
+}
+
+@media (max-width: 768px) {
+    .titulo-secao h1 {
+        font-size: 40px;
+    }
+
+    .card-consumo {
+        min-width: 250px;
+        padding: 20px;
+    }
+
+    .valor-consumo .numero {
+        font-size: 36px;
+    }
+
+    .valor-consumo .unidade {
+        font-size: 20px;
+    }
+
+    .secao-adicionar-comodo, .comodo-card {
+        padding: 20px;
+        margin: 0 10px;
+    }
+
+    .form-adicionar-comodo {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .form-adicionar-comodo input {
+        max-width: 100%;
+    }
+
+    .comodo-header {
+        flex-direction: column;
+        gap: 15px;
+        align-items: flex-start;
+    }
+
+    .acoes-comodo {
+        width: 100%;
+        justify-content: space-between;
+    }
+
+    .info-eletro {
+        flex-direction: column;
+        gap: 5px;
+        align-items: flex-start;
+    }
+
+    .nome-eletro, .potencia-eletro, .horas-eletro, .consumo-eletro {
+        min-width: auto;
+    }
+
+    .modal-eletrodomestico {
+        min-width: 300px;
+        margin: 20px;
+    }
+}
+
+@media (max-width: 480px) {
+    .titulo-secao h1 {
+        font-size: 32px;
+    }
+
+    .card-consumo {
+        min-width: 200px;
+        padding: 15px;
+    }
+
+    .valor-consumo .numero {
+        font-size: 28px;
+    }
+
+    .valor-consumo .unidade {
+        font-size: 16px;
+    }
+
+    .secao-adicionar-comodo h2 {
+        font-size: 24px;
+    }
+
+    .form-adicionar-comodo input,
+    .form-adicionar-comodo button {
+        font-size: 16px;
+        padding: 12px;
+    }
+
+    .comodo-header h3 {
+        font-size: 24px;
+    }
+
+    .btn-adicionar-eletro,
+    .btn-remover-comodo {
+        font-size: 12px;
+        padding: 8px 12px;
+    }
+
+    .nome-eletro {
+        font-size: 16px;
+    }
+
+    .potencia-eletro, .horas-eletro, .consumo-eletro {
+        font-size: 14px;
+    }
+
+    .modal-eletrodomestico {
+        min-width: 250px;
+        padding: 20px;
+    }
+
+    .modal-eletrodomestico h3 {
+        font-size: 20px;
+    }
+
+    .form-eletrodomestico input {
+        font-size: 14px;
+        padding: 12px;
+    }
+
+    .botoes-modal button {
+        font-size: 14px;
+        padding: 12px;
+    }
+} 
