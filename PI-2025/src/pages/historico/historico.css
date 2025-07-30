@@ -1,0 +1,414 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Arial', sans-serif;
+  line-height: 1.6;
+  color: #333;
+  background-color: #f5f5dc;
+}
+
+.App {
+  min-height: 100vh;
+}
+
+/* Estilos da Página de Histórico */
+.pagina-historico {
+  min-height: 100vh;
+  background-color: #f5f5dc;
+  padding: 40px 20px;
+  font-family: 'Arial', sans-serif;
+}
+
+.titulo-historico {
+  text-align: center;
+  font-size: 3rem;
+  font-weight: bold;
+  margin-bottom: 40px;
+  color: #000;
+  font-family: 'Times New Roman', serif;
+  letter-spacing: 1px;
+}
+
+/* Cards de Estatísticas */
+.cards-estatisticas {
+  max-width: 900px;
+  margin: 0 auto 40px;
+}
+
+.card-estatistica {
+  background-color: #000;
+  color: white;
+  padding: 25px 30px;
+  margin-bottom: 20px;
+  border-radius: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+.estatistica-esquerda {
+  flex: 2;
+}
+
+.estatistica-centro {
+  flex: 1;
+  text-align: center;
+}
+
+.estatistica-direita {
+  flex: 1;
+  text-align: right;
+}
+
+.rotulo-estatistica {
+  font-size: 1rem;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+}
+
+.valor-estatistica {
+  font-size: 1.4rem;
+  font-weight: bold;
+  letter-spacing: 0.5px;
+}
+
+.botao-ver-grafico {
+  background-color: white;
+  color: black;
+  border: 2px solid black;
+  padding: 10px 20px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  transition: all 0.2s ease;
+}
+
+.botao-ver-grafico:hover {
+  background-color: #f0f0f0;
+  transform: translateY(-1px);
+}
+
+/* Estilos da Tabela */
+.container-tabela-simulacoes {
+  max-width: 1100px;
+  margin: 0 auto 40px;
+  background-color: white;
+  border-radius: 12px;
+  padding: 30px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+.cabecalho-tabela {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 25px;
+}
+
+.titulo-tabela {
+  margin: 0;
+  font-size: 1.8rem;
+  font-weight: bold;
+  color: #000;
+  letter-spacing: 0.5px;
+}
+
+.acoes-tabela {
+  display: flex;
+  gap: 12px;
+}
+
+.botao-acao {
+  width: 35px;
+  height: 35px;
+  border: 2px solid #ddd;
+  background-color: white;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  font-weight: bold;
+  transition: all 0.2s ease;
+}
+
+.botao-acao:hover {
+  background-color: #f0f0f0;
+  border-color: #999;
+}
+
+.tabela-simulacoes {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 15px;
+}
+
+.tabela-simulacoes th,
+.tabela-simulacoes td {
+  padding: 15px 20px;
+  text-align: left;
+  border-bottom: 2px solid #eee;
+  font-size: 1rem;
+}
+
+.tabela-simulacoes th {
+  background-color: #f8f8f8;
+  font-weight: bold;
+  color: #000;
+  font-size: 1.1rem;
+  letter-spacing: 0.5px;
+  text-align: center;
+}
+
+.tabela-simulacoes tbody tr {
+  transition: background-color 0.2s ease;
+}
+
+.tabela-simulacoes tbody tr:hover {
+  background-color: #f5f5f5;
+}
+
+.tabela-simulacoes td {
+  color: #333;
+  font-weight: 500;
+}
+
+.tabela-simulacoes td:first-child,
+.tabela-simulacoes td:nth-child(2) {
+  text-align: left;
+}
+
+.tabela-simulacoes td:nth-child(3),
+.tabela-simulacoes td:nth-child(4),
+.tabela-simulacoes td:nth-child(5) {
+  text-align: right;
+}
+
+/* Estilos do Gráfico */
+.container-grafico {
+  max-width: 1100px;
+  margin: 0 auto;
+  background-color: white;
+  border-radius: 12px;
+  padding: 30px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+.grafico-consumo {
+  padding: 20px;
+}
+
+.legenda-grafico {
+  display: flex;
+  justify-content: center;
+  gap: 30px;
+  margin-bottom: 20px;
+}
+
+.item-legenda {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.cor-legenda {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+}
+
+.cor-legenda.consumo {
+  background-color: #000;
+}
+
+.cor-legenda.gasto {
+  background-color: #666;
+}
+
+.container-chart {
+  position: relative;
+  height: 250px;
+  display: flex;
+  align-items: flex-end;
+  gap: 20px;
+}
+
+.eixo-y {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 200px;
+  width: 40px;
+}
+
+.marcacao-y {
+  display: flex;
+  align-items: center;
+  height: 40px;
+}
+
+.rotulo-marcacao {
+  font-size: 12px;
+  color: #666;
+}
+
+.barras-grafico {
+  flex: 1;
+  display: flex;
+  justify-content: space-around;
+  align-items: flex-end;
+  height: 200px;
+  gap: 10px;
+}
+
+.grupo-mes {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+
+.barras {
+  display: flex;
+  gap: 4px;
+  align-items: flex-end;
+}
+
+.barra {
+  border-radius: 2px;
+}
+
+.barra-consumo {
+  background-color: #000;
+}
+
+.barra-gasto {
+  background-color: #666;
+}
+
+.rotulo-mes {
+  font-size: 12px;
+  color: #333;
+  text-align: center;
+}
+
+/* Media Query para Responsividade */
+@media (max-width: 600px) {
+  .pagina-historico {
+    padding: 20px 10px;
+  }
+
+  .titulo-historico {
+    font-size: 2rem;
+    margin-bottom: 25px;
+  }
+
+  .cards-estatisticas {
+    max-width: 100%;
+    margin: 0 auto 25px;
+  }
+
+  .card-estatistica {
+    flex-direction: column;
+    text-align: center;
+    padding: 20px;
+    margin-bottom: 15px;
+  }
+
+  .estatistica-esquerda,
+  .estatistica-centro,
+  .estatistica-direita {
+    flex: none;
+    margin-bottom: 10px;
+  }
+
+  .estatistica-direita {
+    margin-bottom: 0;
+  }
+
+  .rotulo-estatistica {
+    font-size: 0.8rem;
+  }
+
+  .valor-estatistica {
+    font-size: 1.1rem;
+  }
+
+  .botao-ver-grafico {
+    padding: 8px 16px;
+    font-size: 0.8rem;
+  }
+
+  .container-tabela-simulacoes,
+  .container-grafico {
+    max-width: 100%;
+    padding: 20px;
+    margin: 0 10px 25px;
+  }
+
+  .cabecalho-tabela {
+    flex-direction: column;
+    gap: 15px;
+    align-items: flex-start;
+  }
+
+  .titulo-tabela {
+    font-size: 1.4rem;
+  }
+
+  .acoes-tabela {
+    gap: 8px;
+  }
+
+  .botao-acao {
+    width: 30px;
+    height: 30px;
+    font-size: 12px;
+  }
+
+  .tabela-simulacoes th,
+  .tabela-simulacoes td {
+    padding: 8px 10px;
+    font-size: 0.8rem;
+  }
+
+  .tabela-simulacoes th {
+    font-size: 0.9rem;
+  }
+
+  .container-chart {
+    height: 200px;
+    gap: 15px;
+  }
+
+  .eixo-y {
+    height: 160px;
+    width: 30px;
+  }
+
+  .barras-grafico {
+    height: 160px;
+    gap: 8px;
+  }
+
+  .rotulo-mes {
+    font-size: 10px;
+  }
+
+  .legenda-grafico {
+    gap: 20px;
+    flex-wrap: wrap;
+  }
+
+  .item-legenda {
+    font-size: 0.8rem;
+  }
+}
