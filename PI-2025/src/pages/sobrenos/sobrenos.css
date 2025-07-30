@@ -1,0 +1,209 @@
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
+}
+
+.pagina_sobrenos {
+    width: 100%;
+    min-height: 100vh;
+    background-color: #e6ebdd;
+    padding: 40px 0;
+    overflow-y: auto;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+.titulo-secao {
+    text-align: center;
+    margin-bottom: 60px;
+}
+
+.titulo-secao h1 {
+    font-size: 60px;
+    font-family: 'Findel', sans-serif;
+    color: #333;
+    margin: 0;
+}
+
+.conteudo-principal {
+    display: flex;
+    flex-direction: column;
+    gap: 60px;
+}
+
+.secao-missao, .secao-equipe, .secao-contato {
+    background-color: #d5d8ba;
+    padding: 40px;
+    border-radius: 20px;
+    box-shadow: 8px 8px 10px rgba(0, 0, 0, 0.3);
+}
+
+.secao-missao h2, .secao-equipe h2, .secao-contato h2 {
+    font-size: 36px;
+    font-family: 'Findel', sans-serif;
+    color: #333;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.secao-missao p {
+    font-size: 22px;
+    font-family: "Open Sans", sans-serif;
+    line-height: 1.6;
+    text-align: center;
+    color: #555;
+}
+
+.secao-equipe p {
+    font-size: 22px;
+    font-family: "Open Sans", sans-serif;
+    line-height: 1.6;
+    text-align: center;
+    color: #555;
+    margin-bottom: 30px;
+}
+
+.membros-equipe {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 30px;
+}
+
+.membro {
+    background-color: #e6ebdd;
+    padding: 25px;
+    border-radius: 15px;
+    text-align: center;
+    transition: transform 0.3s ease;
+}
+
+.membro:hover {
+    transform: translateY(-5px);
+}
+
+.membro .avatar {
+    font-size: 48px;
+    margin-bottom: 15px;
+}
+
+.membro h4 {
+    font-size: 20px;
+    font-family: 'Findel', sans-serif;
+    color: #333;
+    margin-bottom: 10px;
+}
+
+.membro p {
+    font-size: 16px;
+    font-family: "Open Sans", sans-serif;
+    color: #555;
+    line-height: 1.4;
+}
+
+.secao-contato p {
+    font-size: 22px;
+    font-family: "Open Sans", sans-serif;
+    line-height: 1.6;
+    text-align: center;
+    color: #555;
+    margin-bottom: 30px;
+}
+
+.contato-info {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    align-items: center;
+}
+
+.contato-item {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+.contato-label {
+    font-size: 20px;
+    font-family: 'Findel', sans-serif;
+    color: #333;
+    font-weight: bold;
+}
+
+.contato-valor {
+    font-size: 20px;
+    font-family: "Open Sans", sans-serif;
+    color: #555;
+}
+
+@media (max-width: 768px) {
+    .titulo-secao h1 {
+        font-size: 40px;
+    }
+
+    .secao-missao, .secao-equipe, .secao-contato {
+        padding: 25px;
+        margin: 0 10px;
+    }
+
+    .secao-missao h2, .secao-equipe h2, .secao-contato h2 {
+        font-size: 28px;
+    }
+
+    .secao-missao p, .secao-equipe p, .secao-contato p {
+        font-size: 18px;
+    }
+
+    .membros-equipe {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+
+    .contato-item {
+        flex-direction: column;
+        text-align: center;
+        gap: 5px;
+    }
+
+    .contato-label, .contato-valor {
+        font-size: 18px;
+    }
+}
+
+@media (max-width: 480px) {
+    .titulo-secao h1 {
+        font-size: 32px;
+    }
+
+    .secao-missao, .secao-equipe, .secao-contato {
+        padding: 20px;
+    }
+
+    .secao-missao h2, .secao-equipe h2, .secao-contato h2 {
+        font-size: 24px;
+    }
+
+    .secao-missao p, .secao-equipe p, .secao-contato p {
+        font-size: 16px;
+    }
+
+    .membro {
+        padding: 20px;
+    }
+
+    .membro h4 {
+        font-size: 18px;
+    }
+
+    .membro p {
+        font-size: 14px;
+    }
+}
