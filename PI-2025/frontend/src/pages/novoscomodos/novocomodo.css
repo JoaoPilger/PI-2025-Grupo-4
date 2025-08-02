@@ -1,0 +1,267 @@
+body {
+  background-color: #eef1df;
+  font-family: 'Arial', sans-serif;
+  margin: 0;
+}
+
+.novo-comodo-container {
+  text-align: center;
+  padding: 20px;
+}
+
+h1, input[type="text"] {
+  font-family: 'Findel', serif;
+  font-size: 60px;
+  background-color: transparent;
+  border: 0;
+  outline: none;
+  color: #333;
+  max-width: 440px;
+  height: 200px;
+  height: 100px;
+}
+.titulo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+.titulo img {
+  width: 40px;
+  height: 40px;
+  margin-left: 10px;
+}
+
+.edit-icon {
+  font-style: normal;
+  cursor: pointer;
+  margin-left: 10px;
+  font-size: 1.2rem;
+}
+
+.painel {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 5%;
+  margin: 0 auto;
+  width: 90%;
+}
+
+.info-box {
+  border: 2px solid black;
+  padding: 15px;
+  width: 15%;
+  min-width: 180px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  height: 310px;
+  background: #fff;
+}
+
+.info-box ul {
+  max-width: 100%;
+  width: 100%;
+  overflow-wrap: break-word;
+  word-break: break-word;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 8px;
+  box-sizing: border-box;
+  max-height: 150px;      /* Limita altura da lista */
+  overflow-y: auto;       /* Adiciona rolagem se necessário */
+  scrollbar-width: none; /* Firefox */
+}
+.info-box ul::-webkit-scrollbar {
+  display: none; /* Chrome, Safari, Edge */
+}
+
+.info-box li {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  font-size: 1rem;
+  max-width: 100%;
+  width: 100%;
+  margin-bottom: 4px;
+  box-sizing: border-box;
+}
+
+.info-box img {
+  width: 24px;
+  height: 24px;
+  margin-right: 8px;
+  object-fit: contain;
+  flex-shrink: 0;
+}
+
+.scroll-container {
+  max-height: 310px;
+  max-width: 60%;
+  min-width: 220px;
+  overflow-y: scroll;
+  border: 2px solid black;
+  align-items: flex-start;
+  display: flex;
+  justify-content: center;
+  padding: 10px;
+  scrollbar-width: thin;
+  scrollbar-color: black #d2d5b2;
+  background: #fafaf7;
+}
+
+/* Scrollbar personalizada - WebKit */
+.scroll-wrapper::-webkit-scrollbar {
+  width: 14px;
+}
+
+.scroll-wrapper::-webkit-scrollbar-track {
+  background-color: #d2d5b2;
+  border-left: 2px solid #444;
+  border-right: 2px solid #444;
+}
+
+.scroll-wrapper::-webkit-scrollbar-thumb {
+  background-color: black;
+  border-radius: 8px;
+}
+
+.scroll-wrapper::-webkit-scrollbar-button:single-button:vertical:decrement {
+  background: url('/seta-cima.png') center no-repeat;
+  background-size: 12px;
+  height: 18px;
+}
+
+.scroll-wrapper::-webkit-scrollbar-button:single-button:vertical:increment {
+  background: url('/seta-baixo.png') center no-repeat;
+  background-size: 12px;
+  height: 18px;
+}
+
+.aparelhos-scroll {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: space-around;
+}
+
+.aparelho {
+  width: 180px;
+  min-width: 120px;
+  margin: 0 10px 20px 10px;
+  text-align: center;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: flex-start;
+  position: relative;
+}
+.aparelho div {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  flex: 1;
+}
+.aparelho input[type="checkbox"] {
+  opacity: 0;
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 24px;
+  height: 24px;
+  cursor: pointer;
+  z-index: 2;
+}
+.custom-checkbox {
+  width: 24px;
+  height: 24px;
+  border: 2px solid black;
+  border-radius: 50%;
+  pointer-events: none;
+  transition: background-color 0.3s ease;
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.aparelho input[type="checkbox"]:checked + .custom-checkbox {
+  background-color: black; /* preenche o círculo quando marcado */
+}
+
+.aparelho img {
+  width: 48px;
+  height: 48px;
+  object-fit: contain;
+  margin-bottom: 8px;
+}
+
+.aparelho input[type="radio"] {
+  margin-top: 5px;
+}
+
+.btn-finalizar {
+  margin-top: 30px;
+  padding: 10px 30px;
+  border: 2px solid black;
+  background-color: transparent;
+  cursor: pointer;
+  font-weight: bold;
+  transition: 0.5s ease;
+  font-size: 1rem;
+}
+
+.btn-finalizar:hover {
+  transform: scale(1.1) translateY(-5px);
+  background-color: #d2d5b2;
+}
+
+@media (max-width: 900px) {
+  .painel {
+    flex-direction: column;
+    align-items: center;
+    gap: 30px;
+    width: 100%;
+  }
+  .info-box {
+    width: 90%;
+    margin-bottom: 20px;
+    height: auto;
+  }
+  .scroll-container {
+    max-width: 95%;
+    min-width: 220px;
+    margin-bottom: 20px;
+  }
+}
+
+@media (max-width: 600px) {
+  h1, input[type="text"] {
+    font-size: 1.3rem;
+    max-width: 95vw;
+    height: auto;
+  }
+  .aparelho {
+    width: 90vw;
+    min-width: 100px;
+  }
+  .info-box {
+    min-width: 120px;
+    padding: 10px;
+    gap: 10px;
+  }
+  .scroll-container {
+    min-width: 120px;
+    padding: 5px;
+  }
+}

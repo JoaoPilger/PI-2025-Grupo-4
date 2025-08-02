@@ -7,6 +7,7 @@ import Duvidas from './pages/duvidas/duvidas.jsx';
 import SobreNos from './pages/sobrenos/sobrenos.jsx';
 import MeusComodos from './pages/meuscomodos/meuscomodos.jsx';
 import Historico from './pages/historico/historico.jsx';
+import NovoComodo from './pages/novoscomodos/novocomodo.jsx';
 // import Login from './pages/cadastroelogin/login.jsx';
 // import Cadastro from './pages/cadastroelogin/cadastro.jsx';
 
@@ -20,9 +21,8 @@ function App() {
           <Routes>
             <Route path="/sobrenos" element={<SobreNos />} />
             <Route path="/meuscomodos" element={<MeusComodos />} />
+            <Route path="/novocomodo" element={<NovoComodo />} />
             <Route path="/historico" element={<Historico />} />
-            {/* <Route path="/login" element={<Login />} />
-            <Route path="/cadastro" element={<Cadastro />} /> */}
             <Route path="/" element={<Duvidas />} /> 
           </Routes>
         </main>
