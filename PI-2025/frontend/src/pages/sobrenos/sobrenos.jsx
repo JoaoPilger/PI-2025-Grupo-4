@@ -27,18 +27,27 @@ function SobreNos() {
                         <div className="membros-equipe">
                             <div className="membro">
                                 <div className="avatar">👨‍💻</div>
-                                <h4>Desenvolvedor Frontend</h4>
-                                <p>Responsável pela interface e experiência do usuário</p>
+                                <h4>Davi Ulisses M. Gusso</h4>
                             </div>
                             <div className="membro">
-                                <div className="avatar">🎨</div>
-                                <h4>Designer UX/UI</h4>
-                                <p>Criador da identidade visual e experiência do usuário</p>
+                                <div className="avatar">👨‍💻</div>
+                                <h4>Cezar K. Bovi</h4>
                             </div>
                             <div className="membro">
-                                <div className="avatar">⚡</div>
-                                <h4>Especialista em Energia</h4>
-                                <p>Consultor técnico em eficiência energética</p>
+                                <div className="avatar">👨‍💻</div>
+                                <h4>Victor A. Bonissoni</h4>
+                            </div>
+                            <div className="membro">
+                                <div className="avatar">👨‍💻</div>
+                                <h4>Yuri T. Germano</h4>
+                            </div>
+                            <div className="membro">
+                                <div className="avatar">👨‍💻</div>
+                                <h4>João V. Pilger</h4>
+                            </div>
+                            <div className="membro">
+                                <div className="avatar">👩‍💻</div>
+                                <h4>Bianca G. Golfe</h4>
                             </div>
                         </div>
                     </div>

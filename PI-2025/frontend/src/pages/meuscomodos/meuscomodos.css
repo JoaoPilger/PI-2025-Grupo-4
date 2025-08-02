@@ -11,7 +11,7 @@ body {
 .pagina_meus_comodos {
     width: 100%;
     min-height: 100vh;
-    background-color: #e6ebdd;
+    background-color: #f5f5dc;
     padding: 40px 0;
     overflow-y: auto;
 }
