@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import './novocomodo.css';
+import styles from './novocomodo.module.css';
 
 function EditableTitle({ defaultText = "Clique para editar" }) {
   const [isEditing, setIsEditing] = useState(false);
@@ -27,7 +27,6 @@ function EditableTitle({ defaultText = "Clique para editar" }) {
 }
 
 function NovoComodo() {
-  // Informações fictícias dos aparelhos
   const aparelhos = [
     { nome: "Geladeira", img: "/imagens/refrigerator.png", consumo: 30, custo: 15, tarifa: 0.5 },
     { nome: "Freezer", img: "/imagens/mode_cool.png", consumo: 25, custo: 12, tarifa: 0.48 },
@@ -67,7 +66,6 @@ function NovoComodo() {
 
   const [selecionados, setSelecionados] = useState([]);
 
-  // Adiciona ou remove aparelho da lista de selecionados
   const handleSelecionar = (aparelho) => {
     setSelecionados((prev) =>
       prev.some((a) => a.nome === aparelho.nome)
@@ -76,7 +74,6 @@ function NovoComodo() {
     );
   };
 
-  // Calcula os totais
   const totalConsumo = selecionados.reduce((acc, cur) => acc + cur.consumo, 0);
   const totalCusto = selecionados.reduce((acc, cur) => acc + cur.custo, 0);
   const tarifaMedia =
@@ -85,23 +82,23 @@ function NovoComodo() {
       : 0;
 
   return (
-    <div className="novo-comodo-container">
-      <div className='titulo'>
+    <div className={styles["novo-comodo-container"]}>
+      <div className={styles["titulo"]}>
         <EditableTitle defaultText="Novo Cômodo" />
         <img src="/imagens/edit_text.png" alt="Editar texto" />
       </div>
-      <div className="painel">
-        <div className="info-box">
+      <div className={styles["painel"]}>
+        <div className={styles["info-box"]}>
           <p><strong>TOTAL ESTIMADO:</strong></p>
           <p>CONSUMO<br /><strong>{totalConsumo.toFixed(2)} kWh</strong></p>
           <p>CUSTO<br /><strong>R$ {totalCusto.toFixed(2)}</strong></p>
           <p>TARIFA MÉDIA<br /><strong>R$ {tarifaMedia}</strong></p>
         </div>
 
-        <div className="scroll-container">
-          <div className="aparelhos-scroll">
+        <div className={styles["scroll-container"]}>
+          <div className={styles["aparelhos-scroll"]}>
             {aparelhos.map((item) => (
-              <div className="aparelho" key={item.nome}>
+              <div className={styles["aparelho"]} key={item.nome}>
                 <div>
                   <img src={item.img} alt={item.nome} />
                   <p>{item.nome.toUpperCase()}</p>
@@ -113,30 +110,39 @@ function NovoComodo() {
                   name="eletro"
                   id={item.nome}
                 />
-                <span className="custom-checkbox"></span>
+                <span className={styles["custom-checkbox"]}></span>
               </div>
             ))}
           </div>
         </div>
 
-        <div className="info-box">
+        <div className={styles["info-box"]}>
           <p><strong>APARELHOS<br />SELECIONADOS:</strong></p>
           <ul style={{ listStyle: "none", padding: 0 }}>
             {selecionados.length === 0 ? (
               <li>Nenhum aparelho selecionado</li>
-              ) : (
+            ) : (
               selecionados.map((a) => (
                 <li key={a.nome}>
-                  <img src={a.img} alt={a.nome} style={{ width: 24, height: 24, verticalAlign: "middle", marginRight: 8 }} />
+                  <img
+                    src={a.img}
+                    alt={a.nome}
+                    style={{
+                      width: 24,
+                      height: 24,
+                      verticalAlign: "middle",
+                      marginRight: 8
+                    }}
+                  />
                   {a.nome}
                 </li>
-              )))
-            }
+              ))
+            )}
           </ul>
         </div>
       </div>
 
-      <button className="btn-finalizar">FINALIZAR EDIÇÃO</button>
+      <button className={styles["btn-finalizar"]}>FINALIZAR EDIÇÃO</button>
     </div>
   );
 }

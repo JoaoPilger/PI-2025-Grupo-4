@@ -1,14 +1,14 @@
 import { useState } from 'react';
-import './duvidas.css';
+import styles from './duvidas.module.css';
 
 function Pergunta({ pergunta, resposta }) {
     const [aberta, setAberta] = useState(false);
 
     return (
-        <div className='pergunta-item' onClick={() => setAberta(!aberta)}>
+        <div className={styles["pergunta-item"]} onClick={() => setAberta(!aberta)}>
             <p>{pergunta}</p>
             {aberta && (
-                <div className='resposta'>
+                <div className={styles["resposta"]}>
                     {resposta}
                     </div>
             )}
@@ -45,14 +45,14 @@ function Duvidas() {
     );
 
     return (
-        <div className="pagina_duvidas">
+        <div className={styles["pagina_duvidas"]}>
             <div id="titulo">
                 <p>DÚVIDAS E PERGUNTAS <br />FREQUENTES</p>
             </div>
 
-            <input className={`barra-pesquisas ${pesquisa ? 'sem-lupa'  : ''}`} type="text" value={pesquisa} onChange={e => setPesquisa(e.target.value)} />
+            <input className={styles[`barra-pesquisas ${pesquisa ? 'sem-lupa'  : ''}`]} type="text" value={pesquisa} onChange={e => setPesquisa(e.target.value)} />
 
-            <div className="perguntas">
+            <div className={styles["perguntas"]}>
                 {perguntasFiltradas.length > 0 ? (
                     perguntasFiltradas.map((item, index) => (
                         <Pergunta key={index} pergunta={item.pergunta} resposta={item.resposta} />
@@ -64,7 +64,7 @@ function Duvidas() {
 
             <div id="texto-duvida"><strong>Não achou o que procurava?</strong></div>
 
-            <input className="enviar-duvida" type="text" placeholder='Envie sua dúvida:' value={duvida} 
+            <input className={styles["enviar-duvida"]} type="text" placeholder='Envie sua dúvida:' value={duvida} 
             onChange={e => setDuvida(e.target.value)} onKeyDown={e => {
                 if (e.key === 'Enter') {
                     enviarDuvida();

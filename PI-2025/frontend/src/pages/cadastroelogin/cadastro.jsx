@@ -1,13 +1,13 @@
-import './cadastroelogin.css';
+import styles from './cadastroelogin.module.css';
 
 const Cadastro = () => {
   return (
-    <div className="login-page">
-      <div className="logo">
+    <div className={styles["login-page"]}>
+      <div className={styles["logo"]}>
         <img src="/imagens/neo_volt.png" alt="NeoVolt" />
       </div>
 
-      <div className="login-box cadastro-box">
+      <div className={styles["login-box cadastro-box"]}>
         <img
           src="imagens/usuario.webp"
           alt="User Icon"

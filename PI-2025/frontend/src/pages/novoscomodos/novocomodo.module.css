@@ -75,12 +75,12 @@ h1, input[type="text"] {
   align-items: flex-start;
   gap: 8px;
   box-sizing: border-box;
-  max-height: 150px;      /* Limita altura da lista */
-  overflow-y: auto;       /* Adiciona rolagem se necessário */
-  scrollbar-width: none; /* Firefox */
+  max-height: 150px;      
+  overflow-y: auto;      
+  scrollbar-width: none;
 }
 .info-box ul::-webkit-scrollbar {
-  display: none; /* Chrome, Safari, Edge */
+  display: none;
 }
 
 .info-box li {
@@ -117,7 +117,6 @@ h1, input[type="text"] {
   background: #fafaf7;
 }
 
-/* Scrollbar personalizada - WebKit */
 .scroll-wrapper::-webkit-scrollbar {
   width: 14px;
 }
@@ -196,7 +195,7 @@ h1, input[type="text"] {
 }
 
 .aparelho input[type="checkbox"]:checked + .custom-checkbox {
-  background-color: black; /* preenche o círculo quando marcado */
+  background-color: black;
 }
 
 .aparelho img {

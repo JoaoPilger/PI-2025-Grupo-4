@@ -1,8 +1,8 @@
 import { useState } from 'react';
-import './historico.css';
+import styles from './historico.module.css';
 
 function Historico() {
-  const [showChart, setShowChart] = useState(false)
+  const [showChart, setShowChart] = useState(false);
 
   const chartData = [
     { month: 'Jan', consumo: 170, gasto: 150 },
@@ -17,73 +17,73 @@ function Historico() {
     { month: 'Out', consumo: 170, gasto: 150 },
     { month: 'Nov', consumo: 185, gasto: 170 },
     { month: 'Dez', consumo: 180, gasto: 175 }
-  ]
+  ];
 
-  const maxValue = Math.max(...chartData.map(d => Math.max(d.consumo, d.gasto)))
-  const chartHeight = 200
-  const barWidth = 30
+  const maxValue = Math.max(...chartData.map(d => Math.max(d.consumo, d.gasto)));
+  const chartHeight = 200;
+  const barWidth = 30;
 
   return (
-    <div className="pagina-historico">
-      <h1 className="titulo-historico">HISTÓRICO</h1>
+    <div className={styles["pagina-historico"]}>
+      <h1 className={styles["titulo-historico"]}>HISTÓRICO</h1>
       
       {/* Cards de Estatísticas */}
-      <div className="cards-estatisticas">
-        <div className="card-estatistica">
-          <div className="estatistica-esquerda">
-            <span className="rotulo-estatistica">TOTAL DE SIMULAÇÕES FEITAS</span>
+      <div className={styles["cards-estatisticas"]}>
+        <div className={styles["card-estatistica"]}>
+          <div className={styles["estatistica-esquerda"]}>
+            <span className={styles["rotulo-estatistica"]}>TOTAL DE SIMULAÇÕES FEITAS</span>
           </div>
-          <div className="estatistica-centro">
-            <span className="valor-estatistica">2</span>
+          <div className={styles["estatistica-centro"]}>
+            <span className={styles["valor-estatistica"]}>2</span>
           </div>
-          <div className="estatistica-direita">
-            <button className="botao-ver-grafico" onClick={() => setShowChart(!showChart)}>
+          <div className={styles["estatistica-direita"]}>
+            <button className={styles["botao-ver-grafico"]} onClick={() => setShowChart(!showChart)}>
               VISUALIZAR GRÁFICO
             </button>
           </div>
         </div>
 
-        <div className="card-estatistica">
-          <div className="estatistica-esquerda">
-            <span className="rotulo-estatistica">MÉDIA DE CONSUMO TOTAL</span>
+        <div className={styles["card-estatistica"]}>
+          <div className={styles["estatistica-esquerda"]}>
+            <span className={styles["rotulo-estatistica"]}>MÉDIA DE CONSUMO TOTAL</span>
           </div>
-          <div className="estatistica-direita">
-            <span className="valor-estatistica">160 KWH / MÊS</span>
-          </div>
-        </div>
-
-        <div className="card-estatistica">
-          <div className="estatistica-esquerda">
-            <span className="rotulo-estatistica">GASTO MÉDIO ESTIMADO</span>
-          </div>
-          <div className="estatistica-direita">
-            <span className="valor-estatistica">R$ 130,43 / MÊS</span>
+          <div className={styles["estatistica-direita"]}>
+            <span className={styles["valor-estatistica"]}>160 KWH / MÊS</span>
           </div>
         </div>
 
-        <div className="card-estatistica">
-          <div className="estatistica-esquerda">
-            <span className="rotulo-estatistica">TARIFA MÉDIA TOTAL</span>
+        <div className={styles["card-estatistica"]}>
+          <div className={styles["estatistica-esquerda"]}>
+            <span className={styles["rotulo-estatistica"]}>GASTO MÉDIO ESTIMADO</span>
           </div>
-          <div className="estatistica-direita">
-            <span className="valor-estatistica">R$ 0,8105 / KWH</span>
+          <div className={styles["estatistica-direita"]}>
+            <span className={styles["valor-estatistica"]}>R$ 130,43 / MÊS</span>
+          </div>
+        </div>
+
+        <div className={styles["card-estatistica"]}>
+          <div className={styles["estatistica-esquerda"]}>
+            <span className={styles["rotulo-estatistica"]}>TARIFA MÉDIA TOTAL</span>
+          </div>
+          <div className={styles["estatistica-direita"]}>
+            <span className={styles["valor-estatistica"]}>R$ 0,8105 / KWH</span>
           </div>
         </div>
       </div>
 
       {/* Tabela de Simulações */}
-      <div className="container-tabela-simulacoes">
-        <div className="cabecalho-tabela">
-          <h3 className="titulo-tabela">Tabela de Simulações</h3>
-          <div className="acoes-tabela">
-            <button className="botao-acao">+</button>
-            <button className="botao-acao">×</button>
-            <button className="botao-acao">⚙</button>
-            <button className="botao-acao">↑</button>
+      <div className={styles["container-tabela-simulacoes"]}>
+        <div className={styles["cabecalho-tabela"]}>
+          <h3 className={styles["titulo-tabela"]}>Tabela de Simulações</h3>
+          <div className={styles["acoes-tabela"]}>
+            <button className={styles["botao-acao"]}>+</button>
+            <button className={styles["botao-acao"]}>×</button>
+            <button className={styles["botao-acao"]}>⚙</button>
+            <button className={styles["botao-acao"]}>↑</button>
           </div>
         </div>
         
-        <table className="tabela-simulacoes">
+        <table className={styles["tabela-simulacoes"]}>
           <thead>
             <tr>
               <th>Nome Simulação</th>
@@ -113,48 +113,48 @@ function Historico() {
       </div>
 
       {showChart && (
-        <div className="container-grafico">
-          <div className="grafico-consumo">
-            <div className="legenda-grafico">
-              <div className="item-legenda">
-                <div className="cor-legenda consumo"></div>
+        <div className={styles["container-grafico"]}>
+          <div className={styles["grafico-consumo"]}>
+            <div className={styles["legenda-grafico"]}>
+              <div className={styles["item-legenda"]}>
+                <div className={`${styles["cor-legenda"]} ${styles.consumo}`}></div>
                 <span>Consumo (kw)</span>
               </div>
-              <div className="item-legenda">
-                <div className="cor-legenda gasto"></div>
+              <div className={styles["item-legenda"]}>
+                <div className={`${styles["cor-legenda"]} ${styles.gasto}`}></div>
                 <span>Gasto Estimado (R$)</span>
               </div>
             </div>
 
-            <div className="container-chart">
-              <div className="eixo-y">
+            <div className={styles["container-chart"]}>
+              <div className={styles["eixo-y"]}>
                 {[0, 50, 100, 150, 200].map((value) => (
-                  <div key={value} className="marcacao-y">
-                    <span className="rotulo-marcacao">{value}</span>
+                  <div key={value} className={styles["marcacao-y"]}>
+                    <span className={styles["rotulo-marcacao"]}>{value}</span>
                   </div>
                 ))}
               </div>
 
-              <div className="barras-grafico">
+              <div className={styles["barras-grafico"]}>
                 {chartData.map((item, index) => (
-                  <div key={index} className="grupo-mes">
-                    <div className="barras">
+                  <div key={index} className={styles["grupo-mes"]}>
+                    <div className={styles["barras"]}>
                       <div 
-                        className="barra barra-consumo"
+                        className={`${styles.barra} ${styles["barra-consumo"]}`}
                         style={{
                           height: `${(item.consumo / maxValue) * chartHeight}px`,
                           width: `${barWidth}px`
                         }}
                       ></div>
                       <div 
-                        className="barra barra-gasto"
+                        className={`${styles.barra} ${styles["barra-gasto"]}`}
                         style={{
                           height: `${(item.gasto / maxValue) * chartHeight}px`,
                           width: `${barWidth}px`
                         }}
                       ></div>
                     </div>
-                    <div className="rotulo-mes">{item.month}</div>
+                    <div className={styles["rotulo-mes"]}>{item.month}</div>
                   </div>
                 ))}
               </div>
@@ -163,7 +163,7 @@ function Historico() {
         </div>
       )}
     </div>
-  )
+  );
 }
 
-export default Historico
+export default Historico;

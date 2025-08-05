@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import './meuscomodos.css';
+import styles from './meuscomodos.module.css';
 
 function MeusComodos() {
     const [comodos, setComodos] = useState([
@@ -107,25 +107,25 @@ function MeusComodos() {
     }, 0);
 
     return (
-        <div className="pagina_meus_comodos">
-            <div className="container">
-                <div className="titulo-secao">
+        <div className={styles["pagina_meus_comodos"]}>
+            <div className={styles["container"]}>
+                <div className={styles["titulo-secao"]}>
                     <h1>MEUS CÔMODOS</h1>
                 </div>
 
-                <div className="resumo-consumo">
-                    <div className="card-consumo">
+                <div className={styles["resumo-consumo"]}>
+                    <div className={styles["card-consumo"]}>
                         <h3>Consumo Total Diário</h3>
-                        <div className="valor-consumo">
-                            <span className="numero">{consumoTotalGeral.toFixed(2)}</span>
-                            <span className="unidade">kWh</span>
+                        <div className={styles["valor-consumo"]}>
+                            <span className={styles["numero"]}>{consumoTotalGeral.toFixed(2)}</span>
+                            <span className={styles["unidade"]}>kWh</span>
                         </div>
                     </div>
                 </div>
 
-                <div className="secao-adicionar-comodo">
+                <div className={styles["secao-adicionar-comodo"]}>
                     <h2>Adicionar Novo Cômodo</h2>
-                    <div className="form-adicionar-comodo">
+                    <div className={styles["form-adicionar-comodo"]}>
                         <input
                             type="text"
                             placeholder="Nome do cômodo"
@@ -141,14 +141,14 @@ function MeusComodos() {
                     </div>
                 </div>
 
-                <div className="lista-comodos">
+                <div className={styles["lista-comodos"]}>
                     {comodos.map((comodo) => (
-                        <div key={comodo.id} className="comodo-card">
-                            <div className="comodo-header">
+                        <div key={comodo.id} className={styles["comodo-card"]}>
+                            <div className={styles["comodo-header"]}>
                                 <h3>{comodo.nome}</h3>
-                                <div className="acoes-comodo">
+                                <div className={styles["acoes-comodo"]}>
                                     <button 
-                                        className="btn-adicionar-eletro"
+                                        className={styles["btn-adicionar-eletro"]}
                                         onClick={() => {
                                             setComodoSelecionado(comodo);
                                             setMostrarFormEletrodomestico(true);
@@ -157,7 +157,7 @@ function MeusComodos() {
                                         + Eletrodoméstico
                                     </button>
                                     <button 
-                                        className="btn-remover-comodo"
+                                        className={styles["btn-remover-comodo"]}
                                         onClick={() => removerComodo(comodo.id)}
                                     >
                                         Remover
@@ -165,26 +165,26 @@ function MeusComodos() {
                                 </div>
                             </div>
 
-                            <div className="consumo-comodo">
+                            <div className={styles["consumo-comodo"]}>
                                 <span>Consumo: {calcularConsumoTotal(comodo.eletrodomesticos).toFixed(2)} kWh/dia</span>
                             </div>
 
-                            <div className="lista-eletrodomesticos">
+                            <div className={styles["lista-eletrodomesticos"]}>
                                 {comodo.eletrodomesticos.length === 0 ? (
-                                    <p className="sem-eletrodomesticos">Nenhum eletrodoméstico cadastrado</p>
+                                    <p className={styles["sem-eletrodomesticos"]}>Nenhum eletrodoméstico cadastrado</p>
                                 ) : (
                                     comodo.eletrodomesticos.map((eletro) => (
-                                        <div key={eletro.id} className="eletrodomestico-item">
-                                            <div className="info-eletro">
-                                                <span className="nome-eletro">{eletro.nome}</span>
-                                                <span className="potencia-eletro">{eletro.potencia}W</span>
-                                                <span className="horas-eletro">{eletro.horasUso}h/dia</span>
-                                                <span className="consumo-eletro">
+                                        <div key={eletro.id} className={styles["eletrodomestico-item"]}>
+                                            <div className={styles["info-eletro"]}>
+                                                <span className={styles["nome-eletro"]}>{eletro.nome}</span>
+                                                <span className={styles["potencia-eletro"]}>{eletro.potencia}W</span>
+                                                <span className={styles["horas-eletro"]}>{eletro.horasUso}h/dia</span>
+                                                <span className={styles["consumo-eletro"]}>
                                                     {(eletro.potencia * eletro.horasUso / 1000).toFixed(2)} kWh/dia
                                                 </span>
                                             </div>
                                             <button 
-                                                className="btn-remover-eletro"
+                                                className={styles["btn-remover-eletro"]}
                                                 onClick={() => removerEletrodomestico(comodo.id, eletro.id)}
                                             >
                                                 ×
@@ -198,10 +198,10 @@ function MeusComodos() {
                 </div>
 
                 {mostrarFormEletrodomestico && comodoSelecionado && (
-                    <div className="modal-overlay">
-                        <div className="modal-eletrodomestico">
+                    <div className={styles["modal-overlay"]}>
+                        <div className={styles["modal-eletrodomestico"]}>
                             <h3>Adicionar Eletrodoméstico - {comodoSelecionado.nome}</h3>
-                            <div className="form-eletrodomestico">
+                            <div className={styles["form-eletrodomestico"]}>
                                 <input
                                     type="text"
                                     placeholder="Nome do eletrodoméstico"
@@ -221,7 +221,7 @@ function MeusComodos() {
                                     value={novoEletrodomestico.horasUso}
                                     onChange={(e) => setNovoEletrodomestico({...novoEletrodomestico, horasUso: e.target.value})}
                                 />
-                                <div className="botoes-modal">
+                                <div className={styles["botoes-modal"]}>
                                     <button onClick={adicionarEletrodomestico}>Adicionar</button>
                                     <button onClick={() => {
                                         setMostrarFormEletrodomestico(false);

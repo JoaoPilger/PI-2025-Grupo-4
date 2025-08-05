@@ -1,4 +1,4 @@
-import './modal.css'; // se quiser estilização separada
+import './modal.module.css'; // se quiser estilização separada
 
 function Modal({ isOpen, onClose, children }) {
   if (!isOpen) return null;
