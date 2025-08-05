@@ -10,14 +10,11 @@ function Pergunta({ pergunta, resposta }) {
             {aberta && (
                 <div className={styles["resposta"]}>
                     {resposta}
-                    </div>
+                </div>
             )}
         </div>
     );
 }
-
-
-
 
 function Duvidas() {
     const [pesquisa, setPesquisa] = useState('');
@@ -25,7 +22,7 @@ function Duvidas() {
 
     function enviarDuvida() {
         if (duvida.trim() === '') return;
-        console.log('Dúvida enviada:', duvida) // futuramente talvez para enviar para uma API ou armazenar em uma lista
+        console.log('Dúvida enviada:', duvida); // futuramente enviar para API ou lista
         setDuvida('');
     }
 
@@ -46,11 +43,16 @@ function Duvidas() {
 
     return (
         <div className={styles["pagina_duvidas"]}>
-            <div id="titulo">
-                <p>DÚVIDAS E PERGUNTAS <br />FREQUENTES</p>
+            <div>
+                <h1 className={styles["titulo"]} >DÚVIDAS E PERGUNTAS <br />FREQUENTES</h1>
             </div>
 
-            <input className={styles[`barra-pesquisas ${pesquisa ? 'sem-lupa'  : ''}`]} type="text" value={pesquisa} onChange={e => setPesquisa(e.target.value)} />
+            <input 
+                className={`${styles["barra-pesquisas"]} ${pesquisa ? styles["sem-lupa"] : ''}`} 
+                type="text" 
+                value={pesquisa} 
+                onChange={e => setPesquisa(e.target.value)} 
+            />
 
             <div className={styles["perguntas"]}>
                 {perguntasFiltradas.length > 0 ? (
@@ -64,14 +66,20 @@ function Duvidas() {
 
             <div id="texto-duvida"><strong>Não achou o que procurava?</strong></div>
 
-            <input className={styles["enviar-duvida"]} type="text" placeholder='Envie sua dúvida:' value={duvida} 
-            onChange={e => setDuvida(e.target.value)} onKeyDown={e => {
-                if (e.key === 'Enter') {
-                    enviarDuvida();
-                }
-            }} />
+            <input 
+                className={styles["enviar-duvida"]} 
+                type="text" 
+                placeholder='Envie sua dúvida:' 
+                value={duvida} 
+                onChange={e => setDuvida(e.target.value)} 
+                onKeyDown={e => {
+                    if (e.key === 'Enter') {
+                        enviarDuvida();
+                    }
+                }} 
+            />
         </div>
     );
 }
 
-export default Duvidas
+export default Duvidas;

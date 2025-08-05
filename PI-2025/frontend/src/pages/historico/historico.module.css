@@ -7,7 +7,7 @@
 body {
   font-family: 'Arial', sans-serif;
   line-height: 1.6;
-  color: #333;
+  color: #000;
   background-color: #f5f5dc;
 }
 
@@ -25,11 +25,11 @@ body {
 
 .titulo-historico {
   text-align: center;
-  font-size: 3rem;
+  font-size: 60px;
   font-weight: bold;
   margin-bottom: 40px;
   color: #000;
-  font-family: 'Times New Roman', serif;
+  font-family: 'Findel', serif;
   letter-spacing: 1px;
 }
 
@@ -177,7 +177,7 @@ body {
 }
 
 .tabela-simulacoes td {
-  color: #333;
+  color: #000;
   font-weight: 500;
 }
 
@@ -296,7 +296,7 @@ body {
 
 .rotulo-mes {
   font-size: 12px;
-  color: #333;
+  color: #000;
   text-align: center;
 }
 

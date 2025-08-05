@@ -19,13 +19,14 @@ body {
     overflow-y: auto;
 }
 
-#titulo {
+.titulo {
     text-align: center;
     font-size: 60px;
     font-family: 'Findel', sans-serif;
 }
 
 .barra-pesquisas {
+    padding-left: 60px;
     width: 30%;
     height: 8%;
     border-radius: 100px;

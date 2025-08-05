@@ -9,13 +9,13 @@ body {
   padding: 20px;
 }
 
-h1, input[type="text"] {
+.tituloEditavel{
   font-family: 'Findel', serif;
   font-size: 60px;
   background-color: transparent;
   border: 0;
   outline: none;
-  color: #333;
+  color: #000;
   max-width: 440px;
   height: 200px;
   height: 100px;

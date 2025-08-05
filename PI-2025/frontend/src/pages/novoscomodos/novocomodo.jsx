@@ -12,6 +12,7 @@ function EditableTitle({ defaultText = "Clique para editar" }) {
     <>
       {isEditing ? (
         <input
+         className={styles["tituloEditavel"]}
           type="text"
           value={title}
           autoFocus
@@ -20,7 +21,7 @@ function EditableTitle({ defaultText = "Clique para editar" }) {
           onKeyDown={handleKeyDown}
         />
       ) : (
-        <h1 onClick={() => setIsEditing(true)}>{title}</h1>
+        <h1 className = {styles["tituloEditavel"]} onClick={() => setIsEditing(true)}>{title}</h1>
       )}
     </>
   );
