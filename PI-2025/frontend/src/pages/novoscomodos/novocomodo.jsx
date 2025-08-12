@@ -1,151 +1,175 @@
 import { useState } from 'react';
 import styles from './novocomodo.module.css';
 
-function EditableTitle({ defaultText = "Clique para editar" }) {
-  const [isEditing, setIsEditing] = useState(false);
-  const [title, setTitle] = useState(defaultText);
-
-  const handleBlur = () => setIsEditing(false);
-  const handleKeyDown = (e) => { if (e.key === "Enter") setIsEditing(false); };
-
-  return (
-    <>
-      {isEditing ? (
-        <input
-         className={styles["tituloEditavel"]}
-          type="text"
-          value={title}
-          autoFocus
-          onChange={(e) => setTitle(e.target.value)}
-          onBlur={handleBlur}
-          onKeyDown={handleKeyDown}
-        />
-      ) : (
-        <h1 className = {styles["tituloEditavel"]} onClick={() => setIsEditing(true)}>{title}</h1>
-      )}
-    </>
-  );
-}
-
 function NovoComodo() {
-  const aparelhos = [
-    { nome: "Geladeira", img: "/imagens/refrigerator.png", consumo: 30, custo: 15, tarifa: 0.5 },
-    { nome: "Freezer", img: "/imagens/mode_cool.png", consumo: 25, custo: 12, tarifa: 0.48 },
-    { nome: "Micro-ondas", img: "/imagens/microwave.png", consumo: 10, custo: 5, tarifa: 0.5 },
-    { nome: "Forno Elétrico", img: "/imagens/oven.png", consumo: 20, custo: 10, tarifa: 0.5 },
-    { nome: "Panela Elétrica", img: "/imagens/stockpot.png", consumo: 8, custo: 4, tarifa: 0.5 },
-    { nome: "Airfryer", img: "/imagens/multicooker.png", consumo: 12, custo: 6, tarifa: 0.5 },
-    { nome: "Liquidificador", img: "/imagens/blender.png", consumo: 2, custo: 1, tarifa: 0.5 },
-    { nome: "Batedeira", img: "/imagens/mixer-icon.png", consumo: 1, custo: 0.5, tarifa: 0.5 },
-    { nome: "Torradeira", img: "/imagens/toaster.png", consumo: 3, custo: 1.5, tarifa: 0.5 },
-    { nome: "Cafeteira", img: "/imagens/coffee.png", consumo: 2, custo: 1, tarifa: 0.5 },
-    { nome: "Exaustor", img: "/imagens/range_hood.png", consumo: 5, custo: 2.5, tarifa: 0.5 },
-    { nome: "Lava Louças", img: "/imagens/dishwasher.png", consumo: 18, custo: 9, tarifa: 0.5 },
-    { nome: "Lava Roupas", img: "/imagens/laundry.png", consumo: 22, custo: 11, tarifa: 0.5 },
-    { nome: "Secadora de Roupas", img: "/imagens/laundry.png", consumo: 20, custo: 10, tarifa: 0.5 },
-    { nome: "Ferro de Passar", img: "/imagens/iron.png", consumo: 6, custo: 3, tarifa: 0.5 },
-    { nome: "Aspirador de Pó", img: "/imagens/vacuum.png", consumo: 4, custo: 2, tarifa: 0.5 },
-    { nome: "Robô Aspirador", img: "/imagens/robot.png", consumo: 3, custo: 1.5, tarifa: 0.5 },
-    { nome: "Ventilador", img: "/imagens/fan.png", consumo: 7, custo: 3.5, tarifa: 0.5 },
-    { nome: "Ar Condicionado", img: "/imagens/climate.png", consumo: 40, custo: 20, tarifa: 0.5 },
-    { nome: "Aquecedor Elétrico", img: "/imagens/heat_pump.png", consumo: 15, custo: 7.5, tarifa: 0.5 },
-    { nome: "Televisão", img: "/imagens/tv.png", consumo: 5, custo: 2.5, tarifa: 0.5 },
-    { nome: "Videogame", img: "/imagens/videogame.png", consumo: 3, custo: 1.5, tarifa: 0.5 },
-    { nome: "Computador", img: "/imagens/desktop.png", consumo: 8, custo: 4, tarifa: 0.5 },
-    { nome: "Notebook", img: "/imagens/laptop.png", consumo: 4, custo: 2, tarifa: 0.5 },
-    { nome: "Impressora", img: "/imagens/printer.png", consumo: 2, custo: 1, tarifa: 0.5 },
-    { nome: "Modem / Roteador", img: "/imagens/router.png", consumo: 1, custo: 0.5, tarifa: 0.5 },
-    { nome: "Chuveiro Elétrico", img: "/imagens/shower.png", consumo: 35, custo: 17.5, tarifa: 0.5 },
-    { nome: "Secador de Cabelo", img: "/imagens/air.png", consumo: 5, custo: 2.5, tarifa: 0.5 },
-    { nome: "Barbeador Elétrico", img: "/imagens/shaver.png", consumo: 1, custo: 0.5, tarifa: 0.5 },
-    { nome: "Escova Secadora", img: "/imagens/heat.png", consumo: 2, custo: 1, tarifa: 0.5 },
-    { nome: "Aparelho de Som", img: "/imagens/speaker.png", consumo: 3, custo: 1.5, tarifa: 0.5 },
-    { nome: "Relógio Despertador", img: "/imagens/alarm.png", consumo: 0.5, custo: 0.25, tarifa: 0.5 },
-    { nome: "Lâmpada LED", img: "/imagens/lightbulb.png", consumo: 0.2, custo: 0.1, tarifa: 0.5 },
-    { nome: "Luminária Elétrica", img: "/imagens/floor_lamp.png", consumo: 0.5, custo: 0.25, tarifa: 0.5 }
-  ];
+    const [aparelhosSelecionados, setAparelhosSelecionados] = useState([]);
+    const [nomeComodo, setNomeComodo] = useState('');
 
-  const [selecionados, setSelecionados] = useState([]);
+    // Lista de aparelhos disponíveis com suas imagens
+    const aparelhosDisponiveis = [
+        { id: 1, nome: 'GELADEIRA', imagem: '/imagens/refrigerator.png', potencia: 350, horasUso: 24 },
+        { id: 2, nome: 'LIQUIDIFICADOR', imagem: '/imagens/blender.png', potencia: 300, horasUso: 0.5 },
+        { id: 3, nome: 'CAFEITEIRA', imagem: '/imagens/coffee.png', potencia: 1000, horasUso: 0.2 },
+        { id: 4, nome: 'FOGÃO', imagem: '/imagens/oven.png', potencia: 2000, horasUso: 1 },
+        { id: 5, nome: 'AR CONDICIONADO', imagem: '/imagens/air.png', potencia: 1500, horasUso: 6 },
+        { id: 6, nome: 'LAVA LOUÇAS', imagem: '/imagens/dishwasher.png', potencia: 1800, horasUso: 1.5 },
+        { id: 7, nome: 'MICROONDAS', imagem: '/imagens/microwave.png', potencia: 1200, horasUso: 0.5 },
+        { id: 8, nome: 'TV', imagem: '/imagens/tv.png', potencia: 120, horasUso: 4 },
+        { id: 9, nome: 'LÂMPADA', imagem: '/imagens/lightbulb.png', potencia: 15, horasUso: 8 },
+        { id: 10, nome: 'VENTILADOR', imagem: '/imagens/fan.png', potencia: 80, horasUso: 8 },
+        { id: 11, nome: 'LAVADORA', imagem: '/imagens/laundry.png', potencia: 500, horasUso: 1 },
+        { id: 12, nome: 'COMPUTADOR', imagem: '/imagens/desktop.png', potencia: 200, horasUso: 6 }
+    ];
 
-  const handleSelecionar = (aparelho) => {
-    setSelecionados((prev) =>
-      prev.some((a) => a.nome === aparelho.nome)
-        ? prev.filter((a) => a.nome !== aparelho.nome)
-        : [...prev, aparelho]
-    );
-  };
+    const selecionarAparelho = (aparelho) => {
+        if (!aparelhosSelecionados.find(a => a.id === aparelho.id)) {
+            setAparelhosSelecionados([...aparelhosSelecionados, aparelho]);
+        }
+    };
 
-  const totalConsumo = selecionados.reduce((acc, cur) => acc + cur.consumo, 0);
-  const totalCusto = selecionados.reduce((acc, cur) => acc + cur.custo, 0);
-  const tarifaMedia =
-    selecionados.length > 0
-      ? (selecionados.reduce((acc, cur) => acc + cur.tarifa, 0) / selecionados.length).toFixed(2)
-      : 0;
+    const removerAparelho = (aparelhoId) => {
+        setAparelhosSelecionados(aparelhosSelecionados.filter(a => a.id !== aparelhoId));
+    };
 
-  return (
-    <div className={styles["novo-comodo-container"]}>
-      <div className={styles["titulo"]}>
-        <EditableTitle defaultText="Novo Cômodo" />
-        <img src="/imagens/edit_text.png" alt="Editar texto" />
-      </div>
-      <div className={styles["painel"]}>
-        <div className={styles["info-box"]}>
-          <p><strong>TOTAL ESTIMADO:</strong></p>
-          <p>CONSUMO<br /><strong>{totalConsumo.toFixed(2)} kWh</strong></p>
-          <p>CUSTO<br /><strong>R$ {totalCusto.toFixed(2)}</strong></p>
-          <p>TARIFA MÉDIA<br /><strong>R$ {tarifaMedia}</strong></p>
-        </div>
+    const calcularConsumoTotal = () => {
+        return aparelhosSelecionados.reduce((total, aparelho) => {
+            return total + (aparelho.potencia * aparelho.horasUso / 1000);
+        }, 0);
+    };
 
-        <div className={styles["scroll-container"]}>
-          <div className={styles["aparelhos-scroll"]}>
-            {aparelhos.map((item) => (
-              <div className={styles["aparelho"]} key={item.nome}>
-                <div>
-                  <img src={item.img} alt={item.nome} />
-                  <p>{item.nome.toUpperCase()}</p>
-                </div>
+    const calcularCustoTotal = () => {
+        const consumoTotal = calcularConsumoTotal();
+        const tarifaKwh = 0.75; // R$ 0,75 por kWh (valor exemplo)
+        return consumoTotal * tarifaKwh;
+    };
+
+    const finalizarEdicao = () => {
+        if (nomeComodo.trim() === '') {
+            alert('Por favor, insira um nome para o cômodo');
+            return;
+        }
+        if (aparelhosSelecionados.length === 0) {
+            alert('Por favor, selecione pelo menos um aparelho');
+            return;
+        }
+        
+        // Aqui você pode implementar a lógica para salvar o cômodo
+        console.log('Cômodo criado:', {
+            nome: nomeComodo,
+            aparelhos: aparelhosSelecionados,
+            consumoTotal: calcularConsumoTotal(),
+            custoTotal: calcularCustoTotal()
+        });
+        
+        alert('Cômodo criado com sucesso!');
+        setNomeComodo('');
+        setAparelhosSelecionados([]);
+    };
+
+    return (
+        <div className={styles.container}>
+            {/* Header com título e ícone de edição */}
+            <div className={styles.header}>
+                <h1 className={styles.titulo}>NOVO CÔMODO</h1>
+                <img src="/imagens/edit_text.png" alt="Editar" className={styles.iconeEditar} />
+            </div>
+            
+            {/* Campo para nome do cômodo */}
+            <div className={styles.campoNome}>
                 <input
-                  type="checkbox"
-                  checked={selecionados.some((a) => a.nome === item.nome)}
-                  onChange={() => handleSelecionar(item)}
-                  name="eletro"
-                  id={item.nome}
+                    type="text"
+                    placeholder="Digite o nome do cômodo"
+                    value={nomeComodo}
+                    onChange={(e) => setNomeComodo(e.target.value)}
+                    className={styles.inputNome}
                 />
-                <span className={styles["custom-checkbox"]}></span>
-              </div>
-            ))}
-          </div>
-        </div>
+            </div>
 
-        <div className={styles["info-box"]}>
-          <p><strong>APARELHOS<br />SELECIONADOS:</strong></p>
-          <ul style={{ listStyle: "none", padding: 0 }}>
-            {selecionados.length === 0 ? (
-              <li>Nenhum aparelho selecionado</li>
-            ) : (
-              selecionados.map((a) => (
-                <li key={a.nome}>
-                  <img
-                    src={a.img}
-                    alt={a.nome}
-                    style={{
-                      width: 24,
-                      height: 24,
-                      verticalAlign: "middle",
-                      marginRight: 8
-                    }}
-                  />
-                  {a.nome}
-                </li>
-              ))
-            )}
-          </ul>
-        </div>
-      </div>
+            <div className={styles.conteudo}>
+                {/* Painel Esquerdo - Total Estimado */}
+                <div className={styles.painelEsquerdo}>
+                    <h2 className={styles.tituloPainel}>TOTAL ESTIMADO</h2>
+                    <div className={styles.valores}>
+                        <div className={styles.valor}>
+                            <span className={styles.label}>CONSUMO</span>
+                            <span className={styles.numero}>{calcularConsumoTotal().toFixed(2)}</span>
+                            <span className={styles.unidade}>kwh</span>
+                        </div>
+                        <div className={styles.valor}>
+                            <span className={styles.label}>CUSTO</span>
+                            <span className={styles.numero}>R$ {calcularCustoTotal().toFixed(2)}</span>
+                        </div>
+                        <div className={styles.valor}>
+                            <span className={styles.label}>TARIFA</span>
+                            <span className={styles.numero}>R$ 0,75</span>
+                        </div>
+                    </div>
+                </div>
 
-      <button className={styles["btn-finalizar"]}>FINALIZAR EDIÇÃO</button>
-    </div>
-  );
+                {/* Painel Central - Seleção de Aparelhos */}
+                <div className={styles.painelCentral}>
+                    <div className={styles.gridAparelhos}>
+                        {aparelhosDisponiveis.map((aparelho) => (
+                            <div 
+                                key={aparelho.id} 
+                                className={styles.aparelhoItem}
+                                onClick={() => selecionarAparelho(aparelho)}
+                            >
+                                <div className={styles.radioButton}>
+                                    <input 
+                                        type="radio" 
+                                        name="aparelho" 
+                                        checked={aparelhosSelecionados.some(a => a.id === aparelho.id)}
+                                        readOnly
+                                    />
+                                </div>
+                                <img 
+                                    src={aparelho.imagem} 
+                                    alt={aparelho.nome} 
+                                    className={styles.iconeAparelho}
+                                />
+                                <span className={styles.nomeAparelho}>{aparelho.nome}</span>
+                            </div>
+                        ))}
+                    </div>
+                </div>
+
+                {/* Painel Direito - Aparelhos Selecionados */}
+                <div className={styles.painelDireito}>
+                    <h2 className={styles.tituloPainel}>APARELHOS SELECIONADOS:</h2>
+                    <div className={styles.listaSelecionados}>
+                        {aparelhosSelecionados.length === 0 ? (
+                            <p className={styles.semSelecao}>Nenhum aparelho selecionado</p>
+                        ) : (
+                            aparelhosSelecionados.map((aparelho) => (
+                                <div key={aparelho.id} className={styles.itemSelecionado}>
+                                    <img 
+                                        src={aparelho.imagem} 
+                                        alt={aparelho.nome} 
+                                        className={styles.iconePequeno}
+                                    />
+                                    <span className={styles.nomePequeno}>{aparelho.nome}</span>
+                                    <button 
+                                        className={styles.btnRemover}
+                                        onClick={() => removerAparelho(aparelho.id)}
+                                    >
+                                        ×
+                                    </button>
+                                </div>
+                            ))
+                        )}
+                    </div>
+                </div>
+            </div>
+
+            {/* Botão Finalizar */}
+            <div className={styles.botaoContainer}>
+                <button className={styles.botaoFinalizar} onClick={finalizarEdicao}>
+                    FINALIZAR EDIÇÃO
+                </button>
+            </div>
+        </div>
+    );
 }
 
 export default NovoComodo;

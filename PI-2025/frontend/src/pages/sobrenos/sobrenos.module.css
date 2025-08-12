@@ -1,209 +1,319 @@
 * {
     box-sizing: border-box;
-}
-
-body {
     margin: 0;
     padding: 0;
-    overflow-x: hidden;
-}
-
-.pagina_sobrenos {
-    width: 100%;
-    min-height: 100vh;
-    background-color: #f5f5dc;
-    padding: 40px 0;
-    overflow-y: auto;
 }
 
 .container {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 0 20px;
-}
-
-.titulo-secao {
-    text-align: center;
-    margin-bottom: 40px;
-}
-
-.titulo-secao h1 {
-    font-size: 60px;
+    width: 100%;
+    min-height: 100vh;
+    background-color: #f5f5dc; /* Bege claro como na foto */
     font-family: 'Findel', sans-serif;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Seção Sobre Nós */
+.sobreNos {
+    flex: 1;
+    padding: 40px 20px 80px 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 80vh;
+}
+
+.titulo {
+    font-size: 80px;
+    font-weight: bold;
     color: #000;
+    font-family: 'Findel', serif;
+    margin-bottom: 100px;
+    text-align: center;
+}
+
+/* Carrossel */
+.carrossel {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 80px;
+    max-width: 1200px;
+    width: 100%;
+    position: relative;
+}
+
+/* Setas de Navegação */
+.setaEsquerda,
+.setaDireita {
+    background: none;
+    border: none;
+    font-size: 60px;
+    font-weight: bold;
+    color: #000;
+    cursor: pointer;
+    padding: 20px;
+    transition: color 0.3s ease;
+    z-index: 10;
+}
+
+.setaEsquerda:hover,
+.setaDireita:hover {
+    color: #666;
+}
+
+/* Container dos Membros */
+.membrosContainer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 80px;
+    flex: 1;
+}
+
+/* Membro Individual */
+.membro {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 30px;
+    opacity: 0.6;
+    transition: all 0.3s ease;
+    transform: scale(0.9);
+}
+
+.membro.ativo {
+    opacity: 1;
+    transform: scale(1);
+}
+
+/* Container da Foto */
+.fotoContainer {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Círculo de Fundo */
+.circuloFundo {
+    position: absolute;
+    width: 200px;
+    height: 200px;
+    background-color: #e8f5e8; /* Verde mais claro como no wireframe */
+    border-radius: 50%;
+    z-index: 1;
+    transform: translate(8px, 8px);
+}
+
+/* Placeholder da Foto */
+.fotoPlaceholder {
+    position: relative;
+    width: 180px;
+    height: 180px;
+    border-radius: 50%;
+    background-color: #fff;
+    border: 2px solid #000; /* Borda mais fina como no wireframe */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 2;
+    overflow: hidden;
+}
+
+.fotoPlaceholder img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 50%;
+}
+
+.placeholder {
+    font-size: 40px;
+    font-weight: bold;
+    color: #666;
+    font-family: 'Findel', serif;
+}
+
+/* Nome do Membro */
+.nomeMembro {
+    font-size: 24px;
+    font-weight: bold;
+    color: #000;
+    font-family: 'Findel', sans-serif;
+    text-align: center;
     margin: 0;
 }
 
-.conteudo-principal {
+/* Redes Sociais */
+.redesSociais {
     display: flex;
-    flex-direction: column;
-    gap: 60px;
+    gap: 20px;
 }
 
-.secao-missao, .secao-equipe, .secao-contato {
-    background-color: #d5d8ba;
-    padding: 40px;
-    border-radius: 20px;
-    box-shadow: 8px 8px 10px rgba(0, 0, 0, 0.3);
-}
-
-.secao-missao h2, .secao-equipe h2, .secao-contato h2 {
-    font-size: 36px;
-    font-family: 'Findel', sans-serif;
+.iconeRede {
+    width: 40px;
+    height: 40px;
+    background-color: transparent;
     color: #000;
-    margin-bottom: 20px;
-    text-align: center;
-}
-
-.secao-missao p {
-    font-size: 22px;
-    font-family: "Open Sans", sans-serif;
-    line-height: 1.6;
-    text-align: center;
-    color: #555;
-}
-
-.secao-equipe p {
-    font-size: 22px;
-    font-family: "Open Sans", sans-serif;
-    line-height: 1.6;
-    text-align: center;
-    color: #555;
-    margin-bottom: 30px;
-}
-
-.membros-equipe {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: 25px;
-}
-
-.membro {
-    background-color: #e6ebdd;
-    padding: 20px;
-    border-radius: 15px;
-    text-align: center;
-    transition: transform 0.3s ease;
-}
-
-.membro:hover {
-    transform: translateY(-5px);
-}
-
-.membro .avatar {
-    font-size: 40px;
-    margin-bottom: 12px;
-}
-
-.membro h4 {
-    font-size: 18px;
-    font-family: 'Findel', sans-serif;
-    color: #000;
-    margin-bottom: 8px;
-}
-
-.membro p {
-    font-size: 14px;
-    font-family: "Open Sans", sans-serif;
-    color: #555;
-    line-height: 1.4;
-}
-
-.secao-contato p {
-    font-size: 22px;
-    font-family: "Open Sans", sans-serif;
-    line-height: 1.6;
-    text-align: center;
-    color: #555;
-    margin-bottom: 30px;
-}
-
-.contato-info {
+    border: 2px solid #000;
+    border-radius: 8px;
     display: flex;
-    flex-direction: column;
-    gap: 15px;
     align-items: center;
-}
-
-.contato-item {
-    display: flex;
-    gap: 10px;
-    align-items: center;
-}
-
-.contato-label {
-    font-size: 20px;
-    font-family: 'Findel', sans-serif;
-    color: #000;
+    justify-content: center;
+    font-size: 16px;
     font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease;
 }
 
-.contato-valor {
-    font-size: 20px;
-    font-family: "Open Sans", sans-serif;
-    color: #555;
+.iconeRede:hover {
+    background-color: #000;
+    color: #fff;
+}
+
+.iconeRede svg {
+    width: 20px;
+    height: 20px;
+}
+
+/* Responsividade */
+@media (max-width: 1000px) {
+    .carrossel {
+        gap: 60px;
+    }
+    
+    .membrosContainer {
+        gap: 60px;
+    }
+    
+    .circuloFundo {
+        width: 180px;
+        height: 180px;
+    }
+    
+    .fotoPlaceholder {
+        width: 160px;
+        height: 160px;
+    }
+    
+    .placeholder {
+        font-size: 50px;
+    }
+    
+    .titulo {
+        font-size: 70px;
+    }
+    
+    .setaEsquerda,
+    .setaDireita {
+        font-size: 50px;
+    }
 }
 
 @media (max-width: 768px) {
-    .titulo-secao h1 {
+    .titulo {
+        font-size: 60px;
+        margin-bottom: 80px;
+    }
+    
+    .sobreNos {
+        padding: 30px 15px 60px 15px;
+        min-height: 70vh;
+    }
+    
+    .carrossel {
+        gap: 40px;
+    }
+    
+    .membrosContainer {
+        gap: 40px;
+    }
+    
+    .circuloFundo {
+        width: 150px;
+        height: 150px;
+    }
+    
+    .fotoPlaceholder {
+        width: 130px;
+        height: 130px;
+    }
+    
+    .placeholder {
         font-size: 40px;
     }
-
-    .secao-missao, .secao-equipe, .secao-contato {
-        padding: 25px;
-        margin: 0 10px;
+    
+    .nomeMembro {
+        font-size: 20px;
     }
-
-    .secao-missao h2, .secao-equipe h2, .secao-contato h2 {
-        font-size: 28px;
+    
+    .setaEsquerda,
+    .setaDireita {
+        font-size: 40px;
     }
-
-    .secao-missao p, .secao-equipe p, .secao-contato p {
-        font-size: 18px;
+    
+    .redesSociais {
+        gap: 15px;
     }
-
-    .membros-equipe {
-        grid-template-columns: 1fr;
-        gap: 20px;
-    }
-
-    .contato-item {
-        flex-direction: column;
-        text-align: center;
-        gap: 5px;
-    }
-
-    .contato-label, .contato-valor {
-        font-size: 18px;
+    
+    .iconeRede {
+        width: 35px;
+        height: 35px;
+        font-size: 14px;
     }
 }
 
 @media (max-width: 480px) {
-    .titulo-secao h1 {
+    .titulo {
+        font-size: 40px;
+        margin-bottom: 60px;
+    }
+    
+    .sobreNos {
+        padding: 20px 15px 40px 15px;
+        min-height: 60vh;
+    }
+    
+    .carrossel {
+        gap: 30px;
+    }
+    
+    .membrosContainer {
+        gap: 30px;
+    }
+    
+    .circuloFundo {
+        width: 120px;
+        height: 120px;
+    }
+    
+    .fotoPlaceholder {
+        width: 100px;
+        height: 100px;
+    }
+    
+    .placeholder {
         font-size: 32px;
     }
-
-    .secao-missao, .secao-equipe, .secao-contato {
-        padding: 20px;
-    }
-
-    .secao-missao h2, .secao-equipe h2, .secao-contato h2 {
-        font-size: 24px;
-    }
-
-    .secao-missao p, .secao-equipe p, .secao-contato p {
-        font-size: 16px;
-    }
-
-    .membro {
-        padding: 20px;
-    }
-
-    .membro h4 {
+    
+    .nomeMembro {
         font-size: 18px;
     }
-
-    .membro p {
-        font-size: 14px;
+    
+    .redesSociais {
+        gap: 12px;
+    }
+    
+    .iconeRede {
+        width: 30px;
+        height: 30px;
+        font-size: 12px;
+    }
+    
+    .setaEsquerda,
+    .setaDireita {
+        font-size: 32px;
     }
 }
