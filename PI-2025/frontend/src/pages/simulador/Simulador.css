@@ -1,0 +1,32 @@
+.sim-container {
+  background: #f4f8ec;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.sim-card {
+  background: #dfe3c5;
+  padding: 2rem;
+  border-radius: 20px;
+  text-align: center;
+  border: 2px solid black;
+  max-width: 400px;
+  width: 100%;
+}
+
+.sim-card h1 {
+  margin-bottom: 2rem;
+}
+
+.sim-card select,
+.sim-card button {
+  display: block;
+  width: 100%;
+  margin: 1rem 0;
+  padding: 0.8rem;
+  border-radius: 20px;
+  border: 1px solid black;
+  font-size: 1rem;
+}
