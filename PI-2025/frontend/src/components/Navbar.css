@@ -15,10 +15,19 @@
 
 .logo {
   font-weight: bold;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .logo-img {
-  height: 50px;
+  height: 80px;
+  width: auto;
+  transition: transform 0.3s ease;
+}
+
+.logo-img:hover {
+  transform: scale(1.1);
 }
 
 .links {
@@ -30,4 +39,9 @@
 .links a {
   text-decoration: none;
   color: white;
+  transition: color 0.3s ease;
+}
+
+.links a:hover {
+  color: #e0e0e0;
 }

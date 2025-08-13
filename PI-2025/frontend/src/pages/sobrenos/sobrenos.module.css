@@ -1,209 +1,750 @@
 * {
     box-sizing: border-box;
-}
-
-body {
     margin: 0;
     padding: 0;
-    overflow-x: hidden;
-}
-
-.pagina_sobrenos {
-    width: 100%;
-    min-height: 100vh;
-    background-color: #f5f5dc;
-    padding: 40px 0;
-    overflow-y: auto;
 }
 
 .container {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 0 20px;
-}
-
-.titulo-secao {
-    text-align: center;
-    margin-bottom: 40px;
-}
-
-.titulo-secao h1 {
-    font-size: 60px;
+    width: 100%;
+    min-height: 100vh;
+    background-color: #f5f5dc;
     font-family: 'Findel', sans-serif;
-    color: #000;
-    margin: 0;
-}
-
-.conteudo-principal {
     display: flex;
     flex-direction: column;
-    gap: 60px;
+    overflow: hidden;
 }
 
-.secao-missao, .secao-equipe, .secao-contato {
-    background-color: #d5d8ba;
-    padding: 40px;
-    border-radius: 20px;
-    box-shadow: 8px 8px 10px rgba(0, 0, 0, 0.3);
+/* Seção Sobre Nós */
+.sobreNos {
+    flex: 1;
+    padding: 40px 20px 80px 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 80vh;
+    /* Estabilização total */
+    position: relative;
+    transform: translateZ(0);
+    backface-visibility: hidden;
 }
 
-.secao-missao h2, .secao-equipe h2, .secao-contato h2 {
-    font-size: 36px;
-    font-family: 'Findel', sans-serif;
+.titulo {
+    font-size: 80px;
+    font-weight: bold;
     color: #000;
-    margin-bottom: 20px;
+    font-family: 'Findel', serif;
+    margin: 0 0 60px 0;
+    padding: 0;
     text-align: center;
+    animation: fadeInDown 1s ease-out;
+    /* Estabilização total do título */
+    position: relative;
+    transform: translateZ(0);
+    backface-visibility: hidden;
+    will-change: auto;
+    /* Força posição fixa */
+    top: 0;
+    left: 0;
+    right: 0;
+    /* Força dimensões fixas */
+    width: 100%;
+    height: auto;
+    line-height: 1.2;
 }
 
-.secao-missao p {
-    font-size: 22px;
-    font-family: "Open Sans", sans-serif;
-    line-height: 1.6;
-    text-align: center;
-    color: #555;
+/* Indicadores do carrossel */
+.indicadoresCarrossel {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin: 0 0 50px 0;
+    padding: 0;
+    animation: fadeInUp 1s ease-out 0.3s both;
+    /* Estabilização total dos indicadores */
+    position: relative;
+    transform: translateZ(0);
+    backface-visibility: hidden;
+    /* Força posição fixa */
+    top: 0;
+    left: 0;
+    right: 0;
+    /* Força dimensões fixas */
+    width: 100%;
+    height: auto;
 }
 
-.secao-equipe p {
-    font-size: 22px;
-    font-family: "Open Sans", sans-serif;
-    line-height: 1.6;
-    text-align: center;
-    color: #555;
-    margin-bottom: 30px;
+.indicador {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background-color: #ddd;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border: 2px solid transparent;
+    margin: 0;
+    padding: 0;
+    flex-shrink: 0;
 }
 
-.membros-equipe {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: 25px;
+.indicador:hover {
+    background-color: #bbb;
+    transform: scale(1.2);
 }
 
+.indicadorAtivo {
+    background-color: #000;
+    transform: scale(1.3);
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+}
+
+/* Carrossel */
+.carrossel {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 80px;
+    max-width: 1200px;
+    width: 100%;
+    position: relative;
+    animation: fadeInUp 1s ease-out 0.6s both;
+    /* Isolamento total do carrossel */
+    transform: translateZ(0);
+    backface-visibility: hidden;
+    /* Força posição fixa */
+    top: 0;
+    left: 0;
+    right: 0;
+    /* Força dimensões fixas */
+    height: auto;
+    margin: 0;
+    padding: 0;
+}
+
+/* Setas de Navegação */
+.setaNavegacao {
+    background: rgba(255, 255, 255, 0.95);
+    border: 2px solid #000;
+    border-radius: 50%;
+    width: 60px;
+    height: 60px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    z-index: 10;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    /* Estabilização das setas */
+    position: relative;
+    transform: translateZ(0);
+    backface-visibility: hidden;
+    /* Força posição fixa */
+    margin: 0;
+    padding: 0;
+    flex-shrink: 0;
+}
+
+.setaNavegacao:hover:not(.desabilitada) {
+    background: #000;
+    color: white;
+    transform: scale(1.1);
+    box-shadow: 0 6px 25px rgba(0, 0, 0, 0.2);
+}
+
+.setaNavegacao.desabilitada {
+    opacity: 0.3;
+    cursor: not-allowed;
+    background: #f0f0f0;
+    border-color: #ccc;
+}
+
+.setaNavegacao svg {
+    width: 28px;
+    height: 28px;
+}
+
+/* Container dos Membros */
+.membrosContainer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 80px;
+    flex: 1;
+    position: relative;
+    min-height: 300px;
+    /* Estabilização total do container */
+    transform: translateZ(0);
+    backface-visibility: hidden;
+    /* Força alinhamento perfeito */
+    align-items: center;
+    justify-content: center;
+    /* Força posição fixa */
+    top: 0;
+    left: 0;
+    right: 0;
+    /* Força dimensões fixas */
+    width: 100%;
+    height: auto;
+    margin: 0;
+    padding: 0;
+}
+
+/* Membro Individual */
 .membro {
-    background-color: #e6ebdd;
-    padding: 20px;
-    border-radius: 15px;
-    text-align: center;
-    transition: transform 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 30px;
+    opacity: 0.6;
+    transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    transform: scale(0.9);
+    cursor: pointer;
+    position: relative;
+    width: 200px;
+    /* Estabilização total */
+    transform-origin: center center;
+    will-change: transform, opacity;
+    /* Força posicionamento idêntico para todos */
+    flex-shrink: 0;
+    flex-grow: 0;
+    /* Força posição fixa */
+    top: 0;
+    left: 0;
+    right: 0;
+    /* Isolamento total */
+    backface-visibility: hidden;
+    /* Força espaçamentos idênticos */
+    margin: 0;
+    padding: 0;
+    /* Força altura fixa */
+    min-height: 350px;
+}
+
+.membro.ativo {
+    opacity: 1;
+    transform: scale(1);
+    z-index: 10;
+    /* Posição fixa para o membro ativo */
+    position: relative;
+    top: 0;
+    left: 0;
+    right: 0;
+}
+
+.membro.transitioning {
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .membro:hover {
-    transform: translateY(-5px);
+    transform: scale(1.05);
 }
 
-.membro .avatar {
-    font-size: 40px;
-    margin-bottom: 12px;
+/* Container da Foto */
+.fotoContainer {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    /* Estabilização total */
+    transform: translateZ(0);
+    backface-visibility: hidden;
+    /* Força dimensões idênticas */
+    width: 200px;
+    height: 200px;
+    /* Força posição fixa */
+    top: 0;
+    left: 0;
+    right: 0;
+    /* Força espaçamentos idênticos */
+    margin: 0;
+    padding: 0;
 }
 
-.membro h4 {
-    font-size: 18px;
-    font-family: 'Findel', sans-serif;
-    color: #000;
-    margin-bottom: 8px;
+/* Círculo de Fundo */
+.circuloFundo {
+    position: absolute;
+    width: 200px;
+    height: 200px;
+    background-color: #e8f5e8;
+    border-radius: 50%;
+    z-index: 1;
+    transform: translate(8px, 8px);
+    transition: all 0.3s ease;
+    /* Estabilização total */
+    transform-origin: center center;
+    backface-visibility: hidden;
+    /* Força posição fixa */
+    top: 0;
+    left: 0;
+    right: 0;
+    /* Força espaçamentos idênticos */
+    margin: 0;
+    padding: 0;
 }
 
-.membro p {
-    font-size: 14px;
-    font-family: "Open Sans", sans-serif;
-    color: #555;
-    line-height: 1.4;
+.membro.ativo .circuloFundo {
+    background-color: #d4f5d4;
+    transform: translate(8px, 8px) scale(1.05);
 }
 
-.secao-contato p {
-    font-size: 22px;
-    font-family: "Open Sans", sans-serif;
-    line-height: 1.6;
-    text-align: center;
-    color: #555;
-    margin-bottom: 30px;
+/* Placeholder da Foto */
+.fotoPlaceholder {
+    position: relative;
+    width: 180px;
+    height: 180px;
+    border-radius: 50%;
+    background-color: #fff;
+    border: 2px solid #000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 2;
+    overflow: hidden;
+    transition: all 0.3s ease;
+    /* Estabilização total */
+    transform-origin: center center;
+    backface-visibility: hidden;
+    /* Força posição fixa */
+    top: 0;
+    left: 0;
+    right: 0;
+    /* Força espaçamentos idênticos */
+    margin: 0;
+    padding: 0;
 }
 
-.contato-info {
+.membro.ativo .fotoPlaceholder {
+    border-width: 3px;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+}
+
+.fotoPlaceholder img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 50%;
+}
+
+.placeholder {
+    font-size: 60px;
+    font-weight: bold;
+    color: #666;
+    font-family: 'Findel', serif;
+    transition: all 0.3s ease;
+    margin: 0;
+    padding: 0;
+    line-height: 1;
+}
+
+.membro.ativo .placeholder {
+    color: #333;
+    font-size: 65px;
+}
+
+/* Overlay de informações no hover */
+.overlayInfo {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.8);
+    color: white;
+    border-radius: 50%;
     display: flex;
     flex-direction: column;
-    gap: 15px;
     align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 20px;
+    z-index: 3;
+    opacity: 0;
+    animation: fadeIn 0.3s ease-out forwards;
+    /* Estabilização do overlay */
+    backface-visibility: hidden;
+    margin: 0;
 }
 
-.contato-item {
-    display: flex;
-    gap: 10px;
-    align-items: center;
-}
-
-.contato-label {
-    font-size: 20px;
-    font-family: 'Findel', sans-serif;
-    color: #000;
+.overlayInfo h4 {
+    font-size: 16px;
     font-weight: bold;
+    margin: 0 0 8px 0;
+    padding: 0;
+    color: #fff;
 }
 
-.contato-valor {
-    font-size: 20px;
-    font-family: "Open Sans", sans-serif;
-    color: #555;
+.overlayInfo p {
+    font-size: 12px;
+    line-height: 1.3;
+    color: #ccc;
+    margin: 0;
+    padding: 0;
+}
+
+/* Nome do Membro */
+.nomeMembro {
+    font-size: 24px;
+    font-weight: bold;
+    color: #000;
+    font-family: 'Findel', sans-serif;
+    text-align: center;
+    margin: 0;
+    padding: 0;
+    transition: all 0.3s ease;
+    width: 100%;
+    /* Estabilização total */
+    transform-origin: center center;
+    backface-visibility: hidden;
+    /* Força alinhamento idêntico */
+    line-height: 1.2;
+    min-height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    /* Força posição fixa */
+    top: 0;
+    left: 0;
+    right: 0;
+}
+
+.membro.ativo .nomeMembro {
+    color: #000;
+    transform: scale(1.05);
+}
+
+/* Redes Sociais */
+.redesSociais {
+    display: flex;
+    gap: 20px;
+    opacity: 0.7;
+    transition: all 0.3s ease;
+    /* Estabilização total */
+    transform-origin: center center;
+    backface-visibility: hidden;
+    /* Força posicionamento idêntico */
+    justify-content: center;
+    align-items: center;
+    min-height: 40px;
+    /* Força posição fixa */
+    top: 0;
+    left: 0;
+    right: 0;
+    /* Força espaçamentos idênticos */
+    margin: 0;
+    padding: 0;
+}
+
+.membro.ativo .redesSociais {
+    opacity: 1;
+}
+
+.iconeRede {
+    width: 40px;
+    height: 40px;
+    background-color: transparent;
+    color: #000;
+    border: 2px solid #000;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    /* Estabilização dos ícones */
+    backface-visibility: hidden;
+    margin: 0;
+    padding: 0;
+    flex-shrink: 0;
+}
+
+.iconeRede:hover {
+    background-color: #000;
+    color: #fff;
+    transform: scale(1.1) rotate(5deg);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+.iconeRede svg {
+    width: 20px;
+    height: 20px;
+}
+
+/* Contador de membros */
+.contadorMembros {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin: 40px 0 0 0;
+    padding: 0;
+    font-family: 'Findel', sans-serif;
+    animation: fadeInUp 1s ease-out 0.9s both;
+    /* Estabilização total do contador */
+    position: relative;
+    transform: translateZ(0);
+    backface-visibility: hidden;
+    /* Força posição fixa */
+    top: 0;
+    left: 0;
+    right: 0;
+    /* Força dimensões fixas */
+    width: auto;
+    height: auto;
+}
+
+.membroAtual {
+    font-size: 24px;
+    font-weight: bold;
+    color: #000;
+    margin: 0;
+    padding: 0;
+}
+
+.separador {
+    font-size: 18px;
+    color: #666;
+    margin: 0;
+    padding: 0;
+}
+
+.totalMembros {
+    font-size: 18px;
+    color: #666;
+    margin: 0;
+    padding: 0;
+}
+
+/* Animações */
+@keyframes fadeInDown {
+    from {
+        opacity: 0;
+        transform: translateY(-50px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(50px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+/* Responsividade */
+@media (max-width: 1000px) {
+    .carrossel {
+        gap: 60px;
+    }
+    
+    .membrosContainer {
+        gap: 60px;
+    }
+    
+    .circuloFundo {
+        width: 180px;
+        height: 180px;
+    }
+    
+    .fotoPlaceholder {
+        width: 160px;
+        height: 160px;
+    }
+    
+    .placeholder {
+        font-size: 50px;
+    }
+    
+    .titulo {
+        font-size: 70px;
+    }
+    
+    .setaNavegacao {
+        width: 50px;
+        height: 50px;
+    }
+    
+    .setaNavegacao svg {
+        width: 24px;
+        height: 24px;
+    }
 }
 
 @media (max-width: 768px) {
-    .titulo-secao h1 {
+    .titulo {
+        font-size: 60px;
+        margin-bottom: 50px;
+    }
+    
+    .sobreNos {
+        padding: 30px 15px 60px 15px;
+        min-height: 70vh;
+    }
+    
+    .carrossel {
+        gap: 40px;
+    }
+    
+    .membrosContainer {
+        gap: 40px;
+    }
+    
+    .circuloFundo {
+        width: 150px;
+        height: 150px;
+    }
+    
+    .fotoPlaceholder {
+        width: 130px;
+        height: 130px;
+    }
+    
+    .placeholder {
         font-size: 40px;
     }
-
-    .secao-missao, .secao-equipe, .secao-contato {
-        padding: 25px;
-        margin: 0 10px;
+    
+    .nomeMembro {
+        font-size: 20px;
     }
-
-    .secao-missao h2, .secao-equipe h2, .secao-contato h2 {
-        font-size: 28px;
+    
+    .setaNavegacao {
+        width: 45px;
+        height: 45px;
     }
-
-    .secao-missao p, .secao-equipe p, .secao-contato p {
-        font-size: 18px;
+    
+    .setaNavegacao svg {
+        width: 22px;
+        height: 22px;
     }
-
-    .membros-equipe {
-        grid-template-columns: 1fr;
-        gap: 20px;
+    
+    .redesSociais {
+        gap: 15px;
     }
-
-    .contato-item {
-        flex-direction: column;
-        text-align: center;
-        gap: 5px;
+    
+    .iconeRede {
+        width: 35px;
+        height: 35px;
+        font-size: 14px;
     }
-
-    .contato-label, .contato-valor {
-        font-size: 18px;
+    
+    .overlayInfo {
+        padding: 15px;
+    }
+    
+    .overlayInfo h4 {
+        font-size: 14px;
+    }
+    
+    .overlayInfo p {
+        font-size: 11px;
     }
 }
 
 @media (max-width: 480px) {
-    .titulo-secao h1 {
+    .titulo {
+        font-size: 40px;
+        margin-bottom: 40px;
+    }
+    
+    .sobreNos {
+        padding: 20px 15px 40px 15px;
+        min-height: 60vh;
+    }
+    
+    .carrossel {
+        gap: 30px;
+    }
+    
+    .membrosContainer {
+        gap: 30px;
+    }
+    
+    .circuloFundo {
+        width: 120px;
+        height: 120px;
+    }
+    
+    .fotoPlaceholder {
+        width: 100px;
+        height: 100px;
+    }
+    
+    .placeholder {
         font-size: 32px;
     }
-
-    .secao-missao, .secao-equipe, .secao-contato {
-        padding: 20px;
-    }
-
-    .secao-missao h2, .secao-equipe h2, .secao-contato h2 {
-        font-size: 24px;
-    }
-
-    .secao-missao p, .secao-equipe p, .secao-contato p {
-        font-size: 16px;
-    }
-
-    .membro {
-        padding: 20px;
-    }
-
-    .membro h4 {
+    
+    .nomeMembro {
         font-size: 18px;
     }
-
-    .membro p {
-        font-size: 14px;
+    
+    .redesSociais {
+        gap: 12px;
+    }
+    
+    .iconeRede {
+        width: 30px;
+        height: 30px;
+        font-size: 12px;
+    }
+    
+    .setaNavegacao {
+        width: 40px;
+        height: 40px;
+    }
+    
+    .setaNavegacao svg {
+        width: 20px;
+        height: 20px;
+    }
+    
+    .indicadoresCarrossel {
+        gap: 10px;
+    }
+    
+    .indicador {
+        width: 10px;
+        height: 10px;
+    }
+    
+    .overlayInfo {
+        padding: 10px;
+    }
+    
+    .overlayInfo h4 {
+        font-size: 12px;
+    }
+    
+    .overlayInfo p {
+        font-size: 10px;
+    }
+    
+    .contadorMembros {
+        margin-top: 30px;
+    }
+    
+    .membroAtual {
+        font-size: 20px;
+    }
+    
+    .separador,
+    .totalMembros {
+        font-size: 16px;
     }
 }
