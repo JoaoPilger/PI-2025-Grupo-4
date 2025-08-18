@@ -42,7 +42,7 @@ function Duvidas() {
     );
 
     return (
-        <div className={styles["pagina_duvidas"]}>
+        <div className={styles["pagina_duvidas"]} id='duvidas'>
             <div>
                 <h1 className={styles["titulo"]} >DÚVIDAS E PERGUNTAS <br />FREQUENTES</h1>
             </div>

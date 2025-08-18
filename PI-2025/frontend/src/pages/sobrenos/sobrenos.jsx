@@ -105,7 +105,7 @@ const SobreNos = () => {
     const posicaoCentral = getPosicaoCentral(membroAtivo);
 
     return (
-        <div className={styles.container}>
+        <div className={styles.container} id='sobrenos'>
             <div className={styles.sobreNos}>
                 <h1 className={styles.titulo}>SOBRE NÓS</h1>
                 

@@ -144,15 +144,17 @@ function MeusComodos() {
                 </div>
 
                 {/* Painel Direito - Criar Cômodo */}
-                <div 
-                    className={`${styles.painelComodo} ${styles.criarComodo} ${isTransitioning ? styles.transitioning : ''}`}
-                    onClick={() => selecionarComodo(3)}
-                >
-                    <div className={styles.iconeCriar}>
-                        <span className={styles.mais}>+</span>
+                <a href="/novocomodo">
+                    <div 
+                        className={`${styles.painelComodo} ${styles.criarComodo} ${isTransitioning ? styles.transitioning : ''}`}
+                        onClick={() => selecionarComodo(3)}
+                    >
+                        <div className={styles.iconeCriar}>
+                            <span className={styles.mais}>+</span>
+                        </div>
+                        <h2 className={styles.nomeComodo}>{comodos[2].nome}</h2>
                     </div>
-                    <h2 className={styles.nomeComodo}>{comodos[2].nome}</h2>
-                </div>
+                </a>
             </div>
 
             {/* Botões de navegação */}

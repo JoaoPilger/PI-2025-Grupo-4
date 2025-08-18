@@ -1,4 +1,3 @@
-import Navbar from '../components/Navbar'
 import './Simulator.css'
 import { useState } from 'react'
 
@@ -21,7 +20,7 @@ export default function Simulator() {
 
   return (
     <>
-      <div className="sim-container">
+      <div className="sim-container" id='simulador'>
         <div className="sim-card">
           <h1>SIMULADOR DE GASTO ENERGÉTICO</h1>
 

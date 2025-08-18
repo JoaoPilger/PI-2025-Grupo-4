@@ -37,36 +37,57 @@ const Cadastro = () => {
 
   return (
     <div className={styles["login-page"]}>
-      <div className={styles["logo"]}>
-        <img src="/imagens/neo_volt.png" alt="NeoVolt" />
-      </div>
 
       <div className={styles["login-box"] + " " + styles["cadastro-box"]}>
-        <img src="imagens/usuario.webp" alt="User Icon" className="user-image" />
+        <img src="imagens/usuario.webp" alt="User Icon" className={styles["user-image"]} />
         <h2>CADASTRO</h2>
 
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit} className={styles["login-form"]}>
           <label>
             Nome:
-            <input type="text" name="nome" value={formData.nome} onChange={handleChange} />
+            <input 
+              type="text" 
+              name="nome" 
+              value={formData.nome} 
+              onChange={handleChange}
+              className={styles["login-input"]}
+            />
           </label>
 
           <label>
             Email:
-            <input type="email" name="email" value={formData.email} onChange={handleChange} />
+            <input 
+              type="email" 
+              name="email" 
+              value={formData.email} 
+              onChange={handleChange}
+              className={styles["login-input"]}
+            />
           </label>
 
           <label>
             Senha:
-            <input type="password" name="senha" value={formData.senha} onChange={handleChange} />
+            <input 
+              type="password" 
+              name="senha" 
+              value={formData.senha} 
+              onChange={handleChange}
+              className={styles["login-input"]}
+            />
           </label>
 
           <label>
             Confirme a senha:
-            <input type="password" name="confirmaSenha" value={formData.confirmaSenha} onChange={handleChange} />
+            <input 
+              type="password" 
+              name="confirmaSenha" 
+              value={formData.confirmaSenha} 
+              onChange={handleChange}
+              className={styles["login-input"]}
+            />
           </label>
 
-          <button type="submit">Criar conta</button>
+          <button type="submit" className={styles["login-button"]}>Criar conta</button>
         </form>
       </div>
     </div>

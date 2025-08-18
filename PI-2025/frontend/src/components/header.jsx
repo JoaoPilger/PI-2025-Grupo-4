@@ -14,13 +14,12 @@ function Header({ paginaAtual, setPaginaAtual }) {
                 </div>
                 
                 <nav className="nav-menu">
-                    <a href="/" className='nav-link'>Home</a>
-                    <a href="/meuscomodos" className='nav-link'>Meus Cômodos</a>
-                    <a href="/historico" className='nav-link'>Histórico</a>
-                    <a href="/sobrenos" className='nav-link'>Sobre Nós</a>
+                    <a href="\#simulador" className='nav-link'>Simulador</a>
+                    <a href="\#duvidas" className='nav-link'>Dúvidas</a>
+                    <a href="/#sobrenos" className='nav-link'>Sobre Nós</a>
                 </nav>
                 
-                <a href="\login" className="user-section">
+                <a href="/login" className="user-section">
                     <img src="/imagens/usuario.webp" alt="Usuário" className="user-avatar" />
                 </a>
             </div>
