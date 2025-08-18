@@ -23,6 +23,7 @@ body {
     text-align: center;
     font-size: 60px;
     font-family: 'Findel', sans-serif;
+    margin-bottom: 20px;
 }
 
 .barra-pesquisas {
@@ -54,6 +55,7 @@ body {
     padding: 20px;
     background-color: #d5d8ba;
     margin-top: 40px;
+    margin-bottom: 60px;
     border-radius: 20px;
     overflow-y: scroll;
 }
@@ -104,21 +106,30 @@ body {
 
 }
 
-#texto-duvida {
-    font-size: 36px;
-    margin-top: 40px;
+.texto-duvida {
+    font-size: 25px !important;
+    margin-top: 30px;
+    margin-bottom: 15px;
     font-family: "Exo 2", sans-serif;
+    color: #000000;
+    text-align: center;
+    font-weight: bold;
+    line-height: 1;
+    transform: scale(1);
+    max-width: none;
+    min-width: auto;
 }
 
 .enviar-duvida {
     width: 20%;
-    height: 4%;
+    height: 50px;
     background-color: #d5d8ba;
     border: none;
     border-radius: 10px;
     font-family: "Open Sans", sans-serif;
-    margin-top: 20px;
-    font-size: 22px;
+    margin-top: 0px;
+    font-size: 20px;
+    margin-bottom: 40px;
 }
 
 .enviar-duvida:focus {
@@ -126,7 +137,7 @@ body {
 }
 
 .enviar-duvida::placeholder {
-    font-size: 22px;
+    font-size: 20px;
     color: black;
 }
 
@@ -148,50 +159,85 @@ body {
     to {opacity: 1; transform: translateY(0);}
 }
 
-@media (max-width: 600px) {
-    * {
-        box-sizing: border-box;
+@media (max-width: 768px) {
+    .titulo {
+        font-size: 40px;
+        margin-bottom: 15px;
     }
+    
+    .barra-pesquisas {
+        width: 40%;
+        height: 60px;
+        font-size: 22px;
+        padding-left: 60px;
+        background-size: 40px 40px;
+    }
+    
+    .perguntas {
+        width: 70%;
+        height: 280px;
+    }
+    
+    .texto-duvida {
+        font-size: 16px !important;
+        margin-top: 20px;
+        margin-bottom: 10px;
+    }
+    
+    .enviar-duvida {
+        width: 25%;
+        height: 40px;
+        font-size: 16px;
+        margin-bottom: 20px;
+    }
+}
 
-    body {
-        margin: 0;
-        padding: 0;
-        overflow-x: hidden;
-    }
-    #titulo {
-        font-size: 32px;
+@media (max-width: 600px) {
+    .titulo {
+        font-size: 28px;
+        margin-bottom: 15px;
+        padding: 0 10px;
     }
 
     .barra-pesquisas {
-        width: 80%;
+        width: 70%;
         height: 50px;
-        font-size: 16px;
-        background-size: 25px 25px;
-        background-position: 8px center;
+        font-size: 18px;
+        background-size: 30px 30px;
+        background-position: 10px center;
+        padding-left: 50px;
+        margin-bottom: 15px;
     }
 
     .perguntas {
-        width: 90%;
+        width: 92%;
         height: auto;
-        max-height: 300px;
-        padding: 10px;
-        margin-top: 20px;
+        max-height: 250px;
+        padding: 15px;
+        margin-top: 15px;
+        margin-bottom: 20px;
     }
 
     .perguntas p {
         font-size: 18px;
     }
 
-    #texto-duvida {
-        font-size: 24px;
+    .texto-duvida {
+        font-size: 14px !important;
         text-align: center;
-        margin-top: 20px;
+        margin-top: 10px;
+        margin-bottom: 5px;
+        color: #333;
+        font-weight: bold;
+        padding: 0 10px;
     }
 
     .enviar-duvida {
-        width: 60%;
-        height: 40px;
-        font-size: 18px;
+        width: 30%;
+        height: 35px;
+        font-size: 14px;
+        margin-top: 0px;
+        margin-bottom: 15px;
     }
 
     .resposta {
