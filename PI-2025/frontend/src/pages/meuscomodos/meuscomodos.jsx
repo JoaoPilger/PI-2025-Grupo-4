@@ -1,9 +1,11 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import styles from './meuscomodos.module.css';
 
 function MeusComodos() {
     const [comodoAtivo, setComodoAtivo] = useState(2); // 1 = Sala de Estar, 2 = Cozinha (ativo por padrão)
     const [isTransitioning, setIsTransitioning] = useState(false);
+    const navigate = useNavigate();
 
     // Dados dos cômodos existentes com representações visuais realistas
     const comodos = [
@@ -48,8 +50,7 @@ function MeusComodos() {
         
         if (comodoId === 3) {
             // Navegar para página de criar cômodo
-            console.log('Navegar para criar novo cômodo');
-            // Aqui você pode implementar a navegação
+            navigate('/novocomodo');
         } else {
             setIsTransitioning(true);
             setComodoAtivo(comodoId);
@@ -57,16 +58,17 @@ function MeusComodos() {
         }
     };
 
-    // Auto-play do carrossel
-    useEffect(() => {
-        const interval = setInterval(() => {
-            if (!isTransitioning) {
-                setComodoAtivo(prev => prev === 1 ? 2 : 1);
-            }
-        }, 5000); // Muda a cada 5 segundos
+    const navegarComSeta = (direcao) => {
+        if (isTransitioning) return;
+        
+        if (direcao === 'proximo' && comodoAtivo < 2) {
+            navegarParaComodo('proximo');
+        } else if (direcao === 'anterior' && comodoAtivo > 1) {
+            navegarParaComodo('anterior');
+        }
+    };
 
-        return () => clearInterval(interval);
-    }, [isTransitioning]);
+    // Removido o useEffect que causava auto-alternação
 
     return (
         <div className={styles.container}>
@@ -103,8 +105,11 @@ function MeusComodos() {
 
                 {/* Setas de navegação - Esquerda para Centro */}
                 <div className={styles.setasNavegacao}>
-                    <div className={styles.setas}>
-                        <span className={styles.seta}>&gt;&gt;</span>
+                    <div 
+                        className={`${styles.setas} ${comodoAtivo === 1 ? styles.desabilitado : ''}`}
+                        onClick={() => navegarComSeta('proximo')}
+                    >
+                        <span className={styles.seta}>&rarr;</span>
                     </div>
                 </div>
 
@@ -138,23 +143,24 @@ function MeusComodos() {
 
                 {/* Setas de navegação - Centro para Direita */}
                 <div className={styles.setasNavegacao}>
-                    <div className={styles.setas}>
-                        <span className={styles.seta}>&gt;&gt;</span>
+                    <div 
+                        className={`${styles.setas} ${comodoAtivo === 2 ? styles.desabilitado : ''}`}
+                        onClick={() => navegarComSeta('anterior')}
+                    >
+                        <span className={styles.seta}>&rarr;</span>
                     </div>
                 </div>
 
                 {/* Painel Direito - Criar Cômodo */}
-                <a href="/novocomodo">
-                    <div 
-                        className={`${styles.painelComodo} ${styles.criarComodo} ${isTransitioning ? styles.transitioning : ''}`}
-                        onClick={() => selecionarComodo(3)}
-                    >
-                        <div className={styles.iconeCriar}>
-                            <span className={styles.mais}>+</span>
-                        </div>
-                        <h2 className={styles.nomeComodo}>{comodos[2].nome}</h2>
+                <div 
+                    className={`${styles.painelComodo} ${styles.criarComodo} ${isTransitioning ? styles.transitioning : ''}`}
+                    onClick={() => selecionarComodo(3)}
+                >
+                    <div className={styles.iconeCriar}>
+                        <span className={styles.mais}>+</span>
                     </div>
-                </a>
+                    <h2 className={styles.nomeComodo}>{comodos[2].nome}</h2>
+                </div>
             </div>
 
             {/* Botões de navegação */}

@@ -1,8 +1,9 @@
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import styles from './historico.module.css';
 
 function Historico() {
   const [showChart, setShowChart] = useState(false);
+  const chartRef = useRef(null);
 
   const chartData = [
     { month: 'Jan', consumo: 170, gasto: 150 },
@@ -23,6 +24,20 @@ function Historico() {
   const chartHeight = 200;
   const barWidth = 30;
 
+  const handleShowChart = () => {
+    setShowChart(!showChart);
+    
+    if (!showChart) {
+      // Aguarda um pouco para o componente renderizar antes de fazer scroll
+      setTimeout(() => {
+        chartRef.current?.scrollIntoView({
+          behavior: 'smooth',
+          block: 'start'
+        });
+      }, 100);
+    }
+  };
+
   return (
     <div className={styles["pagina-historico"]}>
       <h1 className={styles["titulo-historico"]}>HISTÓRICO</h1>
@@ -37,7 +52,7 @@ function Historico() {
             <span className={styles["valor-estatistica"]}>2</span>
           </div>
           <div className={styles["estatistica-direita"]}>
-            <button className={styles["botao-ver-grafico"]} onClick={() => setShowChart(!showChart)}>
+            <button className={styles["botao-ver-grafico"]} onClick={handleShowChart}>
               VISUALIZAR GRÁFICO
             </button>
           </div>
@@ -79,7 +94,7 @@ function Historico() {
             <button className={styles["botao-acao"]}>+</button>
             <button className={styles["botao-acao"]}>×</button>
             <button className={styles["botao-acao"]}>⚙</button>
-            <button className={styles["botao-acao"]}>↑</button>
+            <button className={styles["botao-acao"]}>→</button>
           </div>
         </div>
         
@@ -113,7 +128,7 @@ function Historico() {
       </div>
 
       {showChart && (
-        <div className={styles["container-grafico"]}>
+        <div ref={chartRef} className={styles["container-grafico"]}>
           <div className={styles["grafico-consumo"]}>
             <div className={styles["legenda-grafico"]}>
               <div className={styles["item-legenda"]}>
@@ -143,14 +158,16 @@ function Historico() {
                         className={`${styles.barra} ${styles["barra-consumo"]}`}
                         style={{
                           height: `${(item.consumo / maxValue) * chartHeight}px`,
-                          width: `${barWidth}px`
+                          width: `${barWidth}px`,
+                          animationDelay: `${index * 100}ms`
                         }}
                       ></div>
                       <div 
                         className={`${styles.barra} ${styles["barra-gasto"]}`}
                         style={{
                           height: `${(item.gasto / maxValue) * chartHeight}px`,
-                          width: `${barWidth}px`
+                          width: `${barWidth}px`,
+                          animationDelay: `${index * 100 + 50}ms`
                         }}
                       ></div>
                     </div>

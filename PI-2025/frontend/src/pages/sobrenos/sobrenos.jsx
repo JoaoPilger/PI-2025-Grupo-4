@@ -10,35 +10,35 @@ const SobreNos = () => {
         { 
             id: 1, 
             nome: 'YURI GERMANO', 
-            foto: null,
+            foto: '/imagens/yuri.png',
             cargo: 'Desenvolvedor',
             descricao: 'Membro do projeto integrador'
         },
         { 
             id: 2, 
             nome: 'JOÃO PILGER', 
-            foto: null,
+            foto: '/imagens/joao.png',
             cargo: 'Desenvolvedor',
             descricao: 'Membro do projeto integrador'
         },
         { 
             id: 3, 
             nome: 'BIANCA GOLFE', 
-            foto: null,
+            foto: '/imagens/bianca.png',
             cargo: 'Desenvolvedor',
             descricao: 'Membro do projeto integrador'
         },
         { 
             id: 4, 
             nome: 'DAVI ULISSES', 
-            foto: null,
+            foto: '/imagens/davi.jpg',
             cargo: 'Desenvolvedor',
             descricao: 'Membro do projeto integrador'
         },
         { 
             id: 5, 
             nome: 'CEZAR BOVI', 
-            foto: null,
+            foto: '/imagens/cezar.jpg',
             cargo: 'Desenvolvedor',
             descricao: 'Membro do projeto integrador'
         },
