@@ -64,7 +64,7 @@ function Duvidas() {
                 )}
             </div>
 
-            <div id="texto-duvida"><strong>Não achou o que procurava?</strong></div>
+            <div className={styles["texto-duvida"]}><strong>Não achou o que procurava?</strong></div>
 
             <input 
                 className={styles["enviar-duvida"]} 
