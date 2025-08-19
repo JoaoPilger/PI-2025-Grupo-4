@@ -45,7 +45,7 @@ const SobreNos = () => {
         { 
             id: 6, 
             nome: 'VICTOR BONISSONI', 
-            foto: null,
+            foto: '/imagens/victor.jpg',
             cargo: 'Desenvolvedor',
             descricao: 'Membro do projeto integrador'
         }
