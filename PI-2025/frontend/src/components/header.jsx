@@ -9,8 +9,7 @@ function Header({ paginaAtual, setPaginaAtual }) {
         <header className="header">
             <div className="header-container">
                 <div className="logo-section">
-                    <img src="/imagens/neo_volt.png" alt="NeoVolt" className="logo-img" />
-                    <span className="logo-text">NeoVolt</span>
+                    <img src="/imagens/neo_volt (1).png" alt="NeoVolt" className="logo-img" />
                 </div>
                 
                 <nav className="nav-menu">
@@ -20,7 +19,7 @@ function Header({ paginaAtual, setPaginaAtual }) {
                 </nav>
                 
                 <a href="/login" className="user-section">
-                    <img src="/imagens/usuario.webp" alt="Usuário" className="user-avatar" />
+                    <img src="/imagens/user.svg" alt="Usuário" className="user-avatar" />
                 </a>
             </div>
         </header>

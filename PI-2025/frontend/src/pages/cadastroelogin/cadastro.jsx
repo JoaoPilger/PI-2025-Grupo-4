@@ -39,7 +39,7 @@ const Cadastro = () => {
     <div className={styles["login-page"]}>
 
       <div className={styles["login-box"] + " " + styles["cadastro-box"]}>
-        <img src="imagens/usuario.webp" alt="User Icon" className={styles["user-image"]} />
+        <img src="imagens/user_black.svg" alt="User Icon" className={styles["user-image"]} />
         <h2>CADASTRO</h2>
 
         <form onSubmit={handleSubmit} className={styles["login-form"]}>

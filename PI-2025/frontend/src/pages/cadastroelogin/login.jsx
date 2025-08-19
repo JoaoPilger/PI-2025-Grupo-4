@@ -40,7 +40,7 @@ const Login = () => {
   return (
     <div className={styles["login-page"]}>
       <div className={styles["login-box"]}>
-        <img src="/imagens/usuario.webp" alt="User Icon" className={styles["user-image"]} />
+        <img src="/imagens/user_black.svg" alt="User Icon" className={styles["user-image"]} />
         <h2>LOGIN</h2>
 
         <form onSubmit={handleSubmit} className={styles["login-form"]}>

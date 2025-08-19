@@ -6,8 +6,7 @@
 } */
 
 .header {
-    background: linear-gradient(135deg, #d5d8ba 0%, #e6ebdd 100%);
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    background-color: rgba(0, 0, 0, 0.3);
     position: sticky;
     top: 0;
     z-index: 1000;
@@ -32,8 +31,8 @@
 }
 
 .logo-img {
-    width: 45px;
-    height: 45px;
+    width: 100px;
+    height: 60px;
     object-fit: contain;
 }
 
@@ -41,7 +40,7 @@
     font-size: 28px;
     font-family: 'Findel', sans-serif;
     font-weight: bold;
-    color: #000;
+    color: #d5d8ba;
     letter-spacing: 1px;
 }
 
@@ -55,9 +54,9 @@
     background: none;
     border: none;
     text-decoration: none;
-    color: #555;
+    color: #e6ebdd;
     font-size: 16px;
-    font-family: "Open Sans", sans-serif;
+    font-family: 'Exo 2', sans-serif;
     font-weight: 500;
     padding: 10px 15px;
     border-radius: 8px;
@@ -98,8 +97,8 @@
 }
 
 .user-avatar {
-    width: 35px;
-    height: 35px;
+    width: 40px;
+    height: 40px;
     border-radius: 50%;
     object-fit: cover;
     transition: all 0.3s ease;
