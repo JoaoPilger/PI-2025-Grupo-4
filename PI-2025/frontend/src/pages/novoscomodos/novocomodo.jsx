@@ -8,11 +8,14 @@ function EditableTitle({ defaultText = "Clique para editar" }) {
   const handleBlur = () => setIsEditing(false);
   const handleKeyDown = (e) => { if (e.key === "Enter") setIsEditing(false); };
 
+  // Mostra o texto padrão se o título estiver vazio
+  const displayTitle = title.trim() === "" ? defaultText : title;
+
   return (
     <>
       {isEditing ? (
         <input
-         className={styles["tituloEditavel"]}
+          className={styles["tituloEditavel"]}
           type="text"
           value={title}
           autoFocus
@@ -21,7 +24,15 @@ function EditableTitle({ defaultText = "Clique para editar" }) {
           onKeyDown={handleKeyDown}
         />
       ) : (
-        <h1 className = {styles["tituloEditavel"]} onClick={() => setIsEditing(true)}>{title}</h1>
+        <h1
+          className={styles["tituloEditavel"]}
+          onClick={() => setIsEditing(true)}
+          style={{ cursor: "pointer", minHeight: "1em" }}
+        >
+          <span>
+            {displayTitle}
+          </span>
+        </h1>
       )}
     </>
   );
