@@ -9,7 +9,7 @@ body {
   font-family: 'Arial', sans-serif;
   line-height: 1.6;
   color: #000;
-  background-color: #f5f5dc;
+  background-color: #e6ebdd;
 }
 
 .App {
@@ -19,7 +19,7 @@ body {
 /* Estilos da Página de Histórico */
 .pagina-historico {
   min-height: 100vh;
-  background-color: #f5f5dc;
+  background-color: #e6ebdd;
   padding: 40px 20px;
   font-family: 'Arial', sans-serif;
 }
