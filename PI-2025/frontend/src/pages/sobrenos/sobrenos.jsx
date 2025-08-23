@@ -91,15 +91,15 @@ const SobreNos = () => {
     };
 
     // Auto-play do carrossel
-    useEffect(() => {
-        const interval = setInterval(() => {
-            if (!isTransitioning) {
-                setMembroAtivo(prev => prev === membros.length - 1 ? 0 : prev + 1);
-            }
-        }, 6000); // Muda a cada 6 segundos
+    //useEffect(() => {
+        //const interval = setInterval(() => {
+            //if (!isTransitioning) {
+               // setMembroAtivo(prev => prev === membros.length - 1 ? 0 : prev + 1);
+           // }
+        //}, 6000); // Muda a cada 6 segundos
 
-        return () => clearInterval(interval);
-    }, [isTransitioning, membros.length]);
+       //return () => clearInterval(interval);
+    //}, [isTransitioning, membros.length]);
 
     const membrosVisiveis = getMembrosVisiveis(membroAtivo);
     const posicaoCentral = getPosicaoCentral(membroAtivo);
@@ -187,7 +187,7 @@ const SobreNos = () => {
 
                 {/* Contador de membros */}
                 <div className={styles.contadorMembros}>
-                    <span className={styles.membroAtual}>{posicaoCentral}</span>
+                    <span className={styles.membroAtual}>{posicaoCentral + 1}</span>
                     <span className={styles.separador}>/</span>
                     <span className={styles.totalMembros}>{membros.length}</span>
                 </div>
