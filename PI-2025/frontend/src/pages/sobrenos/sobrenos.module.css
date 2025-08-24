@@ -8,7 +8,7 @@
     width: 100%;
     min-height: 100vh;
     background-color: #f5f5dc;
-    font-family: 'Findel', sans-serif;
+    font-family: 'Cinzel Decorative', serif;
     display: flex;
     flex-direction: column;
     overflow: hidden;
@@ -33,7 +33,7 @@
     font-size: 80px;
     font-weight: bold;
     color: #000;
-    font-family: 'Findel', serif;
+    font-family: 'Cinzel Decorative', serif;
     margin: 0 0 60px 0;
     padding: 0;
     text-align: center;
@@ -330,7 +330,7 @@
     font-size: 60px;
     font-weight: bold;
     color: #666;
-    font-family: 'Findel', serif;
+    font-family: 'Cinzel Decorative', serif;
     transition: all 0.3s ease;
     margin: 0;
     padding: 0;
@@ -387,7 +387,7 @@
     font-size: 24px;
     font-weight: bold;
     color: #000;
-    font-family: 'Findel', sans-serif;
+    font-family: 'Cinzel Decorative', serif;
     text-align: center;
     margin: 0;
     padding: 0;
@@ -479,7 +479,7 @@
     gap: 8px;
     margin: 40px 0 0 0;
     padding: 0;
-    font-family: 'Findel', sans-serif;
+    font-family: 'Cinzel Decorative', serif;
     animation: fadeInUp 1s ease-out 0.9s both;
     /* Estabilização total do contador */
     position: relative;
