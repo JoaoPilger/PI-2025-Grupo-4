@@ -17,10 +17,10 @@ function Footer() {
                 <div className="footer-section">
                     <h3 className="footer-title">Links Rápidos</h3>
                     <ul className="footer-links">
-                        <li><a href="#simulador">Simulador</a></li>
-                        <li><a href="#comodos">Meus Cômodos</a></li>
-                        <li><a href="#historico">Histórico</a></li>
-                        <li><a href="#duvidas">Dúvidas</a></li>
+                        <li><a href="\#simulador">Simulador</a></li>
+                        <li><a href="\meuscomodos">Meus Cômodos</a></li>
+                        <li><a href="\historico">Histórico</a></li>
+                        <li><a href="\#duvidas">Dúvidas</a></li>
                     </ul>
                 </div>
                 
