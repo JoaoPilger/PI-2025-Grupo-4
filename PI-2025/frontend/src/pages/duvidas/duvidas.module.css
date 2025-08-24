@@ -22,7 +22,7 @@ body {
 .titulo {
     text-align: center;
     font-size: 60px;
-    font-family: 'Cinzel Decorative', serif;
+    font-family: 'Limelight', cursive;
     margin-bottom: 20px;
 }
 
@@ -161,7 +161,7 @@ body {
 
 @media (max-width: 768px) {
     .titulo {
-        font-size: 40px;
+        font-size: 60px;
         margin-bottom: 15px;
     }
     
@@ -194,7 +194,7 @@ body {
 
 @media (max-width: 600px) {
     .titulo {
-        font-size: 28px;
+        font-size: 60px;
         margin-bottom: 15px;
         padding: 0 10px;
     }

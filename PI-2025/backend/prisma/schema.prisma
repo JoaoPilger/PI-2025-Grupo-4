@@ -1,6 +1,5 @@
 generator client {
   provider = "prisma-client-js"
-  output   = "../src/generated/prisma"
 }
 
 datasource db {
@@ -8,8 +7,61 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model usuario {
-  id    Int     @id @default(autoincrement())
-  nome  String? @db.VarChar(100)
-  email String? @db.VarChar(100)
+model Cliente {
+  id             Int          @id @default(autoincrement())
+  nome           String
+  email          String       @unique
+  senha          String
+  distribuidoraId Int
+
+  distribuidora  Distribuidora @relation(fields: [distribuidoraId], references: [id])
+  comodos        Comodo[]
+  simulacoes     Simulacao[]
+}
+
+model Distribuidora {
+  id       Int      @id @default(autoincrement())
+  nome     String
+  tarifa   Float    // tarifa em R$/kWh
+
+  clientes Cliente[]
+}
+
+model Comodo {
+  id         Int    @id @default(autoincrement())
+  nomeComodo String
+  clienteId  Int
+
+  cliente     Cliente         @relation(fields: [clienteId], references: [id])
+  eletros     EletroComodo[]
+}
+
+model Eletrodomestico {
+  id          Int    @id @default(autoincrement())
+  nomeEletro  String
+  consumoHora Float  // consumo por hora do eletrodoméstico (em kWh)
+
+  comodos     EletroComodo[]
+}
+
+model EletroComodo {
+  id             Int @id @default(autoincrement())
+  comodoId       Int
+  eletroId       Int
+  quantidade     Int
+  horasUsoMes    Float  // número de horas usadas no mês
+
+  comodo          Comodo          @relation(fields: [comodoId], references: [id])
+  eletrodomestico Eletrodomestico @relation(fields: [eletroId], references: [id])
+}
+
+model Simulacao {
+  id           Int       @id @default(autoincrement())
+  nomeSimulacao String
+  data         DateTime
+  consumo      Float     // total de kWh consumidos no mês
+  custo        Float     // consumo * tarifa da distribuidora
+  clienteId    Int
+
+  cliente      Cliente   @relation(fields: [clienteId], references: [id])
 }

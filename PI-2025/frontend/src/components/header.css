@@ -37,8 +37,8 @@
 }
 
 .logo-text {
-    font-size: 28px;
-    font-family: 'Cinzel Decorative', serif;
+    font-size: 60px;
+    font-family: 'Limelight', cursive;
     font-weight: bold;
     color: #d5d8ba;
     letter-spacing: 1px;
@@ -142,7 +142,7 @@
     }
     
     .logo-text {
-        font-size: 24px;
+        font-size: 60px;
     }
     
     .logo-img {
@@ -162,7 +162,7 @@
     }
     
     .logo-text {
-        font-size: 20px;
+        font-size: 60px;
     }
     
     .logo-img {

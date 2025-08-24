@@ -8,7 +8,7 @@
     width: 100%;
     min-height: 100vh;
     background-color: #e6ebdd;
-    font-family: 'Cinzel Decorative', serif;
+    font-family: 'Limelight', cursive;
     display: flex;
     flex-direction: column;
     overflow: hidden;
@@ -30,10 +30,10 @@
 }
 
 .titulo {
-    font-size: 80px;
+    font-size: 60px;
     font-weight: bold;
     color: #000;
-    font-family: 'Cinzel Decorative', serif;
+    font-family: 'Limelight', cursive;
     margin: 0 0 60px 0;
     padding: 0;
     text-align: center;
@@ -330,7 +330,7 @@
     font-size: 60px;
     font-weight: bold;
     color: #666;
-    font-family: 'Cinzel Decorative', serif;
+    font-family: 'Limelight', cursive;
     transition: all 0.3s ease;
     margin: 0;
     padding: 0;
@@ -339,7 +339,7 @@
 
 .membro.ativo .placeholder {
     color: #333;
-    font-size: 65px;
+    font-size: 60px;
 }
 
 /* Overlay de informações no hover */
@@ -387,7 +387,7 @@
     font-size: 24px;
     font-weight: bold;
     color: #000;
-    font-family: 'Cinzel Decorative', serif;
+    font-family: 'Limelight', cursive;
     text-align: center;
     margin: 0;
     padding: 0;
@@ -479,7 +479,7 @@
     gap: 8px;
     margin: 40px 0 0 0;
     padding: 0;
-    font-family: 'Cinzel Decorative', serif;
+    font-family: 'Limelight', cursive;
     animation: fadeInUp 1s ease-out 0.9s both;
     /* Estabilização total do contador */
     position: relative;
@@ -569,11 +569,11 @@
     }
     
     .placeholder {
-        font-size: 50px;
+        font-size: 60px;
     }
     
     .titulo {
-        font-size: 70px;
+        font-size: 60px;
     }
     
     .setaNavegacao {
@@ -659,7 +659,7 @@
 
 @media (max-width: 480px) {
     .titulo {
-        font-size: 40px;
+        font-size: 60px;
         margin-bottom: 40px;
     }
     

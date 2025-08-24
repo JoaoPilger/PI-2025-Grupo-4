@@ -9,7 +9,7 @@
     min-height: 100vh;
     background-color: #e6ebdd;
     padding: 20px;
-    font-family: 'Cinzel Decorative', serif;
+    font-family: 'Limelight', cursive;
 }
 
 /* Header */
@@ -21,10 +21,10 @@
 }
 
 .titulo {
-    font-size: 48px;
+    font-size: 60px;
     font-weight: bold;
     color: #000;
-    font-family: 'Cinzel Decorative', serif;
+    font-family: 'Limelight', cursive;
 }
 
 /* Conteúdo principal - três painéis lado a lado */
@@ -354,7 +354,7 @@
     font-size: 20px;
     font-weight: bold;
     color: #000;
-    font-family: 'Cinzel Decorative', serif;
+    font-family: 'Limelight', cursive;
     margin: 0;
     text-align: center;
     transition: all 0.3s ease;
@@ -483,7 +483,7 @@
     font-weight: bold;
     cursor: pointer;
     transition: all 0.3s ease;
-    font-family: 'Cinzel Decorative', serif;
+    font-family: 'Limelight', cursive;
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
 }
 
@@ -565,7 +565,7 @@
     }
     
     .titulo {
-        font-size: 36px;
+        font-size: 60px;
     }
 
     .conteudo {
@@ -603,7 +603,7 @@
 
 @media (max-width: 480px) {
     .titulo {
-        font-size: 28px;
+        font-size: 60px;
     }
 
     .conteudo {

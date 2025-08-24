@@ -10,7 +10,7 @@ body {
 }
 
 .tituloEditavel{
-  font-family: 'Cinzel Decorative', serif;
+  font-family: 'Limelight', cursive;
   font-size: 60px;
   background-color: transparent;
   border: 0;
@@ -246,7 +246,7 @@ body {
 
 @media (max-width: 600px) {
   h1, input[type="text"] {
-    font-size: 1.3rem;
+    font-size: 60px;
     max-width: 95vw;
     height: auto;
   }
