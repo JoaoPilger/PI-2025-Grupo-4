@@ -5,6 +5,9 @@ import pg from 'pg';
 import cors from 'cors';
 import dotenv from 'dotenv';
 import userRoutes from './src/routes/user.routes.js';
+import distribuidoraRoutes from './src/routes/distribuidora.routes.js';
+import eletroRoutes from './src/routes/eletro.routes.js';
+import simulacaoRoutes from './src/routes/simulacao.routes.js';
 
 dotenv.config();
 
@@ -57,7 +60,11 @@ app.use(session({
     }
 }));
 
-app.use('/', userRoutes);
+// Rotas
+app.use('/api/users', userRoutes);
+app.use('/api/distribuidoras', distribuidoraRoutes);
+app.use('/api/eletros', eletroRoutes);
+app.use('/api/simulacoes', simulacaoRoutes);
 
 app.listen(PORT, () => {
     console.log(`Servidor Express rodando na porta ${PORT}`);
