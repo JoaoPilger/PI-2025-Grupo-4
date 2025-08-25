@@ -65,3 +65,11 @@ model Simulacao {
 
   cliente      Cliente   @relation(fields: [clienteId], references: [id])
 }
+
+model Session {
+  sid    String   @id
+  sess   Json
+  expire DateTime
+
+  @@map("session")
+}
