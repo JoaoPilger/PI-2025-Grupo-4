@@ -255,21 +255,27 @@ function NovoComodo() {
     setEletroSelecionado(null);
 
     // Salva no banco de dados
-    fetch('http://localhost:4000/api/eletros/detalhes', {
+    fetch('http://localhost:3000/eletros/detalhes', {
       method: 'POST',
+      credentials: 'include',
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify(dados)
+      body: JSON.stringify({ ...dados, comodoId })
     })
-    .then(response => response.json())
-    .then(data => {
+    .then(async (response) => {
+      if (!response.ok) {
+        const errText = await response.text();
+        throw new Error(`Falha ao salvar: ${response.status} ${errText}`);
+      }
+      return response.json();
+    })
+    .then((data) => {
       console.log('Salvo no banco:', data);
-      // Aqui você pode adicionar uma notificação de sucesso se quiser
     })
-    .catch(error => {
+    .catch((error) => {
       console.error('Erro ao salvar:', error);
-      // Aqui você pode adicionar uma notificação de erro se quiser
+      alert('Não foi possível salvar o eletrodoméstico. Tente novamente.');
     });
   };
 
