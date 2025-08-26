@@ -2,23 +2,39 @@
   margin: 0;
   padding: 0;
   text-decoration: none;
+  box-sizing: border-box;
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  overflow-x: hidden;
 }
 
 #root {
   max-width: 100%;
   margin: 0;
   padding: 0;
+  width: 100%;
+  overflow-x: hidden;
 }
 
 .app {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
+  width: 100%;
+  margin: 0;
+  padding: 0;
 }
 
 .main-content {
   flex: 1;
   background-color: #e6ebdd;
+  width: 100%;
+  margin: 0;
+  padding: 0;
 }
 
 /* Estilos para scrollbar personalizada */
