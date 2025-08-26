@@ -1,70 +1,30 @@
-/* Container principal */
 .sim-container {
   background: #e6ebdd;
-  min-height: 100vh;
+  height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 1rem; /* Para espaçamento em telas pequenas */
-  box-sizing: border-box;
 }
 
-/* Card do simulador */
 .sim-card {
   background: #dfe3c5;
   padding: 2rem;
   border-radius: 20px;
   text-align: center;
   border: 2px solid black;
-  width: 100%;
-  max-width: 400px; /* Limite de largura */
-  box-sizing: border-box;
-  transition: all 0.3s ease; /* Suaviza mudanças em tela pequena */
+  width: 420px;
+  min-height: 450px;
 }
 
-/* Título */
 .sim-card h1 {
   margin-bottom: 2rem;
-  font-size: 1.5rem;
 }
 
-/* Select e botão */
-.sim-card select,
-.sim-card button {
+.sim-card select, .sim-card button {
   display: block;
   width: 100%;
-  margin: 1rem 0;
+  margin: 1rem auto;
   padding: 0.8rem;
   border-radius: 20px;
   border: 1px solid black;
-  font-size: 1rem;
-  box-sizing: border-box;
-}
-
-/* Botão: cursor de interação */
-.sim-card button {
-  cursor: pointer;
-  background-color: #b0c77d;
-  transition: background-color 0.2s ease;
-}
-
-.sim-card button:hover {
-  background-color: #a0b96a;
-}
-
-/* Responsividade para telas menores */
-@media (max-width: 480px) {
-  .sim-card {
-    padding: 1.5rem;
-  }
-
-  .sim-card h1 {
-    font-size: 1.2rem;
-  }
-
-  .sim-card select,
-  .sim-card button {
-    padding: 0.6rem;
-    font-size: 0.9rem;
-  }
 }
