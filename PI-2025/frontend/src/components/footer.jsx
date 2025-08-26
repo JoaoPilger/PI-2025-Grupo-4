@@ -29,7 +29,7 @@ function Footer() {
                     <ul className="footer-links">
                         <li><a href="/ajuda">Central de Ajuda</a></li>
                         <li><a href="/contato">Contato</a></li>
-                        <li><a href="/sobrenos">Sobre Nós</a></li>
+                        <li><a href="#sobrenos">Sobre Nós</a></li>
                         <li><a href="/privacidade">Privacidade</a></li>
                     </ul>
                 </div>
@@ -37,9 +37,9 @@ function Footer() {
                 <div className="footer-section">
                     <h3 className="footer-title">Contato</h3>
                     <div className="footer-contact">
-                        <p>📧 contato@neovolt.com</p>
-                        <p>📱 (11) 99999-9999</p>
-                        <p>📍 São Paulo, SP</p>
+                        <p>📧 neovoltpi@gmail.com</p>
+                        <p>📱 (49) 999192-6286</p>
+                        <p>📍 Concórdia, SC</p>
                     </div>
                 </div>
             </div>
