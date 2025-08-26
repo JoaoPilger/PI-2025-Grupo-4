@@ -44,6 +44,55 @@ export const createEletro = async (req, res) => {
   }
 };
 
+// POST salvar detalhes do eletrodoméstico
+export const saveEletroDetails = async (req, res) => {
+  try {
+    const { nomeEletro, quantidade, horasUso, potencia, comodoId } = req.body;
+    
+    if (!nomeEletro || !quantidade || !horasUso || !potencia) {
+      return res.status(400).json({ 
+        message: "Nome, quantidade, horas de uso e potência são obrigatórios" 
+      });
+    }
+
+    // Primeiro, criar ou buscar o eletrodoméstico
+    let eletro = await prisma.eletrodomestico.findFirst({
+      where: { nomeEletro }
+    });
+
+    if (!eletro) {
+      eletro = await prisma.eletrodomestico.create({
+        data: { 
+          nomeEletro, 
+          consumoHora: potencia / 1000 // Converter watts para kWh
+        }
+      });
+    }
+
+    // Se tiver comodoId, criar a relação
+    if (comodoId) {
+      await prisma.eletroComodo.create({
+        data: {
+          comodoId: Number(comodoId),
+          eletroId: eletro.id,
+          quantidade: Number(quantidade),
+          horasUsoMes: Number(horasUso)
+        }
+      });
+    }
+
+    res.status(201).json({
+      eletrodomestico: eletro,
+      quantidade,
+      horasUso,
+      potencia
+    });
+  } catch (error) {
+    console.error('Erro ao salvar detalhes do eletrodoméstico:', error);
+    res.status(500).json({ message: "Erro interno do servidor" });
+  }
+};
+
 // PUT atualizar
 export const updateEletro = async (req, res) => {
   try {
