@@ -22,12 +22,14 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
+    position: relative;
 }
 
 .logo-section {
     display: flex;
     align-items: center;
     gap: 12px;
+    order: 1;
 }
 
 .logo-img {
@@ -44,10 +46,51 @@
     letter-spacing: 1px;
 }
 
+/* Menu hambúrguer melhorado */
+.hamburger-menu {
+    display: none;
+    flex-direction: column;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 8px;
+    z-index: 1001;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+    position: relative;
+    order: 2;
+}
+
+.hamburger-menu:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+.hamburger-menu span {
+    width: 25px;
+    height: 3px;
+    background-color: #e6ebdd;
+    margin: 3px 0;
+    transition: all 0.3s ease;
+    border-radius: 2px;
+}
+
+.hamburger-menu.active span:nth-child(1) {
+    transform: rotate(45deg) translate(5px, 5px);
+}
+
+.hamburger-menu.active span:nth-child(2) {
+    opacity: 0;
+}
+
+.hamburger-menu.active span:nth-child(3) {
+    transform: rotate(-45deg) translate(7px, -6px);
+}
+
 .nav-menu {
     display: flex;
     gap: 30px;
     align-items: center;
+    order: 3;
 }
 
 .nav-link {
@@ -93,7 +136,8 @@
 
 .user-section {
     display: flex;
-    align-items: center;   
+    align-items: center;
+    order: 4;
 }
 
 .user-avatar {
@@ -108,6 +152,7 @@
     transform: scale(1.2);
 }
 
+/* Responsividade */
 @media (max-width: 1024px) {
     .header-container {
         padding: 0 20px;
@@ -125,57 +170,139 @@
 
 @media (max-width: 768px) {
     .header-container {
-        flex-direction: column;
-        gap: 15px;
-        padding: 0 15px;
+        justify-content: space-between;
+        gap: 0;
+    }
+    
+    .hamburger-menu {
+        display: flex;
+        order: 2;
+        margin-left: auto;
+        margin-right: 15px;
     }
     
     .nav-menu {
-        gap: 10px;
-        flex-wrap: wrap;
-        justify-content: center;
+        position: absolute;
+        top: calc(100% + 10px);
+        right: 0;
+        width: 280px;
+        background: linear-gradient(135deg, rgba(0, 0, 0, 0.98) 0%, rgba(34, 34, 34, 0.98) 100%);
+        border-radius: 20px;
+        padding: 25px;
+        flex-direction: column;
+        gap: 20px;
+        opacity: 0;
+        visibility: hidden;
+        transform: translateY(-15px) scale(0.95);
+        transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+        z-index: 1000;
+        backdrop-filter: blur(15px);
+        box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    
+    .nav-menu.active {
+        opacity: 1;
+        visibility: visible;
+        transform: translateY(0) scale(1);
     }
     
     .nav-link {
-        font-size: 13px;
-        padding: 6px 10px;
+        font-size: 20px;
+        padding: 15px 25px;
+        color: #e6ebdd;
+        border: 2px solid transparent;
+        border-radius: 12px;
+        transition: all 0.3s ease;
+        text-align: center;
+        width: 100%;
+        font-weight: 600;
+        letter-spacing: 0.5px;
     }
     
-    .logo-text {
-        font-size: 60px;
+    .nav-link:hover {
+        border-color: #e6ebdd;
+        background-color: rgba(230, 235, 221, 0.15);
+        color: #fff;
+        transform: translateX(8px);
+        box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
+    }
+    
+    .nav-link::after {
+        display: none;
     }
     
     .logo-img {
-        width: 40px;
-        height: 40px;
+        width: 80px;
+        height: 48px;
+    }
+    
+    /* Removendo a seta indicadora do dropdown para deixar apenas o balão */
+    
+    /* Efeito de entrada para cada link */
+    .nav-menu.active .nav-link {
+        animation: slideInRight 0.4s ease-out forwards;
+        opacity: 0;
+        transform: translateX(30px);
+    }
+    
+    .nav-menu.active .nav-link:nth-child(1) { animation-delay: 0.1s; }
+    .nav-menu.active .nav-link:nth-child(2) { animation-delay: 0.2s; }
+    .nav-menu.active .nav-link:nth-child(3) { animation-delay: 0.3s; }
+    
+    @keyframes slideInRight {
+        to {
+            opacity: 1;
+            transform: translateX(0);
+        }
     }
 }
 
 @media (max-width: 480px) {
-    .nav-menu {
-        gap: 5px;
-    }
-    
-    .nav-link {
-        font-size: 12px;
-        padding: 5px 8px;
-    }
-    
-    .logo-text {
-        font-size: 60px;
+    .header-container {
+        padding: 0 15px;
     }
     
     .logo-img {
-        width: 35px;
-        height: 35px;
+        width: 70px;
+        height: 42px;
     }
     
-    .user-name {
-        font-size: 12px;
+    .hamburger-menu {
+        margin-right: 10px;
+    }
+    
+    .hamburger-menu span {
+        width: 22px;
+        height: 2px;
+    }
+    
+    .nav-menu {
+        width: 250px;
+        right: -5px;
+        padding: 20px;
+    }
+    
+    .nav-link {
+        font-size: 18px;
+        padding: 12px 20px;
     }
     
     .user-avatar {
-        width: 30px;
-        height: 30px;
+        width: 35px;
+        height: 35px;
+    }
+}
+
+@media (max-width: 360px) {
+    .nav-menu {
+        width: 220px;
+        right: -10px;
+        padding: 18px;
+    }
+    
+    .nav-link {
+        font-size: 16px;
+        padding: 10px 18px;
     }
 } 

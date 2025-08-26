@@ -10,6 +10,7 @@
     background-color: #e6ebdd;
     padding: 20px;
     font-family: 'Limelight', cursive;
+    overflow-x: hidden;
 }
 
 /* Header */
@@ -536,11 +537,24 @@
     }
 }
 
-/* Responsividade */
+/* Responsividade melhorada */
+@media (max-width: 1200px) {
+    .conteudo {
+        max-width: 100%;
+        padding: 0 20px;
+    }
+    
+    .painelComodo {
+        min-width: 220px;
+        min-height: 320px;
+    }
+}
+
 @media (max-width: 1000px) {
     .conteudo {
         flex-direction: column;
         gap: 30px;
+        padding: 0 15px;
     }
     
     .setasNavegacao {
@@ -551,27 +565,42 @@
     .painelComodo {
         min-width: 200px;
         min-height: 250px;
+        width: 100%;
+        max-width: 400px;
     }
     
     .cenarioVisual {
         width: 150px;
         height: 100px;
     }
+    
+    .titulo {
+        font-size: clamp(24px, 5vw, 50px);
+        margin-bottom: 40px;
+    }
 }
 
 @media (max-width: 768px) {
     .container {
-        padding: 15px;
+        padding: 15px 10px;
+        overflow-x: hidden;
+    }
+    
+    .header {
+        margin-bottom: 40px;
     }
 
     .conteudo {
         gap: 20px;
+        padding: 0 10px;
     }
 
     .painelComodo {
         padding: 20px;
         min-width: 180px;
         min-height: 200px;
+        width: 100%;
+        max-width: 350px;
     }
     
     .cenarioVisual {
@@ -599,17 +628,28 @@
     .setasNavegacao {
         margin: 10px 0;
     }
+    
+    .titulo {
+        font-size: clamp(20px, 4.5vw, 40px);
+        margin-bottom: 30px;
+    }
 }
 
-@media (max-width: 480px) {
+@media (max-width: 600px) {
+    .container {
+        padding: 10px 8px;
+    }
+    
     .conteudo {
         gap: 15px;
+        padding: 0 5px;
     }
     
     .painelComodo {
         padding: 15px;
         min-width: auto;
-        max-width: 90%;
+        width: 100%;
+        max-width: 300px;
         min-height: 180px;
     }
     
@@ -623,11 +663,11 @@
     }
     
     .mais {
-        font-size: 30px;
+        font-size: 35px;
     }
     
     .seta {
-        font-size: 16px;
+        font-size: 18px;
     }
 
     .btnNavegar {
@@ -639,9 +679,129 @@
         flex-direction: column;
         gap: 10px;
         width: 100%;
+        padding: 0 10px;
     }
 
     .btnNavegar {
         width: 100%;
+    }
+    
+    .titulo {
+        font-size: clamp(18px, 4vw, 35px);
+        margin-bottom: 25px;
+    }
+}
+
+@media (max-width: 480px) {
+    .container {
+        padding: 8px 5px;
+        overflow-x: hidden;
+    }
+    
+    .conteudo {
+        gap: 12px;
+        padding: 0;
+    }
+    
+    .painelComodo {
+        padding: 12px;
+        min-width: auto;
+        width: 100%;
+        max-width: 280px;
+        min-height: 160px;
+    }
+    
+    .cenarioVisual {
+        width: 90px;
+        height: 60px;
+    }
+    
+    .nomeComodo {
+        font-size: 13px;
+    }
+    
+    .mais {
+        font-size: 30px;
+    }
+    
+    .seta {
+        font-size: 16px;
+    }
+
+    .btnNavegar {
+        padding: 8px 14px;
+        font-size: 11px;
+    }
+
+    .botoesNavegacao {
+        flex-direction: column;
+        gap: 8px;
+        width: 100%;
+        padding: 0 8px;
+    }
+
+    .btnNavegar {
+        width: 100%;
+    }
+    
+    .titulo {
+        font-size: clamp(16px, 3.5vw, 30px);
+        margin-bottom: 20px;
+    }
+    
+    .header {
+        margin-bottom: 30px;
+    }
+}
+
+@media (max-width: 360px) {
+    .container {
+        padding: 5px 3px;
+    }
+    
+    .conteudo {
+        gap: 10px;
+    }
+    
+    .painelComodo {
+        padding: 10px;
+        max-width: 250px;
+        min-height: 150px;
+    }
+    
+    .cenarioVisual {
+        width: 80px;
+        height: 55px;
+    }
+    
+    .nomeComodo {
+        font-size: 12px;
+    }
+    
+    .mais {
+        font-size: 25px;
+    }
+    
+    .seta {
+        font-size: 14px;
+    }
+
+    .btnNavegar {
+        padding: 6px 12px;
+        font-size: 10px;
+    }
+
+    .botoesNavegacao {
+        gap: 6px;
+        padding: 0 5px;
+    }
+    
+    .titulo {
+        font-size: clamp(14px, 3vw, 26px);
+        margin-bottom: 15px;
+    }
+    
+    .header {
+        margin-bottom: 25px;
     }
 }
