@@ -1,12 +1,36 @@
 import { useState } from 'react';
+import { useSearchParams } from 'react-router-dom';
 import styles from './novocomodo.module.css';
 
-function EditableTitle({ defaultText = "Clique para editar" }) {
+function EditableTitle({ defaultText = "Clique para editar", comodoId }) {
   const [isEditing, setIsEditing] = useState(false);
   const [title, setTitle] = useState(defaultText);
 
-  const handleBlur = () => setIsEditing(false);
-  const handleKeyDown = (e) => { if (e.key === "Enter") setIsEditing(false); };
+  const persistIfValid = async (newTitle) => {
+    const trimmed = String(newTitle || '').trim();
+    if (!comodoId || trimmed === '') return;
+    try {
+      await fetch(`http://localhost:3000/comodos/${comodoId}`, {
+        method: 'PUT',
+        credentials: 'include',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ nomeComodo: trimmed })
+      });
+    } catch (err) {
+      console.error('Erro ao atualizar cômodo:', err);
+    }
+  };
+
+  const handleBlur = async () => {
+    await persistIfValid(title);
+    setIsEditing(false);
+  };
+  const handleKeyDown = async (e) => {
+    if (e.key === "Enter") {
+      await persistIfValid(title);
+      setIsEditing(false);
+    }
+  };
 
   // Mostra o texto padrão se o título estiver vazio
   const displayTitle = title.trim() === "" ? defaultText : title;
@@ -157,6 +181,8 @@ function EletroForm({ eletro, onSave, onCancel }) {
 }
 
 function NovoComodo() {
+  const [searchParams] = useSearchParams();
+  const comodoId = searchParams.get('id');
   const aparelhos = [
     { nome: "Geladeira", img: "/imagens/refrigerator.png", consumo: 30, custo: 15, tarifa: 0.5 },
     { nome: "Freezer", img: "/imagens/mode_cool.png", consumo: 25, custo: 12, tarifa: 0.48 },
@@ -262,7 +288,7 @@ function NovoComodo() {
   return (
     <div className={styles["novo-comodo-container"]}>
       <div className={styles["titulo"]}>
-        <EditableTitle defaultText="Novo Cômodo" />
+        <EditableTitle defaultText="Novo Cômodo" comodoId={comodoId} />
         <img src="/imagens/edit_text.png" alt="Editar texto" />
       </div>
       <div className={styles["painel"]}>

@@ -8,6 +8,7 @@ import dotenv from 'dotenv';
 import clienteRoutes from './src/routes/cliente.routes.js';
 import authRoutes from './src/routes/auth.routes.js';
 import distribuidoraRoutes from './src/routes/distribuidora.routes.js';
+import comodoRoutes from './src/routes/comodo.routes.js';
 
 dotenv.config();
 
@@ -64,6 +65,7 @@ app.use(session({
 app.use('/clientes', clienteRoutes);
 app.use('/auth', authRoutes);
 app.use('/distribuidora', distribuidoraRoutes);
+app.use('/comodos', comodoRoutes);
 
 // --- Rota teste ---
 app.get('/', (req, res) => res.send('API funcionando!'));

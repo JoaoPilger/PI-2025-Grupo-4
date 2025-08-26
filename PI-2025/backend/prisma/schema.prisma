@@ -39,8 +39,7 @@ model Comodo {
 model Eletrodomestico {
   id          Int    @id @default(autoincrement())
   nomeEletro  String
-  consumoHora Float  // consumo por hora do eletrodoméstico (em kWh)
-
+  
   comodos     EletroComodo[]
 }
 
@@ -49,7 +48,8 @@ model EletroComodo {
   comodoId       Int
   eletroId       Int
   quantidade     Int
-  horasUsoMes    Float  // número de horas usadas no mês
+  horasUsoDia    Float  // número de horas usadas no dia
+  potencia       Int
 
   comodo          Comodo          @relation(fields: [comodoId], references: [id])
   eletrodomestico Eletrodomestico @relation(fields: [eletroId], references: [id])

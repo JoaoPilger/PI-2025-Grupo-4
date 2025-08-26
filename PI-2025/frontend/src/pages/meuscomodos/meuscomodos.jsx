@@ -45,12 +45,39 @@ function MeusComodos() {
         setTimeout(() => setIsTransitioning(false), 300);
     };
 
-    const selecionarComodo = (comodoId) => {
+    const selecionarComodo = async (comodoId) => {
         if (isTransitioning) return;
         
         if (comodoId === 3) {
-            // Navegar para página de criar cômodo
-            navigate('/novocomodo');
+            try {
+                // valida sessão antes de criar
+                const sessionResp = await fetch('http://localhost:3000/auth/session', {
+                    method: 'GET',
+                    credentials: 'include'
+                });
+                if (!sessionResp.ok) {
+                    navigate('/login');
+                    return;
+                }
+                const sessionData = await sessionResp.json();
+
+                // cria no backend e redireciona
+                const resp = await fetch('http://localhost:3000/comodos', {
+                    method: 'POST',
+                    credentials: 'include',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ nomeComodo: 'Novo Cômodo', clienteId: sessionData?.user?.id })
+                });
+                if (!resp.ok) {
+                    const errText = await resp.text();
+                    throw new Error(`Falha ao criar cômodo: ${resp.status} ${errText}`);
+                }
+                const created = await resp.json();
+                navigate(`/novocomodo?id=${created.id}`);
+            } catch (e) {
+                console.error(e);
+                alert('Não foi possível criar o cômodo. Tente novamente.');
+            }
         } else {
             setIsTransitioning(true);
             setComodoAtivo(comodoId);
