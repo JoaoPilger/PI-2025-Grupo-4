@@ -22,7 +22,7 @@ function Duvidas() {
 
     function enviarDuvida() {
         if (duvida.trim() === '') return;
-        console.log('Dúvida enviada:', duvida); // futuramente enviar para API ou lista
+        console.log('Dúvida enviada:', duvida);
         setDuvida('');
     }
 
@@ -52,6 +52,7 @@ function Duvidas() {
                 type="text" 
                 value={pesquisa} 
                 onChange={e => setPesquisa(e.target.value)} 
+                placeholder="Pesquisar..."
             />
 
             <div className={styles["perguntas"]}>

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import axios from "axios";
 import styles from "./cadastroelogin.module.css";
 
@@ -8,9 +8,24 @@ const Cadastro = () => {
     email: "",
     senha: "",
     confirmaSenha: "",
+    distribuidoraId: "",
   });
+  const [distribuidoras, setDistribuidoras] = useState([]);
   const [errors, setErrors] = useState({});
   const [successMessage, setSuccessMessage] = useState("");
+
+  // Buscar distribuidoras do banco ao carregar a página
+  useEffect(() => {
+    async function fetchDistribuidoras() {
+      try {
+        const response = await axios.get("http://localhost:3000/distribuidora");
+        setDistribuidoras(response.data);
+      } catch (error) {
+        setDistribuidoras([]);
+      }
+    }
+    fetchDistribuidoras();
+  }, []);
 
   const validateField = (name, value) => {
     const newErrors = { ...errors };
@@ -59,6 +74,13 @@ const Cadastro = () => {
           delete newErrors.confirmaSenha;
         }
         break;
+      case "distribuidoraId":
+        if (!value) {
+          newErrors.distribuidoraId = "Selecione uma distribuidora";
+        } else {
+          delete newErrors.distribuidoraId;
+        }
+        break;
       default:
         break;
     }
@@ -81,6 +103,7 @@ const Cadastro = () => {
     validateField("email", formData.email);
     validateField("senha", formData.senha);
     validateField("confirmaSenha", formData.confirmaSenha);
+    validateField("distribuidoraId", formData.distribuidoraId);
     
     // Aguarda um tick para que os erros sejam atualizados
     setTimeout(() => {
@@ -88,16 +111,19 @@ const Cadastro = () => {
         return;
       }
 
-      axios.post("http://localhost:3000/cadastro", {
+      axios.post("http://localhost:3000/clientes/cadastro", {
         nome: formData.nome,
         email: formData.email,
         senha: formData.senha,
+        distribuidoraId: Number(formData.distribuidoraId),
+      }, {
+        withCredentials: true
       })
       .then(response => {
         console.log("Cadastro realizado:", response.data);
         setSuccessMessage("Cadastro realizado com sucesso!");
         setErrors({});
-        setFormData({ nome: "", email: "", senha: "", confirmaSenha: "" });
+        setFormData({ nome: "", email: "", senha: "", confirmaSenha: "", distribuidoraId: "" });
       })
       .catch(error => {
         console.error("Erro no cadastro:", error);
@@ -159,6 +185,25 @@ const Cadastro = () => {
               className={`${styles["login-input"]} ${errors.confirmaSenha ? styles.error : formData.confirmaSenha && formData.confirmaSenha === formData.senha ? styles.success : ""}`}
             />
             {errors.confirmaSenha && <span className={styles["error-message"]}>{errors.confirmaSenha}</span>}
+          </label>
+
+          <label>
+            Distribuidora:
+            <select
+              name="distribuidoraId"
+              value={formData.distribuidoraId}
+              onChange={handleChange}
+              className={`${styles["login-input"]} ${errors.distribuidoraId ? styles.error : formData.distribuidoraId ? styles.success : ""}`}
+              required
+            >
+              <option value="">Selecione</option>
+              {distribuidoras.map((dist) => (
+                <option key={dist.id} value={dist.id}>
+                  {dist.nome}
+                </option>
+              ))}
+            </select>
+            {errors.distribuidoraId && <span className={styles["error-message"]}>{errors.distribuidoraId}</span>}
           </label>
 
           {errors.submit && <div className={styles["error-message"]}>{errors.submit}</div>}

@@ -4,7 +4,7 @@ import styles from "./cadastroelogin.module.css";
 
 const Login = () => {
   const [formData, setFormData] = useState({
-    usuario: "",
+    email: "",
     senha: "",
   });
   const [loading, setLoading] = useState(false);
@@ -16,13 +16,13 @@ const Login = () => {
     const newErrors = { ...errors };
     
     switch (name) {
-      case "usuario":
+      case "email":
         if (!value.trim()) {
-          newErrors.usuario = "Nome de usuário é obrigatório";
-        } else if (value.trim().length < 3) {
-          newErrors.usuario = "Nome de usuário deve ter pelo menos 3 caracteres";
+          newErrors.email = "Email é obrigatório";
+        } else if (!/\S+@\S+\.\S+/.test(value)) {
+          newErrors.email = "Email inválido";
         } else {
-          delete newErrors.usuario;
+          delete newErrors.email;
         }
         break;
       case "senha":
@@ -56,7 +56,7 @@ const Login = () => {
     e.preventDefault();
     
     // Validação final antes do envio
-    validateField("usuario", formData.usuario);
+    validateField("email", formData.email);
     validateField("senha", formData.senha);
     
     // Aguarda um tick para que os erros sejam atualizados
@@ -68,9 +68,11 @@ const Login = () => {
       setLoading(true);
       setSuccessMessage("");
 
-      axios.post("http://localhost:3000/login", {
-        usuario: formData.usuario.trim(),
+      axios.post("http://localhost:3000/auth/login", {
+        email: formData.email.trim(),
         senha: formData.senha,
+      }, {
+        withCredentials: true
       })
       .then(response => {
         console.log("Login realizado:", response.data);
@@ -95,16 +97,16 @@ const Login = () => {
 
         <form onSubmit={handleSubmit} className={styles["login-form"]}>
           <label>
-            Nome de usuário:
+            Email:
             <input
               type="text"
-              name="usuario"
-              value={formData.usuario}
+              name="email"
+              value={formData.email}
               onChange={handleChange}
-              className={`${styles["login-input"]} ${errors.usuario ? styles.error : formData.usuario.trim().length >= 3 ? styles.success : ""}`}
+              className={`${styles["login-input"]} ${errors.email ? styles.error : formData.email.trim().length >= 3 ? styles.success : ""}`}
               disabled={loading}
             />
-            {errors.usuario && <span className={styles["error-message"]}>{errors.usuario}</span>}
+            {errors.email && <span className={styles["error-message"]}>{errors.email}</span>}
           </label>
 
           <label>

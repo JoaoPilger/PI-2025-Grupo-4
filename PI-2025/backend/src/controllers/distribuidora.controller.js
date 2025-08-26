@@ -1,108 +1,59 @@
-import { prisma } from "../prisma/client.js";
+import { PrismaClient } from '@prisma/client';
+const prisma = new PrismaClient();
 
-export const getAllDistribuidoras = async (req, res) => {
+export async function getAllDistribuidoras(req, res) {
   try {
-    const dist = await prisma.distribuidora.findMany();
-    res.json(dist);
+    const distribuidoras = await prisma.distribuidora.findMany();
+    res.json(distribuidoras);
   } catch (error) {
-    console.error('Erro ao buscar distribuidoras:', error);
-    res.status(500).json({ message: "Erro interno do servidor" });
+    res.status(500).json({ error: 'Erro ao buscar distribuidoras' });
   }
-};
+}
 
-export const getDistribuidoraById = async (req, res) => {
+export async function getDistribuidoraById(req, res) {
   try {
-    const dist = await prisma.distribuidora.findUnique({
+    const distribuidora = await prisma.distribuidora.findUnique({
       where: { id: Number(req.params.id) }
     });
-    if (!dist) return res.status(404).json({ message: "Distribuidora não encontrada" });
-    res.json(dist);
+    if (!distribuidora) return res.status(404).json({ error: 'Não encontrada' });
+    res.json(distribuidora);
   } catch (error) {
-    console.error('Erro ao buscar distribuidora:', error);
-    res.status(500).json({ message: "Erro interno do servidor" });
+    res.status(500).json({ error: 'Erro ao buscar distribuidora' });
   }
-};
+}
 
-export const createDistribuidora = async (req, res) => {
+export async function createDistribuidora(req, res) {
   try {
     const { nome, tarifa } = req.body;
-    
-    if (!nome || tarifa === undefined) {
-      return res.status(400).json({ message: "Nome e tarifa são obrigatórios" });
-    }
-
-    if (Number(tarifa) <= 0) {
-      return res.status(400).json({ message: "Tarifa deve ser maior que zero" });
-    }
-
     const nova = await prisma.distribuidora.create({
       data: { nome, tarifa: Number(tarifa) }
     });
     res.status(201).json(nova);
   } catch (error) {
-    console.error('Erro ao criar distribuidora:', error);
-    res.status(500).json({ message: "Erro interno do servidor" });
+    res.status(500).json({ error: 'Erro ao criar distribuidora' });
   }
-};
+}
 
-export const updateDistribuidora = async (req, res) => {
+export async function updateDistribuidora(req, res) {
   try {
     const { nome, tarifa } = req.body;
-    const id = Number(req.params.id);
-
-    // Verificar se existe
-    const distExistente = await prisma.distribuidora.findUnique({
-      where: { id }
-    });
-    if (!distExistente) {
-      return res.status(404).json({ message: "Distribuidora não encontrada" });
-    }
-
-    // Validar tarifa se fornecida
-    if (tarifa !== undefined && Number(tarifa) <= 0) {
-      return res.status(400).json({ message: "Tarifa deve ser maior que zero" });
-    }
-
     const atualizada = await prisma.distribuidora.update({
-      where: { id },
-      data: { 
-        nome: nome || distExistente.nome, 
-        tarifa: tarifa !== undefined ? Number(tarifa) : distExistente.tarifa 
-      }
+      where: { id: Number(req.params.id) },
+      data: { nome, tarifa: Number(tarifa) }
     });
     res.json(atualizada);
   } catch (error) {
-    console.error('Erro ao atualizar distribuidora:', error);
-    res.status(500).json({ message: "Erro interno do servidor" });
+    res.status(500).json({ error: 'Erro ao atualizar distribuidora' });
   }
-};
+}
 
-export const deleteDistribuidora = async (req, res) => {
+export async function deleteDistribuidora(req, res) {
   try {
-    const id = Number(req.params.id);
-    
-    // Verificar se existe
-    const distExistente = await prisma.distribuidora.findUnique({
-      where: { id }
+    await prisma.distribuidora.delete({
+      where: { id: Number(req.params.id) }
     });
-    if (!distExistente) {
-      return res.status(404).json({ message: "Distribuidora não encontrada" });
-    }
-
-    // Verificar se há clientes associados
-    const clientesAssociados = await prisma.cliente.findMany({
-      where: { distribuidoraId: id }
-    });
-    if (clientesAssociados.length > 0) {
-      return res.status(400).json({ 
-        message: "Não é possível deletar distribuidora com clientes associados" 
-      });
-    }
-
-    await prisma.distribuidora.delete({ where: { id } });
-    res.json({ message: "Distribuidora removida com sucesso" });
+    res.json({ message: 'Distribuidora deletada' });
   } catch (error) {
-    console.error('Erro ao deletar distribuidora:', error);
-    res.status(500).json({ message: "Erro interno do servidor" });
+    res.status(500).json({ error: 'Erro ao deletar distribuidora' });
   }
-};
+}

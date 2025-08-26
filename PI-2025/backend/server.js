@@ -4,69 +4,73 @@ import connectPgSimple from 'connect-pg-simple';
 import pg from 'pg';
 import cors from 'cors';
 import dotenv from 'dotenv';
-import userRoutes from './src/routes/user.routes.js';
+
+import clienteRoutes from './src/routes/cliente.routes.js';
+import authRoutes from './src/routes/auth.routes.js';
 import distribuidoraRoutes from './src/routes/distribuidora.routes.js';
-import eletroRoutes from './src/routes/eletro.routes.js';
-import simulacaoRoutes from './src/routes/simulacao.routes.js';
 
 dotenv.config();
 
 const app = express();
 
+// --- CORS ---
 app.use(cors({
-    origin: "http://localhost:5173",
-    credentials: true
+  origin: 'http://localhost:5173',  // front-end
+  credentials: true
 }));
 
+// --- Parse JSON ---
 app.use(express.json());
 
-const PORT = 4000;
-
-// Pool de conexão com o DB
+// --- Configuração PostgreSQL para sessões ---
 const pgPool = new pg.Pool({
-    user: process.env.DATABASE_USER,
-    host: process.env.DATABASE_HOST,
-    database: process.env.DATABASE_NAME,
-    password: process.env.DATABASE_PASSWORD,
-    port: process.env.PORT
+  user: process.env.DATABASE_USER,
+  host: process.env.DATABASE_HOST,
+  database: process.env.DATABASE_NAME,
+  password: process.env.DATABASE_PASSWORD,
+  port: process.env.DATABASE_PORT
 });
 
-// teste de funcionamento do servidor
+// Teste de conexão
 pgPool.connect()
-    .then(client =>{
-        console.log('Conectado ao PostgreSQL via pg.Pool para sessões!');
-        client.release()
-    })
-    .catch(err =>{
-        console.log("Erro ao conectar ao PostgreSQL via pg.Pool:", err.stack);   
-    })
+  .then(client => {
+    console.log('Conectado ao PostgreSQL via pg.Pool para sessões!');
+    client.release();
+  })
+  .catch(err => {
+    console.error('Erro ao conectar ao PostgreSQL via pg.Pool:', err.stack);
+  });
 
+// --- Configuração do connect-pg-simple ---
 const PgSessionStore = connectPgSimple(session);
 
-// Configuração do middleware de sessão
 app.use(session({
-    secret: process.env.SESSION_SECRET,
-    resave: false,
-    saveUninitialized: false,
-    store: new PgSessionStore({
-        pool: pgPool,
-        tableName: "session"
-    }),
-    cookie: {
-        maxAge: 1000*60*60, // 1 hora
-        secure: false,
-        httpOnly: true,
-        sameSite: 'lax'
-    }
+  secret: process.env.SESSION_SECRET || 'chave_secreta',
+  resave: false,
+  saveUninitialized: false,
+  store: new PgSessionStore({
+    pool: pgPool,
+    tableName: 'session'
+  }),
+  cookie: {
+    maxAge: 1000 * 60 * 60, // 1 hora
+    httpOnly: true,
+    secure: false,           // true se for HTTPS
+    sameSite: 'lax'
+  }
 }));
 
-// Rotas
-app.use('/api/users', userRoutes);
-app.use('/api/distribuidoras', distribuidoraRoutes);
-app.use('/api/eletros', eletroRoutes);
-app.use('/api/simulacoes', simulacaoRoutes);
+// --- Rotas ---
+app.use('/clientes', clienteRoutes);
+app.use('/auth', authRoutes);
+app.use('/distribuidora', distribuidoraRoutes);
 
+// --- Rota teste ---
+app.get('/', (req, res) => res.send('API funcionando!'));
+
+// --- Start server ---
+const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
-    console.log(`Servidor Express rodando na porta ${PORT}`);
-    console.log(`Acesse: http://localhost:${PORT}`);
+  console.log(`Servidor rodando na porta ${PORT}`);
+  console.log(`Acesse: http://localhost:${PORT}`);
 });
