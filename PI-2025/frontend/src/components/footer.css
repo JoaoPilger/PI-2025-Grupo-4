@@ -166,6 +166,7 @@
     
     .footer-section:first-child .footer-logo {
         justify-content: center;
+        transform: translateX(-15px);
     }
     
     .footer-section:first-child .footer-description {
@@ -194,6 +195,10 @@
     .footer-container {
         padding: 0 15px;
         gap: 20px;
+    }
+    
+    .footer-section:first-child .footer-logo {
+        transform: translateX(-20px);
     }
     
     .footer-logo-text {
@@ -239,6 +244,10 @@
     .footer-container {
         padding: 0 10px;
         gap: 18px;
+    }
+    
+    .footer-section:first-child .footer-logo {
+        transform: translateX(-25px);
     }
     
     .footer-bottom-container {
