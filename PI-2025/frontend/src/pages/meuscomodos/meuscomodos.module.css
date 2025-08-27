@@ -28,6 +28,32 @@
     font-family: 'Limelight', cursive;
 }
 
+/* Loading */
+.loading {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 400px;
+    font-size: 18px;
+    color: #666;
+    font-family: 'Limelight', cursive;
+}
+
+/* Sem Cômodos */
+.semComodos {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 30px;
+    text-align: center;
+}
+
+.semComodos p {
+    font-size: 18px;
+    color: #666;
+    font-family: 'Limelight', cursive;
+}
+
 /* Conteúdo principal - três painéis lado a lado */
 .conteudo {
     display: flex;
@@ -348,6 +374,48 @@
     border-radius: 1px;
     border: 1px solid #b8946a;
     transition: all 0.3s ease;
+}
+
+/* Cômodo Genérico */
+.comodoGenerico {
+    background: linear-gradient(to bottom, #f5f5f5 0%, #e8e8e8 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.iconeComodo {
+    width: 60px;
+    height: 60px;
+    background: #ddd;
+    border-radius: 50%;
+    border: 3px solid #bbb;
+    position: relative;
+    transition: all 0.3s ease;
+}
+
+.iconeComodo::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 30px;
+    height: 30px;
+    background: #999;
+    border-radius: 50%;
+}
+
+.painelComodo.ativo .iconeComodo {
+    background: #ccc;
+    border-color: #999;
+    transform: scale(1.1);
+}
+
+.painelComodo:hover .iconeComodo {
+    background: #ccc;
+    border-color: #999;
+    transform: scale(1.15);
 }
 
 /* Nome do cômodo */

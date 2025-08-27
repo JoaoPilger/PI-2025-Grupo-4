@@ -40,3 +40,61 @@
   color: #e6ebdd;
   font-family: 'Exo 2', sans-serif;
 }
+
+/* Media Queries para responsividade */
+@media (max-width: 768px) {
+  .hero-content {
+    padding: 6rem 2rem;
+    gap: 15px;
+  }
+
+  .hero-content h1 {
+    font-size: 48px;
+    line-height: 52px;
+    max-width: 100%;
+  }
+
+  .hero-content p {
+    font-size: 1.25rem;
+    max-width: 100%;
+  }
+}
+
+@media (max-width: 480px) {
+  .hero-content {
+    padding: 4rem 1.5rem;
+    gap: 12px;
+    justify-content: center;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .hero-content h1 {
+    font-size: 36px;
+    line-height: 40px;
+  }
+
+  .hero-content p {
+    font-size: 1.1rem;
+  }
+}
+
+@media (max-width: 360px) {
+  .hero-content {
+    padding: 3rem 1rem;
+    justify-content: center;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .hero-content h1 {
+    font-size: 28px;
+    line-height: 32px;
+  }
+
+  .hero-content p {
+    font-size: 1rem;
+  }
+}

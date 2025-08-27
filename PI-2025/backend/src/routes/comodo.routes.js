@@ -1,8 +1,9 @@
 import express from 'express';
-import { createComodo, updateComodoNome } from '../controllers/comodo.controller.js';
+import { createComodo, updateComodoNome, getComodosByCliente } from '../controllers/comodo.controller.js';
 
 const router = express.Router();
 
+router.get('/', getComodosByCliente);
 router.post('/', createComodo);
 router.put('/:id', updateComodoNome);
 
