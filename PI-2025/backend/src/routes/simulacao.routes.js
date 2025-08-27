@@ -1,18 +1,16 @@
-import express from 'express';
-import { 
-  getAllSimulacoes, 
-  getSimulacaoById, 
-  createSimulacao, 
-  updateSimulacao, 
-  deleteSimulacao 
-} from '../controllers/simulacao.controller.js';
+import express from "express";
+import { criarSimulacao } from "../controllers/simulacao.controller.js";
 
 const router = express.Router();
 
-router.get("/", getAllSimulacoes);
-router.get("/:id", getSimulacaoById);
-router.post("/", createSimulacao);
-router.put("/:id", updateSimulacao);
-router.delete("/:id", deleteSimulacao);
+// Middleware simples de autenticação
+function authMiddleware(req, res, next) {
+  if (!req.session.user) {
+    return res.status(401).json({ error: "Usuário não autenticado" });
+  }
+  next();
+}
+
+router.post("/simulacao", authMiddleware, criarSimulacao);
 
 export default router;

@@ -1,56 +1,50 @@
 import './Simulator.css'
+import axios from 'axios'
 import { useState } from 'react'
 
-const estados = [
-  "AC", "AL", "AM", "AP", "BA", "CE", "DF", "ES", "GO",
-  "MA", "MG", "MS", "MT", "PA", "PB", "PE", "PI", "PR",
-  "RJ", "RN", "RO", "RR", "RS", "SC", "SE", "SP", "TO"
-]
-
-const distribuidoras = [
-  "CELESC", "COELBA", "CEMIG", "CPFL", "ENEL SP", "ENEL RJ", "ENEL CE",
-  "EQUATORIAL MA", "EQUATORIAL AL", "EQUATORIAL PI", "EQUATORIAL PA",
-  "COPEL", "ELEKTRO", "ENERGISA", "LIGHT", "RGE", "AMAZONAS ENERGIA",
-  "ESCELSA", "CHESP", "BOA VISTA ENERGIA", "EFLUL", "DME Poços de Caldas"
-]
-
 export default function Simulator() {
-  const [estadoSelecionado, setEstadoSelecionado] = useState('')
-  const [distribuidoraSelecionada, setDistribuidoraSelecionada] = useState('')
+  const [form, setForm] = useState({
+    nomeSimulacao: "",
+    data: new Date()
+  })
+  
+  function handleChange(e) {
+        setForm({ ...form, [e.target.name]: e.target.value });
+  }
 
+  function handleSubmit(e) {
+    e.preventDefault();
+    try {
+      const response = axios.post('http://localhost:3000/simulacoes', form, {
+        withCredentials: true,
+      })
+    } catch (error) {
+      console.error("Erro ao enviar o formulário:", error);
+    }
+    console.log("Enviado:", form);
+  }
   return (
     <>
       <div className="sim-container" id='simulador'>
         <div className="sim-card">
           <h1>SIMULADOR DE GASTO ENERGÉTICO</h1>
 
-          <label>Selecione o estado:</label>
-          <select
-            value={estadoSelecionado}
-            onChange={(e) => setEstadoSelecionado(e.target.value)}
-          >
-            <option value="">Selecione</option>
-            {estados.map(estado => (
-              <option key={estado} value={estado}>
-                {estado}
-              </option>
-            ))}
-          </select>
-
-          <label>Selecione a Distribuidora:</label>
-          <select
-            value={distribuidoraSelecionada}
-            onChange={(e) => setDistribuidoraSelecionada(e.target.value)}
-          >
-            <option value="">Selecione</option>
-            {distribuidoras.map(dist => (
-              <option key={dist} value={dist}>
-                {dist}
-              </option>
-            ))}
-          </select>
-
+          <form onSubmit={handleSubmit} className="flex flex-col gap-4 w-80">
+            <label>
+              Nome da Simulação:
+              <input
+                type="text"
+                name="nomeSimulacao"
+                value={form.nomeSimulacao}
+                onChange={handleChange}
+                required   // 🔴 torna o campo obrigatório
+                className="border rounded p-2 w-full"
+              />
+            </label>
           <button>Iniciar</button>
+
+          </form>
+
         </div>
       </div>
     </>

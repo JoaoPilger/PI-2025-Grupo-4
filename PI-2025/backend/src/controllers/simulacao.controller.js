@@ -1,139 +1,67 @@
-import { prisma } from "../prisma/client.js";
+import { PrismaClient } from "@prisma/client";
+const prisma = new PrismaClient();
 
-export const getAllSimulacoes = async (req, res) => {
+export const criarSimulacao = async (req, res) => {
   try {
-    const sims = await prisma.simulacao.findMany({
+    // Pega o id do usuário logado da sessão
+    const userId = req.session.user.id;
+
+    const { nomeSimulacao, tarifa } = req.body;
+
+    // Buscar cômodos do usuário
+    const comodos = await prisma.comodo.findMany({
+      where: { clienteId: userId },
       include: {
-        cliente: {
-          select: {
-            id: true,
-            nome: true,
-            email: true
-          }
-        }
+        eletros: { include: { eletro: true } }
       }
     });
-    res.json(sims);
-  } catch (error) {
-    console.error('Erro ao buscar simulações:', error);
-    res.status(500).json({ message: "Erro interno do servidor" });
-  }
-};
 
-export const getSimulacaoById = async (req, res) => {
-  try {
-    const sim = await prisma.simulacao.findUnique({
-      where: { id: Number(req.params.id) },
-      include: {
-        cliente: {
-          select: {
-            id: true,
-            nome: true,
-            email: true
-          }
-        }
+    let totalConsumo = 0;
+    let totalCusto = 0;
+
+    // Criar simulação inicial
+    const simulacao = await prisma.simulacao.create({
+      data: {
+        nomeSimulacao,
+        data: new Date(),
+        consumo: 0,
+        custo: 0,
+        clienteId: userId
       }
     });
-    if (!sim) return res.status(404).json({ message: "Simulação não encontrada" });
-    res.json(sim);
-  } catch (error) {
-    console.error('Erro ao buscar simulação:', error);
-    res.status(500).json({ message: "Erro interno do servidor" });
-  }
-};
 
-export const createSimulacao = async (req, res) => {
-  try {
-    const { nomeSimulacao, data, consumo, tarifa, custo, clienteId } = req.body;
-    
-    if (!nomeSimulacao || !data || !consumo || !tarifa || !custo || !clienteId) {
-      return res.status(400).json({ 
-        message: "Todos os campos são obrigatórios: nomeSimulacao, data, consumo, tarifa, custo, clienteId" 
+    // Calcular consumo/custo por cômodo
+    for (const comodo of comodos) {
+      let consumoComodo = 0;
+
+      for (const ec of comodo.eletros) {
+        const { potencia, horasDia, diasMes } = ec.eletro;
+        consumoComodo += (potencia / 1000) * horasDia * diasMes;
+      }
+
+      const custoComodo = consumoComodo * tarifa;
+      totalConsumo += consumoComodo;
+      totalCusto += custoComodo;
+
+      await prisma.simulacaoComodo.create({
+        data: {
+          simulacaoId: simulacao.id,
+          comodoId: comodo.id,
+          consumo: consumoComodo,
+          custo: custoComodo
+        }
       });
     }
 
-    // Verificar se o cliente existe
-    const cliente = await prisma.cliente.findUnique({
-      where: { id: Number(clienteId) }
+    const simulacaoFinal = await prisma.simulacao.update({
+      where: { id: simulacao.id },
+      data: { consumo: totalConsumo, custo: totalCusto },
+      include: { comodos: true }
     });
-    if (!cliente) {
-      return res.status(404).json({ message: "Cliente não encontrado" });
-    }
 
-    const nova = await prisma.simulacao.create({
-      data: { 
-        nomeSimulacao, 
-        data: new Date(data), 
-        consumo: Number(consumo), 
-        tarifa: Number(tarifa), 
-        custo: Number(custo),
-        clienteId: Number(clienteId)
-      }
-    });
-    res.status(201).json(nova);
-  } catch (error) {
-    console.error('Erro ao criar simulação:', error);
-    res.status(500).json({ message: "Erro interno do servidor" });
-  }
-};
-
-export const updateSimulacao = async (req, res) => {
-  try {
-    const { nomeSimulacao, data, consumo, tarifa, custo, clienteId } = req.body;
-    const id = Number(req.params.id);
-
-    // Verificar se a simulação existe
-    const simExistente = await prisma.simulacao.findUnique({
-      where: { id }
-    });
-    if (!simExistente) {
-      return res.status(404).json({ message: "Simulação não encontrada" });
-    }
-
-    // Se clienteId for fornecido, verificar se existe
-    if (clienteId) {
-      const cliente = await prisma.cliente.findUnique({
-        where: { id: Number(clienteId) }
-      });
-      if (!cliente) {
-        return res.status(404).json({ message: "Cliente não encontrado" });
-      }
-    }
-
-    const atualizada = await prisma.simulacao.update({
-      where: { id },
-      data: { 
-        nomeSimulacao: nomeSimulacao || simExistente.nomeSimulacao,
-        data: data ? new Date(data) : simExistente.data,
-        consumo: consumo ? Number(consumo) : simExistente.consumo,
-        tarifa: tarifa ? Number(tarifa) : simExistente.tarifa,
-        custo: custo ? Number(custo) : simExistente.custo,
-        clienteId: clienteId ? Number(clienteId) : simExistente.clienteId
-      }
-    });
-    res.json(atualizada);
-  } catch (error) {
-    console.error('Erro ao atualizar simulação:', error);
-    res.status(500).json({ message: "Erro interno do servidor" });
-  }
-};
-
-export const deleteSimulacao = async (req, res) => {
-  try {
-    const id = Number(req.params.id);
-    
-    // Verificar se existe
-    const simExistente = await prisma.simulacao.findUnique({
-      where: { id }
-    });
-    if (!simExistente) {
-      return res.status(404).json({ message: "Simulação não encontrada" });
-    }
-
-    await prisma.simulacao.delete({ where: { id } });
-    res.json({ message: "Simulação removida com sucesso" });
-  } catch (error) {
-    console.error('Erro ao deletar simulação:', error);
-    res.status(500).json({ message: "Erro interno do servidor" });
+    res.json(simulacaoFinal);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Erro ao gerar simulação" });
   }
 };

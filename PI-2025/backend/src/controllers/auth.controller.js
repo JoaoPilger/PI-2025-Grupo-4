@@ -53,6 +53,13 @@ export const logOut = async (req, res) => {
   });
 };
 
+export const loginVerify = async (req, res) => {
+  if (req.session.user) { 
+    return res.json({ loggedIn: true, user: req.session.user });
+  }
+  return res.json({ loggedIn: false });
+};
+
 function createSession(req, res, user) {
   // Criar a sessão do usuário
   req.session.user = {

@@ -32,8 +32,9 @@ model Comodo {
   nomeComodo String
   clienteId  Int
 
-  cliente     Cliente         @relation(fields: [clienteId], references: [id])
+  cliente     Cliente           @relation(fields: [clienteId], references: [id])
   eletros     EletroComodo[]
+  simulacoes  SimulacaoComodo[]
 }
 
 model Eletrodomestico {
@@ -56,14 +57,24 @@ model EletroComodo {
 }
 
 model Simulacao {
-  id           Int       @id @default(autoincrement())
+  id            Int                @id @default(autoincrement())
   nomeSimulacao String
-  data         DateTime
-  consumo      Float     // total de kWh consumidos no mês
-  custo        Float     // consumo * tarifa da distribuidora
-  clienteId    Int
+  data          DateTime
+  consumo       Float?              // total de kWh consumidos no mês
+  custo         Float?              // consumo * tarifa da distribuidora
+  clienteId     Int
 
-  cliente      Cliente   @relation(fields: [clienteId], references: [id])
+  cliente       Cliente            @relation(fields: [clienteId], references: [id])
+  comodos       SimulacaoComodo[]
+}
+
+model SimulacaoComodo {
+  id           Int        @id @default(autoincrement())
+  simulacaoId  Int
+  comodoId     Int
+
+  simulacao    Simulacao  @relation(fields: [simulacaoId], references: [id])
+  comodo       Comodo     @relation(fields: [comodoId], references: [id])
 }
 
 model Session {

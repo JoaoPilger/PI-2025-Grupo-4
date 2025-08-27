@@ -31,6 +31,9 @@
     gap: 12px;
     order: 1;
 }
+.logo-section:hover{
+    cursor: pointer;
+}
 
 .logo-img {
     width: 100px;

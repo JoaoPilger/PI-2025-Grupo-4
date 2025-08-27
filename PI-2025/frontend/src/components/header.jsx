@@ -57,9 +57,9 @@ function Header({ paginaAtual, setPaginaAtual }) {
     return (
         <header className="header">
             <div className="header-container">
-                <div className="logo-section">
+                <a href='/' className="logo-section">
                     <img src="/imagens/neo_volt (1).png" alt="NeoVolt" className="logo-img" />
-                </div>
+                </a>
                 
                 <nav 
                     ref={menuRef}
@@ -68,7 +68,7 @@ function Header({ paginaAtual, setPaginaAtual }) {
                     aria-label="Menu de navegação principal"
                 >
                     <a 
-                        href="#simulador" 
+                        href="/#simulador" 
                         className='nav-link' 
                         onClick={() => setIsMenuOpen(false)}
                         aria-label="Ir para simulador"
@@ -76,7 +76,7 @@ function Header({ paginaAtual, setPaginaAtual }) {
                         Simulador
                     </a>
                     <a 
-                        href="#duvidas" 
+                        href="/#duvidas" 
                         className='nav-link' 
                         onClick={() => setIsMenuOpen(false)}
                         aria-label="Ir para dúvidas"

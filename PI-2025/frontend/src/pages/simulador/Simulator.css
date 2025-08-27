@@ -13,18 +13,28 @@
   text-align: center;
   border: 2px solid black;
   width: 420px;
-  min-height: 450px;
+  display: flex;
+  flex-direction: column;
 }
 
 .sim-card h1 {
   margin-bottom: 2rem;
+  font-family: 'Limelight', cursive;
 }
 
-.sim-card select, .sim-card button {
+.sim-card input, .sim-card button {
   display: block;
   width: 100%;
   margin: 1rem auto;
   padding: 0.8rem;
   border-radius: 20px;
   border: 1px solid black;
+  transition: 0.5s ease;
+}
+
+.sim-card button:hover {
+  background: rgba(0, 0, 0, 0.2);
+  font-weight: bold;
+  cursor: pointer;
+  transform: scale(1.05); 
 }
