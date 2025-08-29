@@ -1,4 +1,6 @@
 import { useState, useCallback } from "react";
+import { useNavigate } from "react-router-dom";
+import { useAuth } from "../../hooks/useAuth.js";
 import axios from "axios";
 import styles from "./cadastroelogin.module.css";
 
@@ -11,42 +13,15 @@ const Login = () => {
   const [lembrarLogin, setLembrarLogin] = useState(false);
   const [errors, setErrors] = useState({});
   const [successMessage, setSuccessMessage] = useState("");
-
-  const validateField = (name, value) => {
-    const newErrors = { ...errors };
-    
-    switch (name) {
-      case "email":
-        if (!value.trim()) {
-          newErrors.email = "Email é obrigatório";
-        } else if (!/\S+@\S+\.\S+/.test(value)) {
-          newErrors.email = "Email inválido";
-        } else {
-          delete newErrors.email;
-        }
-        break;
-      case "senha":
-        if (!value) {
-          newErrors.senha = "Senha é obrigatória";
-        } else if (value.length < 6) {
-          newErrors.senha = "Senha deve ter pelo menos 6 caracteres";
-        } else {
-          delete newErrors.senha;
-        }
-        break;
-      default:
-        break;
-    }
-    
-    setErrors(newErrors);
-  };
+  
+  const navigate = useNavigate();
+  const { login } = useAuth();
 
   const handleChange = useCallback((e) => {
     const { name, value } = e.target;
     setFormData(prev => ({ ...prev, [name]: value }));
-    validateField(name, value);
     setSuccessMessage(""); // Limpa mensagem de sucesso quando usuário digita
-  }, [errors]);
+  }, []);
 
   const handleCheckbox = useCallback((e) => {
     setLembrarLogin(e.target.checked);
@@ -54,6 +29,35 @@ const Login = () => {
 
   const handleSubmit = useCallback(async (e) => {
     e.preventDefault();
+    
+    const validateField = (name, value) => {
+      const newErrors = { ...errors };
+      
+      switch (name) {
+        case "email":
+          if (!value.trim()) {
+            newErrors.email = "Email é obrigatório";
+          } else if (!/\S+@\S+\.\S+/.test(value)) {
+            newErrors.email = "Email inválido";
+          } else {
+            delete newErrors.email;
+          }
+          break;
+        case "senha":
+          if (!value) {
+            newErrors.senha = "Senha é obrigatória";
+          } else if (value.length < 6) {
+            newErrors.senha = "Senha deve ter pelo menos 6 caracteres";
+          } else {
+            delete newErrors.senha;
+          }
+          break;
+        default:
+          break;
+      }
+      
+      setErrors(newErrors);
+    };
     
     // Validação final antes do envio
     validateField("email", formData.email);
@@ -78,6 +82,16 @@ const Login = () => {
         console.log("Login realizado:", response.data);
         setSuccessMessage("Login efetuado com sucesso!");
         setErrors({});
+        
+        // Usar o contexto de autenticação para fazer login
+        if (response.data.user && response.data.token) {
+          login(response.data.user, response.data.token);
+          
+          // Redirecionar para a página inicial após um breve delay
+          setTimeout(() => {
+            navigate('/');
+          }, 1000);
+        }
       })
       .catch(error => {
         console.error("Erro no login:", error);
@@ -87,7 +101,7 @@ const Login = () => {
         setLoading(false);
       });
     }, 0);
-  }, [formData]);
+  }, [formData, errors, login, navigate]);
 
   return (
     <div className={styles["login-page"]}>

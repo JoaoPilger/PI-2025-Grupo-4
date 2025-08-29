@@ -1,18 +1,28 @@
 import { useState, useEffect, useRef } from 'react';
+import { useAuth } from '../hooks/useAuth.js';
 import './header.css';
 
-function Header({ paginaAtual, setPaginaAtual }) {
+function Header() {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
+    const [isUserDropdownOpen, setIsUserDropdownOpen] = useState(false);
     const menuRef = useRef(null);
     const hamburgerRef = useRef(null);
-
-    const navegarPara = (pagina) => {
-        setPaginaAtual(pagina);
-        setIsMenuOpen(false); // Fecha o menu ao navegar
-    };
+    const userDropdownRef = useRef(null);
+    const { isAuthenticated, user, logout } = useAuth();
 
     const toggleMenu = () => {
         setIsMenuOpen(!isMenuOpen);
+    };
+
+    const toggleUserDropdown = () => {
+        setIsUserDropdownOpen(!isUserDropdownOpen);
+    };
+
+    const handleLogout = () => {
+        logout();
+        setIsUserDropdownOpen(false);
+        // Redirecionar para a página inicial após logout
+        window.location.href = '/';
     };
 
     // Fechar menu ao clicar fora
@@ -22,16 +32,21 @@ function Header({ paginaAtual, setPaginaAtual }) {
                 hamburgerRef.current && !hamburgerRef.current.contains(event.target)) {
                 setIsMenuOpen(false);
             }
+            
+            if (userDropdownRef.current && !userDropdownRef.current.contains(event.target)) {
+                setIsUserDropdownOpen(false);
+            }
         };
 
         // Fechar menu ao pressionar ESC
         const handleEscape = (event) => {
             if (event.key === 'Escape') {
                 setIsMenuOpen(false);
+                setIsUserDropdownOpen(false);
             }
         };
 
-        if (isMenuOpen) {
+        if (isMenuOpen || isUserDropdownOpen) {
             document.addEventListener('mousedown', handleClickOutside);
             document.addEventListener('keydown', handleEscape);
         }
@@ -40,7 +55,7 @@ function Header({ paginaAtual, setPaginaAtual }) {
             document.removeEventListener('mousedown', handleClickOutside);
             document.removeEventListener('keydown', handleEscape);
         };
-    }, [isMenuOpen]);
+    }, [isMenuOpen, isUserDropdownOpen]);
 
     // Fechar menu ao redimensionar a tela
     useEffect(() => {
@@ -107,9 +122,42 @@ function Header({ paginaAtual, setPaginaAtual }) {
                     <span></span>
                 </button>
                 
-                <a href="/login" className="user-section" aria-label="Ir para login">
-                    <img src="/imagens/user.svg" alt="Usuário" className="user-avatar" />
-                </a>
+                {/* Seção do usuário com dropdown */}
+                <div className="user-section" ref={userDropdownRef}>
+                    {isAuthenticated ? (
+                        <>
+                            <button 
+                                className="user-avatar-button"
+                                onClick={toggleUserDropdown}
+                                aria-label="Menu do usuário"
+                                aria-expanded={isUserDropdownOpen}
+                            >
+                                <img src="/imagens/user.svg" alt="Usuário" className="user-avatar" />
+                            </button>
+                            
+                            {isUserDropdownOpen && (
+                                <div className="user-dropdown">
+                                    <div className="user-info">
+                                        <span className="user-name">{user?.nome || user?.email || 'Usuário'}</span>
+                                        <span className="user-email">{user?.email}</span>
+                                    </div>
+                                    <div className="dropdown-divider"></div>
+                                    <button 
+                                        className="dropdown-item logout-button"
+                                        onClick={handleLogout}
+                                    >
+                                        <span className="logout-icon">🚪</span>
+                                        Sair
+                                    </button>
+                                </div>
+                            )}
+                        </>
+                    ) : (
+                        <a href="/login" className="user-avatar-link" aria-label="Ir para login">
+                            <img src="/imagens/user.svg" alt="Usuário" className="user-avatar" />
+                        </a>
+                    )}
+                </div>
             </div>
         </header>
     );
