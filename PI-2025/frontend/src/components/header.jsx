@@ -8,13 +8,7 @@ function Header() {
     const menuRef = useRef(null);
     const hamburgerRef = useRef(null);
     const userDropdownRef = useRef(null);
-    const { isAuthenticated, user, logout } = useAuth();
-
-    // Log para debug
-    console.log('Header - Estado de autenticação:', { isAuthenticated, user });
-
-    // Estado temporário para teste - remover depois
-    const [testAuth, setTestAuth] = useState(false);
+    const { isAuthenticated, user, logout, loading } = useAuth();
 
     const toggleMenu = () => {
         setIsMenuOpen(!isMenuOpen);
@@ -24,18 +18,18 @@ function Header() {
         setIsUserDropdownOpen(!isUserDropdownOpen);
     };
 
-    const handleLogout = () => {
-        logout();
-        setIsUserDropdownOpen(false);
-        // Redirecionar para a página inicial após logout
-        window.location.href = '/';
-    };
-
-    // Função temporária para testar o logout
-    const handleTestLogout = () => {
-        setTestAuth(false);
-        setIsUserDropdownOpen(false);
-        console.log('Teste de logout realizado');
+    const handleLogout = async () => {
+        try {
+            await logout();
+            setIsUserDropdownOpen(false);
+            // Redirecionar para a página inicial após logout
+            window.location.href = '/';
+        } catch (error) {
+            console.error('Erro ao fazer logout:', error);
+            // Mesmo com erro, fechar dropdown e redirecionar
+            setIsUserDropdownOpen(false);
+            window.location.href = '/';
+        }
     };
 
     // Fechar menu ao clicar fora
@@ -82,8 +76,21 @@ function Header() {
         return () => window.removeEventListener('resize', handleResize);
     }, []);
 
-    // Estado final de autenticação (combinando contexto + teste)
-    const finalAuthState = isAuthenticated || testAuth;
+    // Se ainda está carregando, mostrar loading
+    if (loading) {
+        return (
+            <header className="header">
+                <div className="header-container">
+                    <a href='/' className="logo-section">
+                        <img src="/imagens/neo_volt (1).png" alt="NeoVolt" className="logo-img" />
+                    </a>
+                    <div className="loading-spinner">
+                        <div className="spinner"></div>
+                    </div>
+                </div>
+            </header>
+        );
+    }
 
     return (
         <header className="header">
@@ -140,7 +147,7 @@ function Header() {
                 
                 {/* Seção do usuário com dropdown */}
                 <div className="user-section" ref={userDropdownRef}>
-                    {finalAuthState ? (
+                    {isAuthenticated && user ? (
                         <>
                             <button 
                                 className="user-avatar-button"
@@ -149,50 +156,47 @@ function Header() {
                                 aria-expanded={isUserDropdownOpen}
                             >
                                 <img src="/imagens/user.svg" alt="Usuário" className="user-avatar" />
+                                <div className="user-status-indicator"></div>
                             </button>
                             
                             {isUserDropdownOpen && (
                                 <div className="user-dropdown">
                                     <div className="user-info">
-                                        <span className="user-name">{user?.nome || user?.email || 'Usuário Teste'}</span>
-                                        <span className="user-email">{user?.email || 'teste@exemplo.com'}</span>
+                                        <div className="user-avatar-large">
+                                            <img src="/imagens/user.svg" alt="Usuário" className="user-avatar-dropdown" />
+                                        </div>
+                                        <div className="user-details">
+                                            <span className="user-name">{user.nome || 'Usuário'}</span>
+                                            <span className="user-email">{user.email}</span>
+                                        </div>
                                     </div>
                                     <div className="dropdown-divider"></div>
-                                    <button 
-                                        className="dropdown-item logout-button"
-                                        onClick={testAuth ? handleTestLogout : handleLogout}
-                                    >
-                                        <span className="logout-icon">🚪</span>
-                                        Sair
-                                    </button>
+                                    <div className="dropdown-actions">
+                                        <button 
+                                            className="dropdown-item profile-button"
+                                            onClick={() => {
+                                                setIsUserDropdownOpen(false);
+                                                // Aqui você pode adicionar navegação para perfil
+                                            }}
+                                        >
+                                            <span className="action-icon">👤</span>
+                                            Meu Perfil
+                                        </button>
+                                        <button 
+                                            className="dropdown-item logout-button"
+                                            onClick={handleLogout}
+                                        >
+                                            <span className="action-icon">🚪</span>
+                                            Sair
+                                        </button>
+                                    </div>
                                 </div>
                             )}
                         </>
                     ) : (
-                        <div className="user-avatar-container">
-                            <a href="/login" className="user-avatar-link" aria-label="Ir para login">
-                                <img src="/imagens/user.svg" alt="Usuário" className="user-avatar" />
-                            </a>
-                            {/* Botão temporário para testar */}
-                            <button 
-                                className="test-login-btn"
-                                onClick={() => setTestAuth(true)}
-                                style={{
-                                    position: 'absolute',
-                                    top: '50px',
-                                    right: '0',
-                                    background: '#4CAF50',
-                                    color: 'white',
-                                    border: 'none',
-                                    padding: '5px 10px',
-                                    borderRadius: '4px',
-                                    fontSize: '12px',
-                                    cursor: 'pointer'
-                                }}
-                            >
-                                Testar Login
-                            </button>
-                        </div>
+                        <a href="/login" className="user-avatar-link" aria-label="Ir para login">
+                            <img src="/imagens/user.svg" alt="Usuário" className="user-avatar" />
+                        </a>
                     )}
                 </div>
             </div>

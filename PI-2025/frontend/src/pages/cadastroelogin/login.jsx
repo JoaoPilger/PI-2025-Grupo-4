@@ -30,78 +30,41 @@ const Login = () => {
   const handleSubmit = useCallback(async (e) => {
     e.preventDefault();
     
-    const validateField = (name, value) => {
-      const newErrors = { ...errors };
-      
-      switch (name) {
-        case "email":
-          if (!value.trim()) {
-            newErrors.email = "Email é obrigatório";
-          } else if (!/\S+@\S+\.\S+/.test(value)) {
-            newErrors.email = "Email inválido";
-          } else {
-            delete newErrors.email;
-          }
-          break;
-        case "senha":
-          if (!value) {
-            newErrors.senha = "Senha é obrigatória";
-          } else if (value.length < 6) {
-            newErrors.senha = "Senha deve ter pelo menos 6 caracteres";
-          } else {
-            delete newErrors.senha;
-          }
-          break;
-        default:
-          break;
-      }
-      
-      setErrors(newErrors);
-    };
-    
-    // Validação final antes do envio
-    validateField("email", formData.email);
-    validateField("senha", formData.senha);
-    
-    // Aguarda um tick para que os erros sejam atualizados
-    setTimeout(() => {
-      if (Object.keys(errors).length > 0) {
-        return;
-      }
-      
-      setLoading(true);
-      setSuccessMessage("");
+    setLoading(true);
+    setSuccessMessage("");
+    setErrors({});
 
-      axios.post("http://localhost:3000/auth/login", {
+    try {
+      const response = await axios.post("http://localhost:3000/auth/login", {
         email: formData.email.trim(),
         senha: formData.senha,
       }, {
         withCredentials: true
-      })
-      .then(response => {
-        console.log("Login realizado:", response.data);
-        setSuccessMessage("Login efetuado com sucesso!");
-        setErrors({});
-        
-        // Usar o contexto de autenticação para fazer login
-        if (response.data.user && response.data.token) {
-          login(response.data.user, response.data.token);
-          
-          // Redirecionar para a página inicial após um breve delay
-          setTimeout(() => {
-            navigate('/');
-          }, 1000);
-        }
-      })
-      .catch(error => {
-        console.error("Erro no login:", error);
-        setErrors({ submit: "Usuário ou senha inválidos." });
-      })
-      .finally(() => {
-        setLoading(false);
       });
-    }, 0);
-  }, [formData, errors, login, navigate]);
+
+      console.log("Login realizado:", response.data);
+      setSuccessMessage("Login efetuado com sucesso!");
+      
+      // Usar o contexto de autenticação para fazer login
+      if (response.data.user) {
+        await login(response.data.user);
+        
+        // Redirecionar para a página inicial após um breve delay
+        setTimeout(() => {
+          navigate('/');
+        }, 1000);
+      }
+    } catch (error) {
+      console.error("Erro no login:", error);
+      if (error.response?.data?.error) {
+        setErrors({ submit: error.response.data.error });
+      } else {
+        setErrors({ submit: "Erro ao fazer login. Tente novamente." });
+      }
+    } finally {
+      setLoading(false);
+    }
+  }, [formData, login, navigate]);
 
   return (
     <div className={styles["login-page"]}>
