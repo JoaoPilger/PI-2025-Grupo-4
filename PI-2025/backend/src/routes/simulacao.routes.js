@@ -11,6 +11,6 @@ function authMiddleware(req, res, next) {
   next();
 }
 
-router.post("/simulacao", authMiddleware, criarSimulacao);
+router.post("/", authMiddleware, criarSimulacao);
 
 export default router;

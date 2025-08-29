@@ -1,25 +1,26 @@
 import { PrismaClient } from "@prisma/client";
+
 const prisma = new PrismaClient();
 
 export const criarSimulacao = async (req, res) => {
   try {
-    // Pega o id do usuário logado da sessão
     const userId = req.session.user.id;
-
     const { nomeSimulacao, tarifa } = req.body;
 
-    // Buscar cômodos do usuário
+    // Buscar cômodos do usuário com eletros
     const comodos = await prisma.comodo.findMany({
       where: { clienteId: userId },
       include: {
-        eletros: { include: { eletro: true } }
+        eletros: {
+          include: { eletrodomestico: true }
+        }
       }
     });
 
     let totalConsumo = 0;
     let totalCusto = 0;
 
-    // Criar simulação inicial
+    // Criar simulação inicial com 0
     const simulacao = await prisma.simulacao.create({
       data: {
         nomeSimulacao,
@@ -30,33 +31,41 @@ export const criarSimulacao = async (req, res) => {
       }
     });
 
-    // Calcular consumo/custo por cômodo
-    for (const comodo of comodos) {
-      let consumoComodo = 0;
+    // Criar registros SimulacaoComodo e calcular totais em paralelo
+    await Promise.all(
+      comodos.map(async (comodo) => {
+        let consumoComodo = 0;
 
-      for (const ec of comodo.eletros) {
-        const { potencia, horasDia, diasMes } = ec.eletro;
-        consumoComodo += (potencia / 1000) * horasDia * diasMes;
-      }
+        for (const ec of comodo.eletros) {
+          const potencia = Number(ec.potencia || 0);
+          const horasUsoDia = Number(ec.horasUsoDia || 0);
+          const diasMes = 30;
+          const quantidade = ec.quantidade || 1;
 
-      const custoComodo = consumoComodo * tarifa;
-      totalConsumo += consumoComodo;
-      totalCusto += custoComodo;
-
-      await prisma.simulacaoComodo.create({
-        data: {
-          simulacaoId: simulacao.id,
-          comodoId: comodo.id,
-          consumo: consumoComodo,
-          custo: custoComodo
+          consumoComodo += (potencia / 1000) * horasUsoDia * diasMes * quantidade;
         }
-      });
-    }
 
+        const custoComodo = consumoComodo * Number(tarifa);
+        totalConsumo += consumoComodo;
+        totalCusto += custoComodo;
+
+        return prisma.simulacaoComodo.create({
+          data: {
+            simulacaoId: simulacao.id,
+            comodoId: comodo.id
+          }
+        });
+      })
+    );
+
+    // Atualizar simulação com consumo e custo total
     const simulacaoFinal = await prisma.simulacao.update({
       where: { id: simulacao.id },
       data: { consumo: totalConsumo, custo: totalCusto },
-      include: { comodos: true }
+      include: {
+        cliente: true,
+        simulacoesComodos: { include: { comodo: true } }
+      }
     });
 
     res.json(simulacaoFinal);

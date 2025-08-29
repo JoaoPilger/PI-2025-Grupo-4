@@ -2,6 +2,7 @@ import './Simulator.css'
 import axios from 'axios'
 import { useState } from 'react'
 
+
 export default function Simulator() {
   const [form, setForm] = useState({
     nomeSimulacao: "",
@@ -12,17 +13,41 @@ export default function Simulator() {
         setForm({ ...form, [e.target.name]: e.target.value });
   }
 
-  function handleSubmit(e) {
-    e.preventDefault();
-    try {
-      const response = axios.post('http://localhost:3000/simulacoes', form, {
-        withCredentials: true,
-      })
-    } catch (error) {
-      console.error("Erro ao enviar o formulário:", error);
-    }
-    console.log("Enviado:", form);
+  let canSubmit = true; // controle global ou do componente
+
+async function handleSubmit(e) {
+  e.preventDefault();
+
+  if (!canSubmit) {
+    console.log("Aguarde 5 segundos antes de enviar novamente.");
+    return;
   }
+
+  canSubmit = false; // bloqueia novas submissões
+
+  try {
+    const response = await axios.post('http://localhost:3000/simulacao', form, {
+      withCredentials: true,
+    });
+    console.log("Resposta do servidor:", response.data);
+    window.location.href = "/meuscomodos"
+
+  } catch (error) {
+    console.error("Erro ao enviar o formulário:", error);
+    if (error.response && error.response.status === 401) {
+      window.location.href = "/login"
+      
+    }
+  }
+
+  console.log("Enviado:", form);
+
+  // libera o envio após 5 segundos
+  setTimeout(() => {
+    canSubmit = true;
+  }, 5000);
+}
+
   return (
     <>
       <div className="sim-container" id='simulador'>

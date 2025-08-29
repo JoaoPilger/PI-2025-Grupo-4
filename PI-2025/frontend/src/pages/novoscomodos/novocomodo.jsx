@@ -183,42 +183,6 @@ function EletroForm({ eletro, onSave, onCancel }) {
 function NovoComodo() {
   const [searchParams] = useSearchParams();
   const comodoId = searchParams.get('id');
-  const aparelhos = [
-    { nome: "Geladeira", img: "/imagens/refrigerator.png", consumo: 30, custo: 15, tarifa: 0.5 },
-    { nome: "Freezer", img: "/imagens/mode_cool.png", consumo: 25, custo: 12, tarifa: 0.48 },
-    { nome: "Micro-ondas", img: "/imagens/microwave.png", consumo: 10, custo: 5, tarifa: 0.5 },
-    { nome: "Forno Elétrico", img: "/imagens/oven.png", consumo: 20, custo: 10, tarifa: 0.5 },
-    { nome: "Panela Elétrica", img: "/imagens/stockpot.png", consumo: 8, custo: 4, tarifa: 0.5 },
-    { nome: "Airfryer", img: "/imagens/multicooker.png", consumo: 12, custo: 6, tarifa: 0.5 },
-    { nome: "Liquidificador", img: "/imagens/blender.png", consumo: 2, custo: 1, tarifa: 0.5 },
-    { nome: "Batedeira", img: "/imagens/mixer-icon.png", consumo: 1, custo: 0.5, tarifa: 0.5 },
-    { nome: "Torradeira", img: "/imagens/toaster.png", consumo: 3, custo: 1.5, tarifa: 0.5 },
-    { nome: "Cafeteira", img: "/imagens/coffee.png", consumo: 2, custo: 1, tarifa: 0.5 },
-    { nome: "Exaustor", img: "/imagens/range_hood.png", consumo: 5, custo: 2.5, tarifa: 0.5 },
-    { nome: "Lava Louças", img: "/imagens/dishwasher.png", consumo: 18, custo: 9, tarifa: 0.5 },
-    { nome: "Lava Roupas", img: "/imagens/laundry.png", consumo: 22, custo: 11, tarifa: 0.5 },
-    { nome: "Secadora de Roupas", img: "/imagens/laundry.png", consumo: 20, custo: 10, tarifa: 0.5 },
-    { nome: "Ferro de Passar", img: "/imagens/iron.png", consumo: 6, custo: 3, tarifa: 0.5 },
-    { nome: "Aspirador de Pó", img: "/imagens/vacuum.png", consumo: 4, custo: 2, tarifa: 0.5 },
-    { nome: "Robô Aspirador", img: "/imagens/robot.png", consumo: 3, custo: 1.5, tarifa: 0.5 },
-    { nome: "Ventilador", img: "/imagens/fan.png", consumo: 7, custo: 3.5, tarifa: 0.5 },
-    { nome: "Ar Condicionado", img: "/imagens/climate.png", consumo: 40, custo: 20, tarifa: 0.5 },
-    { nome: "Aquecedor Elétrico", img: "/imagens/heat_pump.png", consumo: 15, custo: 7.5, tarifa: 0.5 },
-    { nome: "Televisão", img: "/imagens/tv.png", consumo: 5, custo: 2.5, tarifa: 0.5 },
-    { nome: "Videogame", img: "/imagens/videogame.png", consumo: 3, custo: 1.5, tarifa: 0.5 },
-    { nome: "Computador", img: "/imagens/desktop.png", consumo: 8, custo: 4, tarifa: 0.5 },
-    { nome: "Notebook", img: "/imagens/laptop.png", consumo: 4, custo: 2, tarifa: 0.5 },
-    { nome: "Impressora", img: "/imagens/printer.png", consumo: 2, custo: 1, tarifa: 0.5 },
-    { nome: "Modem / Roteador", img: "/imagens/router.png", consumo: 1, custo: 0.5, tarifa: 0.5 },
-    { nome: "Chuveiro Elétrico", img: "/imagens/shower.png", consumo: 35, custo: 17.5, tarifa: 0.5 },
-    { nome: "Secador de Cabelo", img: "/imagens/air.png", consumo: 5, custo: 2.5, tarifa: 0.5 },
-    { nome: "Barbeador Elétrico", img: "/imagens/shaver.png", consumo: 1, custo: 0.5, tarifa: 0.5 },
-    { nome: "Escova Secadora", img: "/imagens/heat.png", consumo: 2, custo: 1, tarifa: 0.5 },
-    { nome: "Aparelho de Som", img: "/imagens/speaker.png", consumo: 3, custo: 1.5, tarifa: 0.5 },
-    { nome: "Relógio Despertador", img: "/imagens/alarm.png", consumo: 0.5, custo: 0.25, tarifa: 0.5 },
-    { nome: "Lâmpada LED", img: "/imagens/lightbulb.png", consumo: 0.2, custo: 0.1, tarifa: 0.5 },
-    { nome: "Luminária Elétrica", img: "/imagens/floor_lamp.png", consumo: 0.5, custo: 0.25, tarifa: 0.5 }
-  ];
 
   const [selecionados, setSelecionados] = useState([]);
   const [modalAberto, setModalAberto] = useState(false);
