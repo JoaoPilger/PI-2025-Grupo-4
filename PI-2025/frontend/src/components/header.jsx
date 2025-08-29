@@ -10,6 +10,12 @@ function Header() {
     const userDropdownRef = useRef(null);
     const { isAuthenticated, user, logout } = useAuth();
 
+    // Log para debug
+    console.log('Header - Estado de autenticação:', { isAuthenticated, user });
+
+    // Estado temporário para teste - remover depois
+    const [testAuth, setTestAuth] = useState(false);
+
     const toggleMenu = () => {
         setIsMenuOpen(!isMenuOpen);
     };
@@ -23,6 +29,13 @@ function Header() {
         setIsUserDropdownOpen(false);
         // Redirecionar para a página inicial após logout
         window.location.href = '/';
+    };
+
+    // Função temporária para testar o logout
+    const handleTestLogout = () => {
+        setTestAuth(false);
+        setIsUserDropdownOpen(false);
+        console.log('Teste de logout realizado');
     };
 
     // Fechar menu ao clicar fora
@@ -68,6 +81,9 @@ function Header() {
         window.addEventListener('resize', handleResize);
         return () => window.removeEventListener('resize', handleResize);
     }, []);
+
+    // Estado final de autenticação (combinando contexto + teste)
+    const finalAuthState = isAuthenticated || testAuth;
 
     return (
         <header className="header">
@@ -124,7 +140,7 @@ function Header() {
                 
                 {/* Seção do usuário com dropdown */}
                 <div className="user-section" ref={userDropdownRef}>
-                    {isAuthenticated ? (
+                    {finalAuthState ? (
                         <>
                             <button 
                                 className="user-avatar-button"
@@ -138,13 +154,13 @@ function Header() {
                             {isUserDropdownOpen && (
                                 <div className="user-dropdown">
                                     <div className="user-info">
-                                        <span className="user-name">{user?.nome || user?.email || 'Usuário'}</span>
-                                        <span className="user-email">{user?.email}</span>
+                                        <span className="user-name">{user?.nome || user?.email || 'Usuário Teste'}</span>
+                                        <span className="user-email">{user?.email || 'teste@exemplo.com'}</span>
                                     </div>
                                     <div className="dropdown-divider"></div>
                                     <button 
                                         className="dropdown-item logout-button"
-                                        onClick={handleLogout}
+                                        onClick={testAuth ? handleTestLogout : handleLogout}
                                     >
                                         <span className="logout-icon">🚪</span>
                                         Sair
@@ -153,9 +169,30 @@ function Header() {
                             )}
                         </>
                     ) : (
-                        <a href="/login" className="user-avatar-link" aria-label="Ir para login">
-                            <img src="/imagens/user.svg" alt="Usuário" className="user-avatar" />
-                        </a>
+                        <div className="user-avatar-container">
+                            <a href="/login" className="user-avatar-link" aria-label="Ir para login">
+                                <img src="/imagens/user.svg" alt="Usuário" className="user-avatar" />
+                            </a>
+                            {/* Botão temporário para testar */}
+                            <button 
+                                className="test-login-btn"
+                                onClick={() => setTestAuth(true)}
+                                style={{
+                                    position: 'absolute',
+                                    top: '50px',
+                                    right: '0',
+                                    background: '#4CAF50',
+                                    color: 'white',
+                                    border: 'none',
+                                    padding: '5px 10px',
+                                    borderRadius: '4px',
+                                    fontSize: '12px',
+                                    cursor: 'pointer'
+                                }}
+                            >
+                                Testar Login
+                            </button>
+                        </div>
                     )}
                 </div>
             </div>

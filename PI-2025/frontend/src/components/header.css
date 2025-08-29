@@ -144,6 +144,12 @@
     position: relative;
 }
 
+.user-avatar-container {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
 .user-avatar {
     width: 40px;
     height: 40px;
@@ -177,6 +183,26 @@
 
 .user-avatar-link:hover .user-avatar {
     transform: scale(1.1);
+}
+
+.test-login-btn {
+    position: absolute;
+    top: 50px;
+    right: 0;
+    background: #4CAF50;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 4px;
+    font-size: 12px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    z-index: 1003;
+}
+
+.test-login-btn:hover {
+    background: #45a049;
+    transform: scale(1.05);
 }
 
 /* Dropdown do usuário */
