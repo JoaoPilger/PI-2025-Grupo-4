@@ -55,4 +55,62 @@ export const updateComodoNome = async (req, res) => {
   }
 };
 
+export const getComodosByCliente = async (req, res) => {
+  try {
+    const sessionUser = req.session?.user;
+    if (!sessionUser?.id) {
+      return res.status(401).json({ error: 'Não autenticado' });
+    }
+
+    const comodos = await prisma.comodo.findMany({
+      where: { clienteId: sessionUser.id },
+      include: {
+        eletros: {
+          include: {
+            eletrodomestico: true
+          }
+        }
+      },
+      orderBy: { id: 'desc' }
+    });
+
+    return res.json(comodos);
+  } catch (error) {
+    console.error('Erro ao buscar cômodos:', error);
+    return res.status(500).json({ error: 'Erro ao buscar cômodos' });
+  }
+};
+
+export const toggleComodoStatus = async (req, res) => {
+  try {
+    const sessionUser = req.session?.user;
+    if (!sessionUser?.id) {
+      return res.status(401).json({ error: 'Não autenticado' });
+    }
+
+    const comodoId = Number(req.params.id);
+    const { ativo } = req.body;
+
+    if (typeof ativo !== 'boolean') {
+      return res.status(400).json({ error: 'Campo ativo deve ser um boolean' });
+    }
+
+    // Garante que o cômodo pertence ao cliente logado
+    const existing = await prisma.comodo.findUnique({ where: { id: comodoId } });
+    if (!existing || existing.clienteId !== sessionUser.id) {
+      return res.status(404).json({ error: 'Cômodo não encontrado' });
+    }
+
+    const updated = await prisma.comodo.update({
+      where: { id: comodoId },
+      data: { ativo }
+    });
+
+    return res.json(updated);
+  } catch (error) {
+    console.error('Erro ao atualizar status do cômodo:', error);
+    return res.status(500).json({ error: 'Erro ao atualizar cômodo' });
+  }
+};
+
 

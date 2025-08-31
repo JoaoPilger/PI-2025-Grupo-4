@@ -328,7 +328,15 @@ function NovoComodo() {
         </div>
       </div>
 
-      <button className={styles["btn-finalizar"]}>FINALIZAR EDIÇÃO</button>
+      <button 
+        className={styles["btn-finalizar"]}
+        onClick={() => {
+          // Redireciona para meus cômodos após finalizar
+          window.location.href = "/meuscomodos";
+        }}
+      >
+        FINALIZAR EDIÇÃO
+      </button>
 
       {/* Modal para configurar eletrodoméstico */}
       {modalAberto && eletroSelecionado && (

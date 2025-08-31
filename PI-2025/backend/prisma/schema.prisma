@@ -31,6 +31,7 @@ model Comodo {
   id         Int    @id @default(autoincrement())
   nomeComodo String
   clienteId  Int
+  ativo      Boolean @default(true)
 
   cliente     Cliente           @relation(fields: [clienteId], references: [id])
   eletros     EletroComodo[]
