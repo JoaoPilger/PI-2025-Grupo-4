@@ -30,12 +30,18 @@ async function handleSubmit(e) {
       withCredentials: true,
     });
     console.log("Resposta do servidor:", response.data);
-    window.location.href = "/meuscomodos"
+    window.location.href = "/historico"
 
   } catch (error) {
     console.error("Erro ao enviar o formulário:", error);
     if (error.response && error.response.status === 401) {
+      alert(error.response.data.error);
       window.location.href = "/login"
+      
+    }
+    if (error.response && error.response.status === 400) {
+      alert(error.response.data.error);
+      window.location.href = "/meuscomodos";
       
     }
   }

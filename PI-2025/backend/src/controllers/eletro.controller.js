@@ -80,10 +80,27 @@ export const saveEletroDetails = async (req, res) => {
       quantidade: Number(quantidade),
       horasUsoDia: horasDia,
       potencia: Number(potencia),
-      comodoId: comodoId ? Number(comodoId) : null
+      comodoId: comodoId ? Number(comodoId) : null,
     });
   } catch (error) {
     console.error('Erro ao salvar detalhes do eletrodoméstico:', error);
+    res.status(500).json({ message: "Erro interno do servidor" });
+  }
+};
+
+export const updateEletroAtivo = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { ativo } = req.body;
+
+    const atualizado = await prisma.eletroComodo.update({
+      where: { id: Number(id) },
+      data: { ativo: Boolean(ativo) },
+    });
+
+    res.json(atualizado);
+  } catch (error) {
+    console.error('Erro ao atualizar o campo ativo:', error);
     res.status(500).json({ message: "Erro interno do servidor" });
   }
 };

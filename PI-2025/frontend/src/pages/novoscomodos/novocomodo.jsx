@@ -1,6 +1,42 @@
-import { useState } from 'react';
-import { useSearchParams } from 'react-router-dom';
+import { useState, useEffect } from 'react';
+import { useSearchParams, useNavigate } from 'react-router-dom';
 import styles from './novocomodo.module.css';
+
+// Array de aparelhos disponíveis
+const aparelhos = [
+  { nome: 'ar condicionado', img: '/imagens/air.png', consumo: 0, custo: 0, tarifa: 0 },
+  { nome: 'alarme', img: '/imagens/alarm.png', consumo: 0, custo: 0, tarifa: 0 },
+  { nome: 'blender', img: '/imagens/blender.png', consumo: 0, custo: 0, tarifa: 0 },
+  { nome: 'cafeteira', img: '/imagens/coffee.png', consumo: 0, custo: 0, tarifa: 0 },
+  { nome: 'computador', img: '/imagens/desktop.png', consumo: 0, custo: 0, tarifa: 0 },
+  { nome: 'lava louças', img: '/imagens/dishwasher.png', consumo: 0, custo: 0, tarifa: 0 },
+  { nome: 'ventilador', img: '/imagens/fan.png', consumo: 0, custo: 0, tarifa: 0 },
+  { nome: 'luminária', img: '/imagens/floor_lamp.png', consumo: 0, custo: 0, tarifa: 0 },
+  { nome: 'bomba de calor', img: '/imagens/heat_pump.png', consumo: 0, custo: 0, tarifa: 0 },
+  { nome: 'aquecedor', img: '/imagens/heat.png', consumo: 0, custo: 0, tarifa: 0 },
+  { nome: 'ferro de passar', img: '/imagens/iron.png', consumo: 0, custo: 0, tarifa: 0 },
+  { nome: 'laptop', img: '/imagens/laptop.png', consumo: 0, custo: 0, tarifa: 0 },
+  { nome: 'máquina de lavar', img: '/imagens/laundry.png', consumo: 0, custo: 0, tarifa: 0 },
+  { nome: 'lâmpada', img: '/imagens/lightbulb.png', consumo: 0, custo: 0, tarifa: 0 },
+  { nome: 'microondas', img: '/imagens/microwave.png', consumo: 0, custo: 0, tarifa: 0 },
+  { nome: 'liquidificador', img: '/imagens/mixer-icon.png', consumo: 0, custo: 0, tarifa: 0 },
+  { nome: 'modo frio', img: '/imagens/mode_cool.png', consumo: 0, custo: 0, tarifa: 0 },
+  { nome: 'panela elétrica', img: '/imagens/multicooker.png', consumo: 0, custo: 0, tarifa: 0 },
+  { nome: 'forno', img: '/imagens/oven.png', consumo: 0, custo: 0, tarifa: 0 },
+  { nome: 'impressora', img: '/imagens/printer.png', consumo: 0, custo: 0, tarifa: 0 },
+  { nome: 'exaustor', img: '/imagens/range_hood.png', consumo: 0, custo: 0, tarifa: 0 },
+  { nome: 'geladeira', img: '/imagens/refrigerator.png', consumo: 0, custo: 0, tarifa: 0 },
+  { nome: 'robô aspirador', img: '/imagens/robot.png', consumo: 0, custo: 0, tarifa: 0 },
+  { nome: 'roteador', img: '/imagens/router.png', consumo: 0, custo: 0, tarifa: 0 },
+  { nome: 'barbeador', img: '/imagens/shaver.png', consumo: 0, custo: 0, tarifa: 0 },
+  { nome: 'chuveiro', img: '/imagens/shower.png', consumo: 0, custo: 0, tarifa: 0 },
+  { nome: 'alto falante', img: '/imagens/speaker.png', consumo: 0, custo: 0, tarifa: 0 },
+  { nome: 'panela', img: '/imagens/stockpot.png', consumo: 0, custo: 0, tarifa: 0 },
+  { nome: 'torradeira', img: '/imagens/toaster.png', consumo: 0, custo: 0, tarifa: 0 },
+  { nome: 'tv', img: '/imagens/tv.png', consumo: 0, custo: 0, tarifa: 0 },
+  { nome: 'aspirador', img: '/imagens/vacuum.png', consumo: 0, custo: 0, tarifa: 0 },
+  { nome: 'videogame', img: '/imagens/videogame.png', consumo: 0, custo: 0, tarifa: 0 }
+];
 
 function EditableTitle({ defaultText = "Clique para editar", comodoId }) {
   const [isEditing, setIsEditing] = useState(false);
@@ -183,16 +219,84 @@ function EletroForm({ eletro, onSave, onCancel }) {
 function NovoComodo() {
   const [searchParams] = useSearchParams();
   const comodoId = searchParams.get('id');
+  const navigate = useNavigate();
 
   const [selecionados, setSelecionados] = useState([]);
   const [modalAberto, setModalAberto] = useState(false);
   const [eletroSelecionado, setEletroSelecionado] = useState(null);
   const [detalhesEletros, setDetalhesEletros] = useState({});
 
-  const handleSelecionar = (aparelho) => {
+  useEffect(() => {
+    const fetchComodo = async () => {
+      if (!comodoId) {
+        // Se não houver ID, cria um novo cômodo
+        try {
+          const response = await fetch('http://localhost:3000/comodos', {
+            method: 'POST',
+            credentials: 'include',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ nomeComodo: "Novo Cômodo" })
+          });
+          if (!response.ok) {
+            const errText = await response.text();
+            throw new Error(`Falha ao criar cômodo: ${response.status} ${errText}`);
+          }
+          const data = await response.json();
+          // Redireciona para a página com o ID do cômodo criado
+          navigate(`/novocomodo?id=${data.id}`);
+        } catch (error) {
+          console.error('Erro ao criar cômodo:', error);
+          alert('Não foi possível criar o cômodo. Tente novamente.');
+        }
+      } else {
+        // Se houver ID, carrega os eletrodomésticos existentes do cômodo
+        try {
+          const response = await fetch(`http://localhost:3000/comodos/${comodoId}/eletros`, {
+            credentials: 'include'
+          });
+          if (response.ok) {
+            const eletros = await response.json();
+            setSelecionados(eletros);
+            const detalhes = {};
+            eletros.forEach(eletro => {
+              detalhes[eletro.eletrodomestico.nomeEletro] = {
+                nomeEletro: eletro.eletrodomestico.nomeEletro,
+                quantidade: eletro.quantidade,
+                horasUso: eletro.horasUsoDia * 30, // Converter para horas por mês
+                potencia: eletro.potencia
+              };
+            });
+            setDetalhesEletros(detalhes);
+          }
+        } catch (error) {
+          console.error('Erro ao carregar eletrodomésticos:', error);
+        }
+      }
+    };
+
+    fetchComodo();
+  }, [comodoId, navigate]);
+
+  const handleSelecionar = async (aparelho) => {
     // Se já está selecionado, remove
-    if (selecionados.some((a) => a.nome === aparelho.nome)) {
-      setSelecionados((prev) => prev.filter((a) => a.nome !== aparelho.nome));
+    if (selecionados.some((a) => a.eletrodomestico?.nomeEletro === aparelho.nome)) {
+      const eletroParaRemover = selecionados.find((a) => a.eletrodomestico?.nomeEletro === aparelho.nome);
+      
+      // Remove do banco de dados
+      if (eletroParaRemover && eletroParaRemover.id) {
+        try {
+          await fetch(`http://localhost:3000/eletros/comodo/${eletroParaRemover.id}`, {
+            method: 'DELETE',
+            credentials: 'include'
+          });
+        } catch (error) {
+          console.error('Erro ao remover eletrodoméstico:', error);
+        }
+      }
+      
+      setSelecionados((prev) => prev.filter((a) => a.eletrodomestico?.nomeEletro !== aparelho.nome));
       // Remove também os detalhes
       const novosDetalhes = { ...detalhesEletros };
       delete novosDetalhes[aparelho.nome];
@@ -204,43 +308,43 @@ function NovoComodo() {
     }
   };
 
-  const handleSalvarEletro = (dados) => {
-    // Adiciona o eletrodoméstico à lista de selecionados
-    setSelecionados((prev) => [...prev, eletroSelecionado]);
-    
-    // Salva os detalhes do eletrodoméstico
-    setDetalhesEletros((prev) => ({
-      ...prev,
-      [eletroSelecionado.nome]: dados
-    }));
+  const handleSalvarEletro = async (dados) => {
+    try {
+      // Salva no banco de dados primeiro
+      const response = await fetch('http://localhost:3000/eletros/detalhes', {
+        method: 'POST',
+        credentials: 'include',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ ...dados, comodoId })
+      });
 
-    // Fecha o modal
-    setModalAberto(false);
-    setEletroSelecionado(null);
-
-    // Salva no banco de dados
-    fetch('http://localhost:3000/eletros/detalhes', {
-      method: 'POST',
-      credentials: 'include',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ ...dados, comodoId })
-    })
-    .then(async (response) => {
       if (!response.ok) {
         const errText = await response.text();
         throw new Error(`Falha ao salvar: ${response.status} ${errText}`);
       }
-      return response.json();
-    })
-    .then((data) => {
-      console.log('Salvo no banco:', data);
-    })
-    .catch((error) => {
+
+      const savedData = await response.json();
+      
+      // Adiciona o eletrodoméstico à lista de selecionados com os dados do banco
+      setSelecionados((prev) => [...prev, savedData]);
+      
+      // Salva os detalhes do eletrodoméstico
+      setDetalhesEletros((prev) => ({
+        ...prev,
+        [dados.nomeEletro]: dados
+      }));
+
+      // Fecha o modal
+      setModalAberto(false);
+      setEletroSelecionado(null);
+
+      console.log('Salvo no banco:', savedData);
+    } catch (error) {
       console.error('Erro ao salvar:', error);
       alert('Não foi possível salvar o eletrodoméstico. Tente novamente.');
-    });
+    }
   };
 
   const handleFecharModal = () => {
@@ -248,12 +352,15 @@ function NovoComodo() {
     setEletroSelecionado(null);
   };
 
-  const totalConsumo = selecionados.reduce((acc, cur) => acc + cur.consumo, 0);
-  const totalCusto = selecionados.reduce((acc, cur) => acc + cur.custo, 0);
-  const tarifaMedia =
-    selecionados.length > 0
-      ? (selecionados.reduce((acc, cur) => acc + cur.tarifa, 0) / selecionados.length).toFixed(2)
-      : 0;
+  const totalConsumo = selecionados.reduce((acc, cur) => {
+    const potencia = cur.potencia || 0;
+    const horasUso = cur.horasUsoDia || 0;
+    const quantidade = cur.quantidade || 1;
+    return acc + ((potencia * horasUso * quantidade * 30) / 1000); // kWh por mês
+  }, 0);
+  
+  const totalCusto = totalConsumo * 0.5; // Tarifa média estimada
+  const tarifaMedia = "0.50"; // Tarifa média fixa para simplificar
 
   return (
     <div className={styles["novo-comodo-container"]}>
@@ -279,7 +386,7 @@ function NovoComodo() {
                 </div>
                 <input
                   type="checkbox"
-                  checked={selecionados.some((a) => a.nome === item.nome)}
+                  checked={selecionados.some((a) => a.eletrodomestico?.nomeEletro === item.nome)}
                   onChange={() => handleSelecionar(item)}
                   name="eletro"
                   id={item.nome}
@@ -297,13 +404,16 @@ function NovoComodo() {
               <li>Nenhum aparelho selecionado</li>
             ) : (
               selecionados.map((a) => {
-                const detalhes = detalhesEletros[a.nome];
+                const nomeEletro = a.eletrodomestico?.nomeEletro || a.nomeEletro;
+                const detalhes = detalhesEletros[nomeEletro];
+                const aparelho = aparelhos.find(ap => ap.nome === nomeEletro);
+                
                 return (
-                  <li key={a.nome} style={{ marginBottom: '10px' }}>
+                  <li key={nomeEletro} style={{ marginBottom: '10px' }}>
                     <div style={{ display: 'flex', alignItems: 'center', marginBottom: '5px' }}>
                       <img
-                        src={a.img}
-                        alt={a.nome}
+                        src={aparelho?.img || '/imagens/lightbulb.png'}
+                        alt={nomeEletro}
                         style={{
                           width: 24,
                           height: 24,
@@ -311,7 +421,7 @@ function NovoComodo() {
                           marginRight: 8
                         }}
                       />
-                      <strong>{a.nome}</strong>
+                      <strong>{nomeEletro}</strong>
                     </div>
                     {detalhes && (
                       <div style={{ fontSize: '12px', color: '#666', marginLeft: '32px' }}>
@@ -332,7 +442,7 @@ function NovoComodo() {
         className={styles["btn-finalizar"]}
         onClick={() => {
           // Redireciona para meus cômodos após finalizar
-          window.location.href = "/meuscomodos";
+          navigate("/meuscomodos");
         }}
       >
         FINALIZAR EDIÇÃO
