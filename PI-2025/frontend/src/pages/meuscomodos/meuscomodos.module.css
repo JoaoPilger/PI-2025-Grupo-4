@@ -805,3 +805,92 @@
         margin-bottom: 25px;
     }
 }
+
+/* Conteúdo simplificado - apenas o card de criar cômodo */
+.conteudoSimplificado {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 60vh;
+    padding: 40px 20px;
+}
+
+/* Card de criar cômodo - estilo original restaurado */
+.criarComodo {
+    border-style: dashed;
+    border-color: #666;
+    background-color: #f9f9f9;
+    min-width: 250px;
+    min-height: 350px;
+}
+
+.criarComodo:hover {
+    border-color: #000;
+    background-color: #f0f0f0;
+}
+
+/* Ícone de criar - estilo original restaurado */
+.iconeCriar {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+
+.mais {
+    font-size: 60px;
+    font-weight: bold;
+    color: #666;
+    line-height: 1;
+    transition: all 0.3s ease;
+}
+
+.criarComodo:hover .mais {
+    color: #000;
+    transform: scale(1.1);
+}
+
+/* Nome do cômodo - estilo original restaurado */
+.nomeComodo {
+    font-size: 18px;
+    font-weight: bold;
+    color: #000;
+    margin: 0;
+    text-align: center;
+    transition: all 0.3s ease;
+}
+
+/* Descrição - estilo original restaurado */
+.descricaoCriar {
+    font-size: 14px;
+    color: #666;
+    margin: 10px 0 0 0;
+    text-align: center;
+    font-weight: normal;
+    line-height: 1.4;
+}
+
+/* Responsividade - estilo original restaurado */
+@media (max-width: 768px) {
+    .conteudoSimplificado {
+        padding: 30px 15px;
+        min-height: 50vh;
+    }
+    
+    .criarComodo {
+        min-width: 250px;
+        min-height: 350px;
+    }
+}
+
+@media (max-width: 480px) {
+    .conteudoSimplificado {
+        padding: 20px 10px;
+    }
+    
+    .criarComodo {
+        min-width: 250px;
+        min-height: 350px;
+    }
+}

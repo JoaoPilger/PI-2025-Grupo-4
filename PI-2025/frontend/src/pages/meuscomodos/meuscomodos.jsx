@@ -1,101 +1,12 @@
-import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styles from './meuscomodos.module.css';
 
 function MeusComodos() {
-    const [comodoAtivo, setComodoAtivo] = useState(2); // 1 = Sala de Estar, 2 = Cozinha (ativo por padrão)
-    const [isTransitioning, setIsTransitioning] = useState(false);
     const navigate = useNavigate();
 
-    // Dados dos cômodos existentes com representações visuais realistas
-    const comodos = [
-        {
-            id: 1,
-            nome: 'SALA DE ESTAR',
-            tipo: 'sala',
-            ativo: comodoAtivo === 1
-        },
-        {
-            id: 2,
-            nome: 'COZINHA',
-            tipo: 'cozinha',
-            ativo: comodoAtivo === 2
-        },
-        {
-            id: 3,
-            nome: 'CRIAR CÔMODO',
-            tipo: 'criar',
-            ativo: false,
-            isCreate: true
-        }
-    ];
-
-    const navegarParaComodo = (direcao) => {
-        if (isTransitioning) return;
-        
-        setIsTransitioning(true);
-        
-        if (direcao === 'proximo' && comodoAtivo < 2) {
-            setComodoAtivo(comodoAtivo + 1);
-        } else if (direcao === 'anterior' && comodoAtivo > 1) {
-            setComodoAtivo(comodoAtivo - 1);
-        }
-        
-        // Reset da transição após a animação
-        setTimeout(() => setIsTransitioning(false), 300);
+    const criarNovoComodo = () => {
+        navigate('/novocomodo');
     };
-
-    const selecionarComodo = async (comodoId) => {
-        if (isTransitioning) return;
-        
-        if (comodoId === 3) {
-            try {
-                // valida sessão antes de criar
-                const sessionResp = await fetch('http://localhost:3000/auth/session', {
-                    method: 'GET',
-                    credentials: 'include'
-                });
-                if (!sessionResp.ok) {
-                    navigate('/login');
-                    return;
-                }
-                const sessionData = await sessionResp.json();
-
-                // cria no backend e redireciona
-                const resp = await fetch('http://localhost:3000/comodos', {
-                    method: 'POST',
-                    credentials: 'include',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ nomeComodo: 'Novo Cômodo', clienteId: sessionData?.user?.id })
-                });
-                if (!resp.ok) {
-                    const errText = await resp.text();
-                    throw new Error(`Falha ao criar cômodo: ${resp.status} ${errText}`);
-                }
-                const created = await resp.json();
-                navigate(`/novocomodo?id=${created.id}`);
-            } catch (e) {
-                console.error(e);
-                alert('Não foi possível criar o cômodo. Tente novamente.');
-            }
-        } else {
-            setIsTransitioning(true);
-            setComodoAtivo(comodoId);
-            setTimeout(() => setIsTransitioning(false), 300);
-        }
-    };
-
-    const navegarComSeta = (direcao) => {
-        if (isTransitioning) return;
-        
-        if (direcao === 'proximo' && comodoAtivo < 2) {
-            navegarParaComodo('proximo');
-        } else if (direcao === 'anterior' && comodoAtivo > 1) {
-            navegarParaComodo('anterior');
-        }
-    };
-
-    // Removido o useEffect que causava auto-alternação
 
     return (
         <div className={styles.container}>
@@ -104,108 +15,18 @@ function MeusComodos() {
                 <h1 className={styles.titulo}>MEUS CÔMODOS</h1>
             </div>
 
-            {/* Conteúdo principal - três painéis lado a lado */}
-            <div className={styles.conteudo}>
-                {/* Painel Esquerdo - Sala de Estar */}
+            {/* Conteúdo principal - apenas o card de criar novo cômodo */}
+            <div className={styles.conteudoSimplificado}>
                 <div 
-                    className={`${styles.painelComodo} ${comodos[0].ativo ? styles.ativo : ''} ${isTransitioning ? styles.transitioning : ''}`}
-                    onClick={() => selecionarComodo(1)}
-                >
-                    <div className={styles.imagemComodo}>
-                        <div className={`${styles.cenarioVisual} ${styles.salaEstar}`}>
-                            {/* TV */}
-                            <div className={styles.tv}></div>
-                            {/* Sofá */}
-                            <div className={styles.sofa}></div>
-                            {/* Mesa de centro */}
-                            <div className={styles.mesaCentro}></div>
-                            {/* Ventilador */}
-                            <div className={styles.ventilador}></div>
-                            {/* Lâmpada */}
-                            <div className={styles.lampada}></div>
-                            {/* Ar condicionado */}
-                            <div className={styles.arCondicionado}></div>
-                        </div>
-                    </div>
-                    <h2 className={styles.nomeComodo}>{comodos[0].nome}</h2>
-                </div>
-
-                {/* Setas de navegação - Esquerda para Centro */}
-                <div className={styles.setasNavegacao}>
-                    <div 
-                        className={`${styles.setas} ${comodoAtivo === 1 ? styles.desabilitado : ''}`}
-                        onClick={() => navegarComSeta('proximo')}
-                    >
-                        <span className={styles.seta}>&rarr;</span>
-                    </div>
-                </div>
-
-                {/* Painel Central - Cozinha (Ativo) */}
-                <div 
-                    className={`${styles.painelComodo} ${comodos[1].ativo ? styles.ativo : ''} ${isTransitioning ? styles.transitioning : ''}`}
-                    onClick={() => selecionarComodo(2)}
-                >
-                    <div className={styles.imagemComodo}>
-                        <div className={`${styles.cenarioVisual} ${styles.cozinha}`}>
-                            {/* Geladeira */}
-                            <div className={styles.geladeira}></div>
-                            {/* Fogão */}
-                            <div className={styles.fogao}></div>
-                            {/* Pia */}
-                            <div className={styles.pia}></div>
-                            {/* Microondas */}
-                            <div className={styles.microondas}></div>
-                            {/* Cafeteira */}
-                            <div className={styles.cafeteira}></div>
-                            {/* Liquidificador */}
-                            <div className={styles.liquidificador}></div>
-                            {/* Exaustor */}
-                            <div className={styles.exaustor}></div>
-                            {/* Armários */}
-                            <div className={styles.armarios}></div>
-                        </div>
-                    </div>
-                    <h2 className={styles.nomeComodo}>{comodos[1].nome}</h2>
-                </div>
-
-                {/* Setas de navegação - Centro para Direita */}
-                <div className={styles.setasNavegacao}>
-                    <div 
-                        className={`${styles.setas} ${comodoAtivo === 2 ? styles.desabilitado : ''}`}
-                        onClick={() => navegarComSeta('anterior')}
-                    >
-                        <span className={styles.seta}>&rarr;</span>
-                    </div>
-                </div>
-
-                {/* Painel Direito - Criar Cômodo */}
-                <div 
-                    className={`${styles.painelComodo} ${styles.criarComodo} ${isTransitioning ? styles.transitioning : ''}`}
-                    onClick={() => selecionarComodo(3)}
+                    className={`${styles.painelComodo} ${styles.criarComodo}`}
+                    onClick={criarNovoComodo}
                 >
                     <div className={styles.iconeCriar}>
                         <span className={styles.mais}>+</span>
                     </div>
-                    <h2 className={styles.nomeComodo}>{comodos[2].nome}</h2>
+                    <h2 className={styles.nomeComodo}>CRIAR CÔMODO</h2>
+                    <p className={styles.descricaoCriar}>Clique para adicionar um novo cômodo</p>
                 </div>
-            </div>
-
-            {/* Botões de navegação */}
-            <div className={styles.botoesNavegacao}>
-                <button 
-                    className={`${styles.btnNavegar} ${isTransitioning ? styles.desabilitado : ''}`}
-                    onClick={() => navegarParaComodo('anterior')}
-                    disabled={comodoAtivo === 1 || isTransitioning}
-                >
-                    Anterior
-                </button>
-                <button 
-                    className={`${styles.btnNavegar} ${isTransitioning ? styles.desabilitado : ''}`}
-                    onClick={() => navegarParaComodo('proximo')}
-                    disabled={comodoAtivo === 2 || isTransitioning}
-                >
-                    Próximo
-                </button>
             </div>
         </div>
     );
