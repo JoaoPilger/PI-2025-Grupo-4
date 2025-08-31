@@ -11,6 +11,7 @@ import distribuidoraRoutes from './src/routes/distribuidora.routes.js';
 import comodoRoutes from './src/routes/comodo.routes.js';
 import eletroRoutes from './src/routes/eletro.routes.js';
 import simuladorRoutes from './src/routes/simulacao.routes.js';
+import eletroComodoRoutes from './src/routes/eletroComodo.routes.js';
 
 dotenv.config();
 
@@ -70,6 +71,7 @@ app.use('/distribuidora', distribuidoraRoutes);
 app.use('/comodos', comodoRoutes);
 app.use('/eletros', eletroRoutes);
 app.use('/simulacao', simuladorRoutes);
+app.use('/eletroComodo', eletroComodoRoutes);
 
 // --- Rota teste ---
 app.get('/', (req, res) => res.send('API funcionando!'));

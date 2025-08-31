@@ -1,6 +1,6 @@
-import { useState } from 'react';
-import { useSearchParams } from 'react-router-dom';
+import { useState, useEffect} from 'react';
 import styles from './novocomodo.module.css';
+import axios from 'axios';
 
 function EditableTitle({ defaultText = "Clique para editar", comodoId }) {
   const [isEditing, setIsEditing] = useState(false);
@@ -32,7 +32,6 @@ function EditableTitle({ defaultText = "Clique para editar", comodoId }) {
     }
   };
 
-  // Mostra o texto padrão se o título estiver vazio
   const displayTitle = title.trim() === "" ? defaultText : title;
 
   return (
@@ -64,7 +63,7 @@ function EditableTitle({ defaultText = "Clique para editar", comodoId }) {
 
 function EletroForm({ eletro, onSave, onCancel }) {
   const [quantidade, setQuantidade] = useState(1);
-  const [tipoTempo, setTipoTempo] = useState('horas'); // 'horas' ou 'minutos'
+  const [tipoTempo, setTipoTempo] = useState('horas'); 
   const [tempoUso, setTempoUso] = useState('');
   const [potencia, setPotencia] = useState('');
 
@@ -76,12 +75,10 @@ function EletroForm({ eletro, onSave, onCancel }) {
       return;
     }
 
-    // Converter para horas por mês
     let horasPorMes;
     if (tipoTempo === 'horas') {
-      horasPorMes = parseFloat(tempoUso) * 30; // 30 dias por mês
+      horasPorMes = parseFloat(tempoUso) * 30;
     } else {
-      // Converter minutos para horas e multiplicar por 30 dias
       horasPorMes = (parseFloat(tempoUso) / 60) * 30;
     }
 
@@ -93,8 +90,7 @@ function EletroForm({ eletro, onSave, onCancel }) {
     };
 
     onSave(dadosEletro);
-    
-    // Reset dos campos
+
     setQuantidade(1);
     setTempoUso('');
     setPotencia('');
@@ -108,7 +104,6 @@ function EletroForm({ eletro, onSave, onCancel }) {
           type="number"
           id="quantidade"
           min="1"
-          max="10"
           value={quantidade}
           onChange={(e) => setQuantidade(e.target.value)}
         />
@@ -181,66 +176,44 @@ function EletroForm({ eletro, onSave, onCancel }) {
 }
 
 function NovoComodo() {
-  const [searchParams] = useSearchParams();
-  const comodoId = searchParams.get('id');
+  const comodoId = localStorage.getItem('comodoId');
+  
+  const aparelhos = [ { nome: "Geladeira", img: "/imagens/refrigerator.png", id: 1 }, { nome: "Freezer", img: "/imagens/mode_cool.png", id: 2 }, { nome: "Micro-ondas", img: "/imagens/microwave.png", id: 3 }, { nome: "Forno Elétrico", img: "/imagens/oven.png", id: 4 }, { nome: "Panela Elétrica", img: "/imagens/stockpot.png", id: 5 }, { nome: "Airfryer", img: "/imagens/multicooker.png", id: 6 }, { nome: "Liquidificador", img: "/imagens/blender.png", id: 7 }, { nome: "Batedeira", img: "/imagens/mixer-icon.png", id: 8 }, { nome: "Torradeira", img: "/imagens/toaster.png", id: 9 }, { nome: "Cafeteira", img: "/imagens/coffee.png", id: 10 }, { nome: "Exaustor", img: "/imagens/range_hood.png", id: 11 }, { nome: "Lava Louças", img: "/imagens/dishwasher.png", id: 12 }, { nome: "Lava Roupas", img: "/imagens/laundry.png", id: 13 }, { nome: "Secadora de Roupas", img: "/imagens/laundry.png", id: 14 }, { nome: "Ferro de Passar", img: "/imagens/iron.png", id: 15 }, { nome: "Aspirador de Pó", img: "/imagens/vacuum.png", id: 16 }, { nome: "Robô Aspirador", img: "/imagens/robot.png", id: 17 }, { nome: "Ventilador", img: "/imagens/fan.png", id: 18 }, { nome: "Ar Condicionado", img: "/imagens/climate.png", id: 19 }, { nome: "Aquecedor Elétrico", img: "/imagens/heat_pump.png", id: 20 }, { nome: "Televisão", img: "/imagens/tv.png", id: 21 }, { nome: "Videogame", img: "/imagens/videogame.png", id: 22 }, { nome: "Computador", img: "/imagens/desktop.png", id: 23 }, { nome: "Notebook", img: "/imagens/laptop.png", id: 24 }, { nome: "Impressora", img: "/imagens/printer.png", id: 25 }, { nome: "Modem / Roteador", img: "/imagens/router.png", id: 26 }, { nome: "Chuveiro Elétrico", img: "/imagens/shower.png", id: 27 }, { nome: "Secador de Cabelo", img: "/imagens/air.png", id: 28 }, { nome: "Barbeador Elétrico", img: "/imagens/shaver.png", id: 29 }, { nome: "Escova Secadora", img: "/imagens/heat.png", id: 30 }, { nome: "Aparelho de Som", img: "/imagens/speaker.png", id: 31 }, { nome: "Relógio Despertador", img: "/imagens/alarm.png", id: 32 }, { nome: "Lâmpada LED", img: "/imagens/lightbulb.png", id: 33 }, { nome: "Luminária Elétrica", img: "/imagens/floor_lamp.png", id: 34 }, ];
 
   const [selecionados, setSelecionados] = useState([]);
   const [modalAberto, setModalAberto] = useState(false);
   const [eletroSelecionado, setEletroSelecionado] = useState(null);
   const [detalhesEletros, setDetalhesEletros] = useState({});
+  const [tarifaUsuario, setTarifaUsuario] = useState(0);
 
   const handleSelecionar = (aparelho) => {
-    // Se já está selecionado, remove
     if (selecionados.some((a) => a.nome === aparelho.nome)) {
       setSelecionados((prev) => prev.filter((a) => a.nome !== aparelho.nome));
-      // Remove também os detalhes
       const novosDetalhes = { ...detalhesEletros };
       delete novosDetalhes[aparelho.nome];
       setDetalhesEletros(novosDetalhes);
     } else {
-      // Se não está selecionado, abre o modal para configurar
       setEletroSelecionado(aparelho);
       setModalAberto(true);
     }
   };
 
   const handleSalvarEletro = (dados) => {
-    // Adiciona o eletrodoméstico à lista de selecionados
-    setSelecionados((prev) => [...prev, eletroSelecionado]);
-    
-    // Salva os detalhes do eletrodoméstico
+    if (!eletroSelecionado) return;
+
+    // Evita duplicar eletros selecionados
+    setSelecionados((prev) => {
+      if (prev.some(e => e.nome === eletroSelecionado.nome)) return prev;
+      return [...prev, eletroSelecionado];
+    });
+
     setDetalhesEletros((prev) => ({
       ...prev,
       [eletroSelecionado.nome]: dados
     }));
 
-    // Fecha o modal
     setModalAberto(false);
     setEletroSelecionado(null);
-
-    // Salva no banco de dados
-    fetch('http://localhost:3000/eletros/detalhes', {
-      method: 'POST',
-      credentials: 'include',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ ...dados, comodoId })
-    })
-    .then(async (response) => {
-      if (!response.ok) {
-        const errText = await response.text();
-        throw new Error(`Falha ao salvar: ${response.status} ${errText}`);
-      }
-      return response.json();
-    })
-    .then((data) => {
-      console.log('Salvo no banco:', data);
-    })
-    .catch((error) => {
-      console.error('Erro ao salvar:', error);
-      alert('Não foi possível salvar o eletrodoméstico. Tente novamente.');
-    });
   };
 
   const handleFecharModal = () => {
@@ -248,12 +221,76 @@ function NovoComodo() {
     setEletroSelecionado(null);
   };
 
-  const totalConsumo = selecionados.reduce((acc, cur) => acc + cur.consumo, 0);
-  const totalCusto = selecionados.reduce((acc, cur) => acc + cur.custo, 0);
-  const tarifaMedia =
-    selecionados.length > 0
-      ? (selecionados.reduce((acc, cur) => acc + cur.tarifa, 0) / selecionados.length).toFixed(2)
-      : 0;
+  const handleFinalizar = async () => {
+    if (!comodoId) {
+      alert("Erro: ID do cômodo não encontrado.");
+      return;
+    }
+
+    try {
+      // Gera o payload a partir dos detalhes preenchidos
+      const payload = Object.entries(detalhesEletros)
+        .filter(([nome, dados]) => dados && selecionados.some(e => e.nome === nome))
+        .map(([nome, dados]) => ({
+          comodoId,
+          eletroId: String(aparelhos.find(a => a.nome === nome)?.id),
+          nomeEletro: nome,
+          quantidade: dados.quantidade,
+          horasUso: dados.horasUso,
+          potencia: dados.potencia
+        }));
+
+        console.log(payload);
+        
+      if (payload.length === 0) {
+        alert("Nenhum eletrodoméstico selecionado para salvar.");
+        return;
+      }
+
+      for (const item of payload) {
+        const response = await fetch('http://localhost:3000/eletros/detalhes', {
+          method: 'POST',
+          credentials: 'include',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(item)
+        });
+
+        if (!response.ok) {
+          const errText = await response.text();
+          throw new Error(`Falha ao salvar: ${response.status} ${errText}`);
+        }
+      }
+
+      alert("Edição finalizada e salva com sucesso!");
+      window.location.href = "/meuscomodos";
+    } catch (error) {
+      console.error("Erro ao finalizar edição:", error);
+      alert("Erro ao salvar os eletrodomésticos. Tente novamente.");
+    }
+  };
+
+  useEffect(() => {
+    axios.get("http://localhost:3000/auth/session", { withCredentials: true })
+      .then((sessionRes) => {
+        if (sessionRes.data.loggedIn) {
+          const userId = sessionRes.data.user.id;
+          return axios.get(`http://localhost:3000/clientes/${userId}`, { withCredentials: true });
+        } else {
+          throw new Error("Usuário não autenticado");
+        }
+      })
+      .then((clienteRes) => {
+        if (clienteRes.data?.distribuidora) {
+          setTarifaUsuario(clienteRes.data.distribuidora.tarifa);
+        }
+      })
+      .catch((err) => {
+        console.error("Erro ao buscar usuário/distribuidora:", err);
+      });
+  }, []);
+
+  const totalConsumo = selecionados.reduce((acc, cur) => acc + (detalhesEletros[cur.nome]?.potencia * detalhesEletros[cur.nome]?.horasUso || 0) / 1000, 0);
+  const totalCusto = totalConsumo * tarifaUsuario;
 
   return (
     <div className={styles["novo-comodo-container"]}>
@@ -266,7 +303,7 @@ function NovoComodo() {
           <p><strong>TOTAL ESTIMADO:</strong></p>
           <p>CONSUMO<br /><strong>{totalConsumo.toFixed(2)} kWh</strong></p>
           <p>CUSTO<br /><strong>R$ {totalCusto.toFixed(2)}</strong></p>
-          <p>TARIFA MÉDIA<br /><strong>R$ {tarifaMedia}</strong></p>
+          <p>TARIFA<br /><strong>R$ {tarifaUsuario}</strong></p>
         </div>
 
         <div className={styles["scroll-container"]}>
@@ -328,9 +365,13 @@ function NovoComodo() {
         </div>
       </div>
 
-      <button className={styles["btn-finalizar"]}>FINALIZAR EDIÇÃO</button>
+      <button 
+        className={styles["btn-finalizar"]}
+        onClick={handleFinalizar}
+      >
+        FINALIZAR EDIÇÃO
+      </button>
 
-      {/* Modal para configurar eletrodoméstico */}
       {modalAberto && eletroSelecionado && (
         <div className={styles["modal-overlay"]} onClick={handleFecharModal}>
           <div className={styles["modal-content"]} onClick={(e) => e.stopPropagation()}>

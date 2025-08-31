@@ -17,6 +17,10 @@ export const criarSimulacao = async (req, res) => {
       }
     });
 
+    if (comodos.length === 0) {
+      return res.status(400).json({ error: "Nenhum cômodo encontrado para o usuário." });
+    }
+
     let totalConsumo = 0;
     let totalCusto = 0;
 

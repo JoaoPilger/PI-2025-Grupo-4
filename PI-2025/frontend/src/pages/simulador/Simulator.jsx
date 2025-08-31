@@ -35,7 +35,13 @@ async function handleSubmit(e) {
   } catch (error) {
     console.error("Erro ao enviar o formulário:", error);
     if (error.response && error.response.status === 401) {
+      alert(error.response.data.error);
       window.location.href = "/login"
+      
+    }
+    if (error.response && error.response.status === 400) {
+      alert(error.response.data.error);
+      window.location.href = "/meuscomodos";
       
     }
   }

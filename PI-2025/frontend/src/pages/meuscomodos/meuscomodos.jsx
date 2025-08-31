@@ -4,18 +4,38 @@ import styles from './meuscomodos.module.css';
 function MeusComodos() {
     const navigate = useNavigate();
 
-    const criarNovoComodo = () => {
-        navigate('/novocomodo');
+    const criarNovoComodo = async () => {
+        try {
+            const response = await fetch('http://localhost:3000/comodos', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ nomeComodo: 'Novo Cômodo' }),
+                credentials: 'include'
+            });
+
+            if (!response.ok) {
+                throw new Error('Erro ao criar cômodo');
+            }
+
+            const comodo = await response.json();
+
+            // Salva o ID no localStorage
+            localStorage.setItem('comodoId', comodo.id);
+
+            // Navega para a página de edição
+            navigate("/novocomodo");
+        } catch (error) {
+            console.error('Erro ao criar cômodo:', error);
+            alert('Não foi possível criar o cômodo.');
+        }
     };
 
     return (
         <div className={styles.container}>
-            {/* Header com título */}
             <div className={styles.header}>
                 <h1 className={styles.titulo}>MEUS CÔMODOS</h1>
             </div>
 
-            {/* Conteúdo principal - apenas o card de criar novo cômodo */}
             <div className={styles.conteudoSimplificado}>
                 <div 
                     className={`${styles.painelComodo} ${styles.criarComodo}`}
