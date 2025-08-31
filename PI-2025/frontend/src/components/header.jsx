@@ -140,7 +140,7 @@ function Header() {
                                 onClick={() => setIsMenuOpen(false)}
                                 aria-label="Ir para meus cômodos"
                             >
-                                🏠 Meus Comodos
+                                Meus Comodos
                             </a>
                             <a 
                                 href="/historico" 
@@ -148,7 +148,7 @@ function Header() {
                                 onClick={() => setIsMenuOpen(false)}
                                 aria-label="Ir para histórico"
                             >
-                                📊 Histórico
+                                Histórico
                             </a>
                         </>
                     )}
