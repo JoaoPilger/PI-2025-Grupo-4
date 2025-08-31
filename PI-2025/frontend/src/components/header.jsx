@@ -129,6 +129,29 @@ function Header() {
                     >
                         Sobre Nós
                     </a>
+                    
+                    {/* Links rápidos que aparecem apenas quando logado */}
+                    {isAuthenticated && user && (
+                        <>
+                            <div className="nav-separator"></div>
+                            <a 
+                                href="/meuscomodos" 
+                                className='nav-link nav-link-user' 
+                                onClick={() => setIsMenuOpen(false)}
+                                aria-label="Ir para meus cômodos"
+                            >
+                                🏠 Meus Comodos
+                            </a>
+                            <a 
+                                href="/historico" 
+                                className='nav-link nav-link-user' 
+                                onClick={() => setIsMenuOpen(false)}
+                                aria-label="Ir para histórico"
+                            >
+                                📊 Histórico
+                            </a>
+                        </>
+                    )}
                 </nav>
                 
                 {/* Menu hambúrguer para mobile */}
