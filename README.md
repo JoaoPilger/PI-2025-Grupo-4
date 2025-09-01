@@ -54,6 +54,67 @@ npm install
    SESSION_SECRET=sua_chave_secreta_aqui
    PORT=3000
    ```
+   **INSERTS**
+   INSERT INTO "Eletrodomestico" (id, "nomeEletro") VALUES 
+   (1, 'Geladeira'),
+   (2, 'Freezer'),
+   (3, 'Micro-ondas'),
+   (4, 'Forno Elétrico'),
+   (5, 'Panela Elétrica'),
+   (6, 'Airfryer'),
+   (7, 'Liquidificador'),
+   (8, 'Batedeira'),
+   (9, 'Torradeira'),
+   (10, 'Cafeteira'),
+   (11, 'Exaustor'),
+   (12, 'Lava Louças'),
+   (13, 'Lava Roupas'),
+   (14, 'Secadora de Roupas'),
+   (15, 'Ferro de Passar'),
+   (16, 'Aspirador de Pó'),
+   (17, 'Robô Aspirador'),
+   (18, 'Ventilador'),
+   (19, 'Ar Condicionado'),
+   (20, 'Aquecedor Elétrico'),
+   (21, 'Televisão'),
+   (22, 'Videogame'),
+   (23, 'Computador'),
+   (24, 'Notebook'),
+   (25, 'Impressora'),
+   (26, 'Modem / Roteador'),
+   (27, 'Chuveiro Elétrico'),
+   (28, 'Secador de Cabelo'),
+   (29, 'Barbeador Elétrico'),
+   (30, 'Escova Secadora'),
+   (31, 'Aparelho de Som'),
+   (32, 'Relógio Despertador'),
+   (33, 'Lâmpada LED'),
+   (34, 'Luminária Elétrica');
+
+
+   INSERT INTO "Distribuidora" (id, nome, tarifa) VALUES
+   (1, 'CELESC', 0.6933),
+   (2, 'COELBA', 0.4841),
+   (3, 'CEMIG', 0.6933),
+   (4, 'CPFL', 0.7),
+   (5, 'ENEL SP', 0.636),
+   (6, 'ENEL RJ', 0.833),
+   (7, 'ENEL CE', 0.72697),
+   (8, 'EQUATORIAL MA', 0.58309),
+   (9, 'EQUATORIAL AL', 0.58309),
+   (10, 'EQUATORIAL PI', 0.58309),
+   (11, 'EQUATORIAL PA', 0.58309),
+   (12, 'COPEL', 0.63),
+   (13, 'ELEKTRO', 0.71),
+   (14, 'ENERGISA', 0.65),
+   (15, 'LIGHT', 0.833),
+   (16, 'RGE', 0.636),
+   (17, 'AMAZONAS ENERGIA', 0.86),
+   (18, 'ESCELSA', 0.65),
+   (19, 'CHESP', 0.65),
+   (20, 'BOA VISTA ENERGIA', 0.86),
+   (21, 'EFLUL', 0.65),
+   (22, 'DME Poços de Caldas', 0.636);
 
 2. **Configure o banco PostgreSQL:**
    - Crie um banco de dados PostgreSQL
