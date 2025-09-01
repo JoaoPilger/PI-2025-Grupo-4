@@ -35,7 +35,7 @@ model Comodo {
 
   cliente     Cliente           @relation(fields: [clienteId], references: [id])
   eletros     EletroComodo[]
-  simulacoes  SimulacaoComodo[]
+  simulacoesComodos SimulacaoComodo[]
 }
 
 model Eletrodomestico {
@@ -45,12 +45,13 @@ model Eletrodomestico {
 }
 
 model EletroComodo {
-  id             Int @id @default(autoincrement())
+  id             Int      @id @default(autoincrement())
   comodoId       Int
   eletroId       Int
   quantidade     Int
   horasUsoDia    Decimal   @db.Decimal(5,2)
   potencia       Int
+  ativo          Boolean @default(true)
 
   comodo          Comodo          @relation(fields: [comodoId], references: [id])
   eletrodomestico Eletrodomestico @relation(fields: [eletroId], references: [id])

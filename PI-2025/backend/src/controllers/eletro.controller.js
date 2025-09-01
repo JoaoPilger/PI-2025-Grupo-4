@@ -63,19 +63,23 @@ export const saveEletroDetails = async (req, res) => {
     // Converter horasUso (mês) para horasUsoDia se necessário
     const horasDia = horasUsoDia != null ? Number(horasUsoDia) : Number(horasUso) / 30;
 
+    let eletroComodo = null;
     if (comodoId) {
-      await prisma.eletroComodo.create({
+      eletroComodo = await prisma.eletroComodo.create({
         data: {
           comodoId: Number(comodoId),
           eletroId: eletro.id,
           quantidade: Number(quantidade),
           horasUsoDia: horasDia,
           potencia: Number(potencia)
+        },
+        include: {
+          eletrodomestico: true
         }
       });
     }
 
-    res.status(201).json({
+    res.status(201).json(eletroComodo || {
       eletrodomestico: eletro,
       quantidade: Number(quantidade),
       horasUsoDia: horasDia,
@@ -130,7 +134,7 @@ export const updateEletro = async (req, res) => {
   }
 };
 
-// DELETE apagar
+// DELETE apagar eletrodoméstico
 export const deleteEletro = async (req, res) => {
   try {
     const id = Number(req.params.id);
@@ -147,6 +151,40 @@ export const deleteEletro = async (req, res) => {
     res.json({ message: "Eletrodoméstico removido com sucesso" });
   } catch (error) {
     console.error('Erro ao deletar eletrodoméstico:', error);
+    res.status(500).json({ message: "Erro interno do servidor" });
+  }
+};
+
+// DELETE apagar eletrodoméstico de um cômodo
+export const deleteEletroComodo = async (req, res) => {
+  try {
+    const sessionUser = req.session?.user;
+    if (!sessionUser?.id) {
+      return res.status(401).json({ error: 'Não autenticado' });
+    }
+
+    const eletroComodoId = Number(req.params.id);
+    
+    // Verificar se existe e se pertence ao usuário
+    const eletroComodo = await prisma.eletroComodo.findUnique({
+      where: { id: eletroComodoId },
+      include: {
+        comodo: true
+      }
+    });
+    
+    if (!eletroComodo) {
+      return res.status(404).json({ message: "Eletrodoméstico não encontrado" });
+    }
+
+    if (eletroComodo.comodo.clienteId !== sessionUser.id) {
+      return res.status(403).json({ message: "Não autorizado" });
+    }
+
+    await prisma.eletroComodo.delete({ where: { id: eletroComodoId } });
+    res.json({ message: "Eletrodoméstico removido do cômodo com sucesso" });
+  } catch (error) {
+    console.error('Erro ao deletar eletrodoméstico do cômodo:', error);
     res.status(500).json({ message: "Erro interno do servidor" });
   }
 };

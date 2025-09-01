@@ -4,6 +4,7 @@
     padding: 0;
 }
 
+/* Container principal */
 .container {
     width: 100%;
     min-height: 100vh;
@@ -17,15 +18,16 @@
 .header {
     display: flex;
     justify-content: center;
-    margin-bottom: 60px;
+    margin-bottom: 50px;
     animation: fadeInDown 0.8s ease-out;
 }
 
 .titulo {
-    font-size: clamp(28px, 6vw, 60px);
+    font-size: clamp(32px, 6vw, 64px);
     font-weight: bold;
     color: #000;
     font-family: 'Limelight', cursive;
+    text-align: center;
 }
 
 /* Conteúdo principal - três painéis lado a lado */
@@ -806,7 +808,7 @@
     }
 }
 
-/* Conteúdo simplificado - apenas o card de criar cômodo */
+/* Conteúdo simplificado - mantido para compatibilidade */
 .conteudoSimplificado {
     display: flex;
     justify-content: center;
@@ -815,43 +817,173 @@
     padding: 40px 20px;
 }
 
-/* Card de criar cômodo - estilo original restaurado */
+
+
+
+
+
+
+
+
+
+
+/* Carrossel Container */
+.carouselContainer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 40px 20px;
+    position: relative;
+}
+
+/* Setas do Carrossel */
+.carouselArrow {
+    background-color: #000;
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 60px;
+    height: 60px;
+    font-size: 32px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    z-index: 10;
+    flex-shrink: 0;
+}
+
+.carouselArrow:hover:not(.disabled) {
+    background-color: #333;
+    transform: scale(1.1);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+}
+
+.carouselArrow.disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+    opacity: 0.5;
+}
+
+.carouselArrowLeft {
+    left: 20px;
+}
+
+.carouselArrowRight {
+    right: 20px;
+}
+
+/* Container dos Cards */
+.cardsContainer {
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+    align-items: center;
+    justify-content: center;
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+/* Linha de Cards */
+.cardRow {
+    display: flex;
+    gap: 25px;
+    justify-content: center;
+    align-items: stretch;
+    width: 100%;
+    flex-wrap: wrap;
+}
+
+/* Cards de Cômodos */
+.painelComodo {
+    background-color: #fff;
+    border: 2px solid #000;
+    border-radius: 15px;
+    padding: 25px;
+    width: 280px;
+    min-height: 380px;
+    flex-shrink: 0;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 8px 8px 10px rgba(0, 0, 0, 0.3);
+    transition: all 0.3s ease;
+    cursor: pointer;
+    position: relative;
+}
+
+.painelComodo:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+}
+
+.painelComodo.comodoInativo {
+    opacity: 0.6;
+    background-color: #f5f5f5;
+    border-color: #ccc;
+}
+
+/* Card de Criar Cômodo */
 .criarComodo {
-    border-style: dashed;
-    border-color: #666;
+    border: 3px dashed #666;
     background-color: #f9f9f9;
-    min-width: 250px;
-    min-height: 350px;
+    width: 280px;
+    min-height: 380px;
+    flex-shrink: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 25px;
+    border-radius: 15px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 8px 8px 10px rgba(0, 0, 0, 0.3);
 }
 
 .criarComodo:hover {
     border-color: #000;
     background-color: #f0f0f0;
+    transform: translateY(-5px);
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
 }
 
-/* Ícone de criar - estilo original restaurado */
+/* Ícone de Criar */
 .iconeCriar {
-    flex: 1;
     display: flex;
     align-items: center;
     justify-content: center;
     margin-bottom: 20px;
+    width: 80px;
+    height: 80px;
+    background-color: #d5d8ba;
+    border: 2px solid #000;
+    border-radius: 50%;
+    transition: all 0.3s ease;
+}
+
+.criarComodo:hover .iconeCriar {
+    transform: scale(1.1);
+    background-color: #c4c7a8;
 }
 
 .mais {
-    font-size: 60px;
+    font-size: 48px;
     font-weight: bold;
-    color: #666;
+    color: #000;
     line-height: 1;
     transition: all 0.3s ease;
 }
 
-.criarComodo:hover .mais {
-    color: #000;
-    transform: scale(1.1);
-}
-
-/* Nome do cômodo - estilo original restaurado */
+/* Nome do Cômodo */
 .nomeComodo {
     font-size: 18px;
     font-weight: bold;
@@ -859,93 +991,70 @@
     margin: 0;
     text-align: center;
     transition: all 0.3s ease;
+    font-family: 'Limelight', cursive;
 }
 
-/* Descrição - estilo original restaurado */
+/* Descrição */
 .descricaoCriar {
     font-size: 14px;
     color: #666;
-    margin: 10px 0 0 0;
+    margin: 12px 0 0 0;
     text-align: center;
     font-weight: normal;
-    line-height: 1.4;
+    line-height: 1.5;
+    max-width: 200px;
 }
 
-/* Responsividade - estilo original restaurado */
-@media (max-width: 768px) {
-    .conteudoSimplificado {
-        padding: 30px 15px;
-        min-height: 50vh;
-    }
-    
-    .criarComodo {
-        min-width: 250px;
-        min-height: 350px;
-    }
-}
-
-@media (max-width: 480px) {
-    .conteudoSimplificado {
-        padding: 20px 10px;
-    }
-    
-    .criarComodo {
-        min-width: 250px;
-        min-height: 350px;
-    }
-}
-
-/* Novos estilos para a lista de cômodos */
-.conteudoSimplificado {
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-    align-items: center;
-    min-height: 60vh;
-    padding: 40px 20px;
-    max-width: 800px;
-    margin: 0 auto;
-}
-
-.comodoInativo {
-    opacity: 0.6;
-    background-color: #f5f5f5;
-    border-color: #ccc;
-}
-
+/* Header do Cômodo */
 .comodoHeader {
     display: flex;
     justify-content: space-between;
-    align-items: center;
+    align-items: flex-start;
     width: 100%;
     margin-bottom: 15px;
+    gap: 10px;
 }
 
+.comodoHeader .nomeComodo {
+    text-align: left;
+    flex: 1;
+    font-size: 16px;
+    color: #000;
+    margin: 0;
+}
+
+/* Ações do Cômodo */
 .comodoActions {
     display: flex;
-    gap: 10px;
+    gap: 8px;
     align-items: center;
+    flex-shrink: 0;
 }
 
 .toggleButton {
-    padding: 8px 16px;
-    border: none;
-    border-radius: 6px;
-    font-size: 12px;
+    padding: 6px 12px;
+    border: 2px solid #000;
+    border-radius: 8px;
+    font-size: 10px;
     font-weight: bold;
     cursor: pointer;
     transition: all 0.3s ease;
     font-family: 'Limelight', cursive;
+    white-space: nowrap;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
 }
 
 .toggleButton.ativo {
-    background-color: #4CAF50;
+    background-color: #333;
     color: white;
+    border-color: #333;
 }
 
 .toggleButton.inativo {
     background-color: #f44336;
     color: white;
+    border-color: #f44336;
 }
 
 .toggleButton:hover {
@@ -954,68 +1063,212 @@
 }
 
 .editButton {
-    padding: 8px 16px;
-    background-color: #2196F3;
+    padding: 6px 12px;
+    background-color: #333;
     color: white;
-    border: none;
-    border-radius: 6px;
-    font-size: 12px;
+    border: 2px solid #333;
+    border-radius: 8px;
+    font-size: 10px;
     font-weight: bold;
     cursor: pointer;
     transition: all 0.3s ease;
     font-family: 'Limelight', cursive;
+    white-space: nowrap;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
 }
 
 .editButton:hover {
-    background-color: #1976D2;
+    background-color: #555;
+    border-color: #555;
     transform: translateY(-2px);
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
+/* Informações do Cômodo */
 .comodoInfo {
     margin-bottom: 15px;
     text-align: left;
     width: 100%;
+    background-color: #d5d8ba;
+    padding: 12px;
+    border-radius: 8px;
+    border: 1px solid #000;
 }
 
 .comodoInfo p {
-    margin: 5px 0;
-    font-size: 14px;
-    color: #333;
+    margin: 4px 0;
+    font-size: 12px;
+    color: #000;
+    font-weight: 500;
 }
 
+.comodoInfo strong {
+    color: #000;
+}
+
+/* Lista de Eletrodomésticos */
 .eletrosList {
     width: 100%;
     text-align: left;
+    flex: 1;
 }
 
 .eletrosList h3 {
-    font-size: 16px;
-    margin-bottom: 10px;
+    font-size: 14px;
+    margin-bottom: 8px;
     color: #000;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    border-bottom: 2px solid #000;
+    padding-bottom: 4px;
 }
 
 .eletrosList ul {
     list-style: none;
     padding: 0;
+    margin: 0;
+    max-height: 120px;
+    overflow-y: auto;
 }
 
 .eletrosList li {
-    padding: 5px 0;
-    font-size: 13px;
-    color: #666;
-    border-bottom: 1px solid #eee;
+    padding: 6px 0;
+    font-size: 11px;
+    color: #333;
+    border-bottom: 1px solid #ccc;
+    line-height: 1.4;
+    transition: all 0.2s ease;
+}
+
+.eletrosList li:hover {
+    background: rgba(213, 216, 186, 0.3);
+    padding-left: 8px;
+    border-radius: 4px;
 }
 
 .eletrosList li:last-child {
     border-bottom: none;
 }
 
-/* Responsividade para os novos elementos */
+/* Indicadores do Carrossel */
+.carouselIndicators {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    margin-top: 40px;
+    padding: 20px;
+    background-color: #d5d8ba;
+    border-radius: 25px;
+    border: 2px solid #000;
+    box-shadow: 8px 8px 10px rgba(0, 0, 0, 0.3);
+}
+
+.indicator {
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    background-color: #ddd;
+    border: 2px solid #000;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.indicator:hover {
+    background-color: #bbb;
+    transform: scale(1.2);
+}
+
+.indicator.active {
+    background-color: #000;
+    transform: scale(1.3);
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+}
+
+/* Responsividade */
+@media (max-width: 1400px) {
+    .carouselContainer {
+        max-width: 100%;
+        padding: 30px 15px;
+    }
+    
+    .cardsContainer {
+        max-width: 1200px;
+    }
+    
+    .cardRow {
+        gap: 20px;
+    }
+    
+    .painelComodo,
+    .criarComodo {
+        width: 260px;
+        min-height: 360px;
+    }
+}
+
+@media (max-width: 1200px) {
+    .cardsContainer {
+        max-width: 1000px;
+    }
+    
+    .cardRow {
+        gap: 18px;
+    }
+    
+    .painelComodo,
+    .criarComodo {
+        width: 240px;
+        min-height: 340px;
+        padding: 20px;
+    }
+    
+    .nomeComodo {
+        font-size: 15px;
+    }
+    
+    .mais {
+        font-size: 42px;
+    }
+    
+    .descricaoCriar {
+        font-size: 13px;
+    }
+}
+
 @media (max-width: 768px) {
+    .carouselContainer {
+        padding: 20px 10px;
+        gap: 15px;
+    }
+    
+    .carouselArrow {
+        width: 50px;
+        height: 50px;
+        font-size: 24px;
+    }
+    
+    .cardsContainer {
+        gap: 25px;
+        padding: 0 10px;
+    }
+    
+    .cardRow {
+        gap: 15px;
+        justify-content: center;
+    }
+    
+    .painelComodo,
+    .criarComodo {
+        width: 200px;
+        min-height: 300px;
+        padding: 18px;
+    }
+    
     .comodoHeader {
         flex-direction: column;
-        gap: 10px;
+        gap: 8px;
         align-items: flex-start;
     }
     
@@ -1027,6 +1280,93 @@
     .toggleButton,
     .editButton {
         flex: 1;
-        margin: 0 5px;
+        margin: 0 2px;
+        font-size: 9px;
+        padding: 5px 8px;
+    }
+    
+    .nomeComodo {
+        font-size: 14px;
+    }
+    
+    .mais {
+        font-size: 36px;
+    }
+    
+    .descricaoCriar {
+        font-size: 12px;
+    }
+    
+    .comodoInfo p {
+        font-size: 11px;
+    }
+    
+    .eletrosList h3 {
+        font-size: 13px;
+    }
+    
+    .eletrosList li {
+        font-size: 10px;
+    }
+    
+    .carouselIndicators {
+        margin-top: 30px;
+        padding: 15px;
+    }
+    
+    .indicator {
+        width: 12px;
+        height: 12px;
+    }
+}
+
+@media (max-width: 480px) {
+    .carouselContainer {
+        padding: 15px 5px;
+        gap: 10px;
+    }
+    
+    .carouselArrow {
+        width: 40px;
+        height: 40px;
+        font-size: 20px;
+    }
+    
+    .cardsContainer {
+        gap: 20px;
+    }
+    
+    .cardRow {
+        gap: 12px;
+    }
+    
+    .painelComodo,
+    .criarComodo {
+        width: 160px;
+        min-height: 280px;
+        padding: 15px;
+    }
+    
+    .nomeComodo {
+        font-size: 13px;
+    }
+    
+    .mais {
+        font-size: 32px;
+    }
+    
+    .descricaoCriar {
+        font-size: 11px;
+    }
+    
+    .carouselIndicators {
+        margin-top: 25px;
+        padding: 12px;
+        gap: 10px;
+    }
+    
+    .indicator {
+        width: 10px;
+        height: 10px;
     }
 }
