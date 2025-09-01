@@ -79,8 +79,6 @@ async function handleSubmit(e) {
     }
   }
 
-  console.log("Formulário processado:", form);
-
   // libera o envio após 5 segundos
   setTimeout(() => {
     canSubmit = true;

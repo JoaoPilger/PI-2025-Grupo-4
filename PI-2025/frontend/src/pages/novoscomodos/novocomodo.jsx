@@ -46,8 +46,6 @@ function EditableTitle({ defaultText = "Clique para editar", comodoId }) {
     const trimmed = String(newTitle || '').trim();
     if (!comodoId || trimmed === '') return;
     
-    console.log('Tentando atualizar cômodo:', comodoId, 'com nome:', trimmed);
-    
     try {
       const response = await fetch(`http://localhost:3000/comodos/${comodoId}`, {
         method: 'PUT',
@@ -154,7 +152,7 @@ function EletroForm({ eletro, onSave, onCancel }) {
           type="number"
           id="quantidade"
           min="1"
-          max="10"
+          max="100"
           value={quantidade}
           onChange={(e) => setQuantidade(e.target.value)}
         />
@@ -353,7 +351,6 @@ function NovoComodo() {
       setModalAberto(false);
       setEletroSelecionado(null);
 
-      console.log('Salvo no banco:', savedData);
     } catch (error) {
       console.error('Erro ao salvar:', error);
       alert('Não foi possível salvar o eletrodoméstico. Tente novamente.');

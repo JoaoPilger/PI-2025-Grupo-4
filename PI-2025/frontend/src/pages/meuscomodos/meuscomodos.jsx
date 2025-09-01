@@ -14,6 +14,11 @@ export default function MeusComodos() {
     const isSimulacaoMode = searchParams.get('simulacao') === 'true';
     const nomeSimulacao = searchParams.get('nome') || 'Simulação com cômodos selecionados';
     const [comodosSelecionados, setComodosSelecionados] = useState([]);
+    const [modalConfirmacao, setModalConfirmacao] = useState({
+        aberto: false,
+        comodoId: null,
+        nomeComodo: ''
+    });
 
     useEffect(() => {
         fetchComodos();
@@ -26,19 +31,10 @@ export default function MeusComodos() {
                 withCredentials: true
             });
             
-            console.log('=== DEBUG FRONTEND - BUSCA DE CÔMODOS ===');
-            console.log('Todos os cômodos recebidos:', response.data.length);
-            console.log('Cômodos recebidos:', response.data.map(c => ({ id: c.id, nome: c.nomeComodo, ativo: c.ativo })));
-            
             // Filtrar apenas cômodos ativos se estiver em modo de simulação
             const comodosFiltrados = isSimulacaoMode 
                 ? response.data.filter(comodo => comodo.ativo)
                 : response.data;
-                
-            console.log('Modo simulação:', isSimulacaoMode);
-            console.log('Cômodos após filtro:', comodosFiltrados.length);
-            console.log('Cômodos filtrados:', comodosFiltrados.map(c => ({ id: c.id, nome: c.nomeComodo, ativo: c.ativo })));
-            console.log('=== FIM DEBUG FRONTEND ===');
                 
             setComodos(comodosFiltrados);
             setTotalPages(Math.ceil(comodosFiltrados.length / 3));
@@ -80,26 +76,64 @@ export default function MeusComodos() {
         }
     };
 
+    const abrirModalConfirmacao = (comodoId, nomeComodo) => {
+        setModalConfirmacao({
+            aberto: true,
+            comodoId,
+            nomeComodo
+        });
+    };
+
+    const fecharModalConfirmacao = () => {
+        setModalConfirmacao({
+            aberto: false,
+            comodoId: null,
+            nomeComodo: ''
+        });
+    };
+
+    const confirmarOcultarComodo = async () => {
+        const { comodoId, nomeComodo } = modalConfirmacao;
+        
+        try {
+            // Chama o backend para ocultar o cômodo
+            await axios.patch(`http://localhost:3000/comodos/${comodoId}/visibilidade`, 
+                { ativo: false },
+                { withCredentials: true }
+            );
+            
+            // Remove o cômodo da lista local
+            setComodos(prev => prev.filter(comodo => comodo.id !== comodoId));
+            
+            // Atualiza o total de páginas
+            const novosComodos = comodos.filter(comodo => comodo.id !== comodoId);
+            setTotalPages(Math.ceil((novosComodos.length + 1) / 3)); // +1 para o card de criar
+            
+            // Fecha o modal
+            fecharModalConfirmacao();
+            
+            alert('Cômodo ocultado com sucesso!');
+        } catch (error) {
+            console.error('Erro ao ocultar cômodo:', error);
+            if (error.response?.status === 401) {
+                navigate('/login');
+            } else {
+                alert('Erro ao ocultar cômodo');
+            }
+        }
+    };
+
     const toggleComodoSelecao = (comodoId) => {
-        console.log('Toggle seleção - ID:', comodoId, 'Tipo:', typeof comodoId);
-        console.log('Cômodos selecionados antes:', comodosSelecionados);
         
         setComodosSelecionados(prev => {
             const novosSelecionados = prev.includes(comodoId) 
                 ? prev.filter(id => id !== comodoId)
                 : [...prev, comodoId];
-            
-            console.log('Cômodos selecionados depois:', novosSelecionados);
             return novosSelecionados;
         });
     };
 
     const finalizarSimulacao = async () => {
-        console.log('=== DEBUG FRONTEND ===');
-        console.log('Cômodos selecionados:', comodosSelecionados);
-        console.log('Quantidade de cômodos selecionados:', comodosSelecionados.length);
-        console.log('Tipo dos IDs selecionados:', comodosSelecionados.map(id => typeof id));
-        console.log('Todos os cômodos disponíveis:', comodos.map(c => ({ id: c.id, nome: c.nomeComodo, ativo: c.ativo })));
         
         if (comodosSelecionados.length === 0) {
             alert('Selecione pelo menos um cômodo para a simulação.');
@@ -111,17 +145,13 @@ export default function MeusComodos() {
                 nomeSimulacao: nomeSimulacao,
                 comodosSelecionados: comodosSelecionados
             };
-            
-            console.log('Enviando dados para simulação:', dadosSimulacao);
-            console.log('Nome da simulação:', nomeSimulacao);
+
             
             // Enviar simulação com os cômodos selecionados
             const response = await axios.post('http://localhost:3000/simulacao', dadosSimulacao, {
                 withCredentials: true
             });
-            
-            console.log('Resposta do servidor:', response.data);
-            console.log('=== FIM DEBUG FRONTEND ===');
+
             
             alert('Simulação criada com sucesso!');
             navigate('/historico');
@@ -202,18 +232,23 @@ export default function MeusComodos() {
     return (
         <div className={styles.container}>
             <div className={styles.header}>
-                <h1 className={styles.titulo}>
-                    {isSimulacaoMode ? 'Selecione os Cômodos para Simulação' : 'Meus Cômodos'}
-                </h1>
-                {isSimulacaoMode && (
-                    <p style={{ 
-                        textAlign: 'center', 
-                        color: '#666', 
-                        marginTop: '10px',
-                        fontSize: '16px'
-                    }}>
-                        Clique nos cômodos que deseja incluir na simulação
-                    </p>
+                {isSimulacaoMode ? (
+                    <div style={{ textAlign: 'center' }}>
+                        <h1 className={styles.titulo}>
+                            Selecione os Cômodos para Simulação
+                        </h1>
+                        <p style={{ 
+                            color: '#666', 
+                            marginTop: '10px',
+                            fontSize: '16px'
+                        }}>
+                            Clique nos cômodos que deseja incluir na simulação
+                        </p>
+                    </div>
+                ) : (
+                    <h1 className={styles.titulo}>
+                        MEUS CÔMODOS
+                    </h1>
                 )}
             </div>
 
@@ -255,21 +290,8 @@ export default function MeusComodos() {
                                 >
                                     <div className={styles.comodoHeader}>
                                         <h2 className={styles.nomeComodo}>{card.nomeComodo}</h2>
-                                        {!isSimulacaoMode && (
-                                            <div className={styles.comodoActions}>
-                                                <button 
-                                                    className={styles.editButton}
-                                                    onClick={(e) => {
-                                                        e.stopPropagation();
-                                                        editarComodo(card.id);
-                                                    }}
-                                                >
-                                                    Editar
-                                                </button>
-                                            </div>
-                                        )}
-                                        {isSimulacaoMode && (
-                                            <div className={styles.comodoActions}>
+                                        <div className={styles.comodoActions}>
+                                            {isSimulacaoMode ? (
                                                 <button 
                                                     className={`${styles.toggleButton} ${comodosSelecionados.includes(card.id) ? styles.ativo : styles.inativo}`}
                                                     onClick={(e) => {
@@ -279,8 +301,19 @@ export default function MeusComodos() {
                                                 >
                                                     {comodosSelecionados.includes(card.id) ? 'Selecionado' : 'Selecionar'}
                                                 </button>
-                                            </div>
-                                        )}
+                                            ) : (
+                                                <button 
+                                                    className={styles.deleteButton}
+                                                    onClick={(e) => {
+                                                        e.stopPropagation();
+                                                        abrirModalConfirmacao(card.id, card.nomeComodo);
+                                                    }}
+                                                    title="Ocultar cômodo"
+                                                >
+                                                    🗑️
+                                                </button>
+                                            )}
+                                        </div>
                                     </div>
                                     
                                     <div className={styles.comodoInfo}>
@@ -309,6 +342,40 @@ export default function MeusComodos() {
                     </div>
                 ))}
             </div>
+
+            {/* Modal de Confirmação */}
+            {modalConfirmacao.aberto && (
+                <div className={styles.modalOverlay}>
+                    <div className={styles.modalContent}>
+                        <div className={styles.modalHeader}>
+                            <h3>Confirmar Ação</h3>
+                        </div>
+                        <div className={styles.modalBody}>
+                            <p>
+                                Tem certeza que deseja <strong>ocultar</strong> o cômodo 
+                                <strong> "{modalConfirmacao.nomeComodo}"</strong>?
+                            </p>
+                            <p className={styles.modalWarning}>
+                                ⚠️ Esta ação não pode ser desfeita. O cômodo não aparecerá mais na lista.
+                            </p>
+                        </div>
+                        <div className={styles.modalActions}>
+                            <button 
+                                className={styles.modalButtonCancel}
+                                onClick={fecharModalConfirmacao}
+                            >
+                                Cancelar
+                            </button>
+                            <button 
+                                className={styles.modalButtonConfirm}
+                                onClick={confirmarOcultarComodo}
+                            >
+                                Confirmar
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            )}
 
             {/* Botão de finalizar simulação */}
             {isSimulacaoMode && (

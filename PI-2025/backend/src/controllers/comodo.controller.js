@@ -62,36 +62,24 @@ export const getComodosByCliente = async (req, res) => {
       return res.status(401).json({ error: 'Não autenticado' });
     }
 
-    console.log('Buscando cômodos para cliente ID:', sessionUser.id);
-
     const comodos = await prisma.comodo.findMany({
-      where: { clienteId: sessionUser.id },
+      where: { 
+        clienteId: sessionUser.id,
+        ativo: true // Apenas cômodos ativos (visíveis)
+      },
       include: {
         eletros: {
           include: {
             eletrodomestico: true
           }
         }
-      },
-      orderBy: { id: 'desc' }
+      }
     });
 
-    console.log('Cômodos encontrados:', comodos.length);
-
-    // Garantir que todos os cômodos tenham o campo ativo
-    const comodosComAtivo = comodos.map(comodo => ({
-      ...comodo,
-      ativo: comodo.ativo !== undefined ? comodo.ativo : true,
-      eletros: comodo.eletros.map(eletro => ({
-        ...eletro,
-        ativo: eletro.ativo !== undefined ? eletro.ativo : true
-      }))
-    }));
-
-    return res.json(comodosComAtivo);
+    return res.json(comodos);
   } catch (error) {
     console.error('Erro ao buscar cômodos:', error);
-    return res.status(500).json({ error: 'Erro interno do servidor' });
+    return res.status(500).json({ error: 'Erro ao buscar cômodos' });
   }
 };
 
@@ -144,7 +132,7 @@ export const getEletrosByComodo = async (req, res) => {
     }
 
     const comodoId = Number(req.params.id);
-
+    
     // Garante que o cômodo pertence ao cliente logado
     const existing = await prisma.comodo.findUnique({ where: { id: comodoId } });
     if (!existing || existing.clienteId !== sessionUser.id) {
@@ -162,6 +150,80 @@ export const getEletrosByComodo = async (req, res) => {
   } catch (error) {
     console.error('Erro ao buscar eletrodomésticos do cômodo:', error);
     return res.status(500).json({ error: 'Erro ao buscar eletrodomésticos' });
+  }
+};
+
+// DELETE apagar cômodo e todos os dados relacionados
+export const deleteComodo = async (req, res) => {
+  try {
+    const sessionUser = req.session?.user;
+    if (!sessionUser?.id) {
+      return res.status(401).json({ error: 'Não autenticado' });
+    }
+
+    const comodoId = Number(req.params.id);
+    
+    // Garante que o cômodo pertence ao cliente logado
+    const existing = await prisma.comodo.findUnique({ where: { id: comodoId } });
+    if (!existing || existing.clienteId !== sessionUser.id) {
+      return res.status(404).json({ error: 'Cômodo não encontrado' });
+    }
+
+    // Deletar em transação para garantir consistência
+    await prisma.$transaction(async (tx) => {
+      // 1. Deletar todos os eletrodomésticos do cômodo
+      await tx.eletroComodo.deleteMany({
+        where: { comodoId }
+      });
+
+      // 2. Deletar todas as referências do cômodo em simulações
+      await tx.simulacaoComodo.deleteMany({
+        where: { comodoId }
+      });
+
+      // 3. Deletar o cômodo
+      await tx.comodo.delete({
+        where: { id: comodoId }
+      });
+    });
+
+    return res.json({ message: 'Cômodo removido com sucesso' });
+  } catch (error) {
+    console.error('Erro ao deletar cômodo:', error);
+    return res.status(500).json({ error: 'Erro ao deletar cômodo' });
+  }
+};
+
+// PATCH alterar visibilidade do cômodo
+export const toggleComodoVisibilidade = async (req, res) => {
+  try {
+    const sessionUser = req.session?.user;
+    if (!sessionUser?.id) {
+      return res.status(401).json({ error: 'Não autenticado' });
+    }
+
+    const comodoId = Number(req.params.id);
+    const { ativo } = req.body;
+
+    if (typeof ativo !== 'boolean') {
+      return res.status(400).json({ error: 'Campo ativo deve ser um boolean' });
+    }
+
+    // Garante que o cômodo pertence ao cliente logado
+    const existing = await prisma.comodo.findUnique({ where: { id: comodoId } });
+    if (!existing || existing.clienteId !== sessionUser.id) {
+      return res.status(404).json({ error: 'Cômodo não encontrado' });
+    }
+
+    const updated = await prisma.comodo.update({
+      where: { id: comodoId },
+      data: { ativo }
+    });
+
+    return res.json(updated);
+  } catch (error) {
+    console.error('Erro ao alterar visibilidade do cômodo:', error);
+    return res.status(500).json({ error: 'Erro ao alterar visibilidade do cômodo' });
   }
 };
 
