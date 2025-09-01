@@ -18,27 +18,20 @@ export default function Simulator() {
 
   async function verificarComodosAtivos() {
     try {
-      const response = await axios.get('http://localhost:3000/comodos', {
+      const response = await axios.get('http://localhost:3000/comodos/ativos', {
         withCredentials: true
       })
       
-      const comodosAtivos = response.data.filter(comodo => comodo.ativo)
-      setComodosAtivos(comodosAtivos)
-      
-      if (comodosAtivos.length === 0) {
-        alert('Você precisa ter pelo menos um cômodo ativo para fazer uma simulação.')
-        navigate('/meuscomodos')
-        return
-      }
-      
+      setComodosAtivos(response.data)
       setLoading(false)
     } catch (error) {
       console.error('Erro ao buscar cômodos:', error)
       if (error.response?.status === 401) {
         navigate('/login')
       } else {
-        alert('Erro ao carregar cômodos')
-        navigate('/meuscomodos')
+        // Não redirecionar mais, apenas mostrar erro
+        setComodosAtivos([])
+        setLoading(false)
       }
     }
   }
@@ -63,7 +56,14 @@ async function handleSubmit(e) {
     // Redireciona para meuscomodos para escolher os cômodos
     // Passa o nome da simulação através da URL
     const nomeSimulacao = encodeURIComponent(form.nomeSimulacao);
-    navigate(`/meuscomodos?simulacao=true&nome=${nomeSimulacao}`)
+    
+    if (comodosAtivos.length === 0) {
+      // Se não há cômodos ativos, redireciona para criar cômodos
+      navigate('/novocomodo')
+    } else {
+      // Se há cômodos, vai para seleção
+      navigate(`/meuscomodos?simulacao=true&nome=${nomeSimulacao}`)
+    }
 
   } catch (error) {
     console.error("Erro ao processar formulário:", error);
@@ -100,9 +100,20 @@ async function handleSubmit(e) {
       <div className="sim-container" id='simulador'>
         <div className="sim-card">
           <h1>SIMULADOR DE GASTO ENERGÉTICO</h1>
-          <p style={{ marginBottom: '20px', color: '#666' }}>
-            Cômodos ativos disponíveis: {comodosAtivos.length}
-          </p>
+          {comodosAtivos.length === 0 ? (
+            <div style={{ marginBottom: '20px', padding: '15px', backgroundColor: '#fff3cd', border: '1px solid #ffeaa7', borderRadius: '8px' }}>
+              <p style={{ color: '#856404', margin: '0 0 10px 0', fontWeight: 'bold' }}>
+                ⚠️ Nenhum cômodo ativo encontrado
+              </p>
+              <p style={{ color: '#856404', margin: '0', fontSize: '14px' }}>
+                Você deve criar cômodos primeiro e depois voltar para fazer simulações.
+              </p>
+            </div>
+          ) : (
+            <p style={{ marginBottom: '20px', color: '#666' }}>
+              Cômodos ativos disponíveis: {comodosAtivos.length}
+            </p>
+          )}
 
           <form onSubmit={handleSubmit} className="flex flex-col gap-4 w-80">
             <label>
@@ -116,7 +127,9 @@ async function handleSubmit(e) {
                 className="border rounded p-2 w-full"
               />
             </label>
-          <button>Iniciar</button>
+          <button>
+            {comodosAtivos.length === 0 ? 'Criar Cômodos Primeiro' : 'Iniciar Simulação'}
+          </button>
 
           </form>
 

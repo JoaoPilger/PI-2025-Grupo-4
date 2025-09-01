@@ -62,6 +62,8 @@ export const getComodosByCliente = async (req, res) => {
       return res.status(401).json({ error: 'Não autenticado' });
     }
 
+    console.log('getComodosByCliente (ativos) chamado para cliente:', sessionUser.id);
+
     const comodos = await prisma.comodo.findMany({
       where: { 
         clienteId: sessionUser.id,
@@ -76,9 +78,46 @@ export const getComodosByCliente = async (req, res) => {
       }
     });
 
+    console.log('Total de cômodos ativos encontrados:', comodos.length);
+    console.log('Cômodos ativos:', comodos.map(c => ({ id: c.id, nome: c.nomeComodo, ativo: c.ativo })));
+
     return res.json(comodos);
   } catch (error) {
     console.error('Erro ao buscar cômodos:', error);
+    return res.status(500).json({ error: 'Erro ao buscar cômodos' });
+  }
+};
+
+// Nova função para buscar todos os cômodos (incluindo inativos)
+export const getAllComodosByCliente = async (req, res) => {
+  try {
+    const sessionUser = req.session?.user;
+    if (!sessionUser?.id) {
+      return res.status(401).json({ error: 'Não autenticado' });
+    }
+
+    console.log('getAllComodosByCliente chamado para cliente:', sessionUser.id);
+
+    const comodos = await prisma.comodo.findMany({
+      where: { 
+        clienteId: sessionUser.id
+        // Sem filtro de ativo - retorna todos os cômodos
+      },
+      include: {
+        eletros: {
+          include: {
+            eletrodomestico: true
+          }
+        }
+      }
+    });
+
+    console.log('Total de cômodos encontrados:', comodos.length);
+    console.log('Cômodos:', comodos.map(c => ({ id: c.id, nome: c.nomeComodo, ativo: c.ativo })));
+
+    return res.json(comodos);
+  } catch (error) {
+    console.error('Erro ao buscar todos os cômodos:', error);
     return res.status(500).json({ error: 'Erro ao buscar cômodos' });
   }
 };

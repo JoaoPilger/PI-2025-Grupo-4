@@ -22,22 +22,30 @@ export default function MeusComodos() {
 
     useEffect(() => {
         fetchComodos();
-    }, []);
+    }, [isSimulacaoMode]); // Adicionar isSimulacaoMode como dependência
 
     const fetchComodos = async () => {
         try {
             setError(null);
-            const response = await axios.get('http://localhost:3000/comodos', {
+            
+            // Usar rota diferente baseada no modo
+            const url = isSimulacaoMode 
+                ? 'http://localhost:3000/comodos/ativos'
+                : 'http://localhost:3000/comodos';
+            
+            console.log('Modo simulação:', isSimulacaoMode);
+            console.log('URL chamada:', url);
+            
+            const response = await axios.get(url, {
                 withCredentials: true
             });
             
-            // Filtrar apenas cômodos ativos se estiver em modo de simulação
-            const comodosFiltrados = isSimulacaoMode 
-                ? response.data.filter(comodo => comodo.ativo)
-                : response.data;
-                
-            setComodos(comodosFiltrados);
-            setTotalPages(Math.ceil(comodosFiltrados.length / 3));
+            console.log('Resposta do backend:', response.data);
+            console.log('Total de cômodos recebidos:', response.data.length);
+            
+            setComodos(response.data);
+            // Sempre ter pelo menos 1 página
+            setTotalPages(1);
             setLoading(false);
         } catch (error) {
             console.error('Erro ao buscar cômodos:', error);
@@ -107,7 +115,7 @@ export default function MeusComodos() {
             
             // Atualiza o total de páginas
             const novosComodos = comodos.filter(comodo => comodo.id !== comodoId);
-            setTotalPages(Math.ceil((novosComodos.length + 1) / 3)); // +1 para o card de criar
+            setTotalPages(1); // Sempre 1 página
             
             // Fecha o modal
             fecharModalConfirmacao();
@@ -212,22 +220,51 @@ export default function MeusComodos() {
             nomeComodo: 'CRIAR CÔMODO',
             descricaoCriar: 'Clique para adicionar um novo cômodo'
         },
-        ...comodos.map(comodo => ({
+        ...(comodos || []).map(comodo => ({
             ...comodo,
             type: 'comodo'
         }))
     ];
 
-    // Pegar 8 cards por página (2 linhas de 4)
-    const cardsPerPage = 8;
-    const startIndex = currentPage * cardsPerPage;
-    const visibleCards = allCards.slice(startIndex, startIndex + cardsPerPage);
-
-    // Dividir em linhas de 4 cards
+    // Simplificar a lógica de renderização
     const rows = [];
-    for (let i = 0; i < visibleCards.length; i += 4) {
-        rows.push(visibleCards.slice(i, i + 4));
+    
+    // Se não há cômodos, mostrar apenas o card de criar
+    if (!comodos || comodos.length === 0) {
+        rows.push([{
+            id: 'criar',
+            type: 'criar',
+            nomeComodo: 'CRIAR CÔMODO',
+            descricaoCriar: 'Clique para adicionar um novo cômodo'
+        }]);
+    } else {
+        // Dividir em linhas de 4 cards
+        for (let i = 0; i < allCards.length; i += 4) {
+            rows.push(allCards.slice(i, i + 4));
+        }
     }
+
+    // Garantir que sempre haja pelo menos uma linha
+    if (rows.length === 0) {
+        rows.push([{
+            id: 'criar',
+            type: 'criar',
+            nomeComodo: 'CRIAR CÔMODO',
+            descricaoCriar: 'Clique para adicionar um novo cômodo'
+        }]);
+    }
+
+    // Debug final
+    console.log('=== DEBUG FINAL ===');
+    console.log('comodos:', comodos);
+    console.log('allCards:', allCards);
+    console.log('rows:', rows);
+    console.log('isSimulacaoMode:', isSimulacaoMode);
+    console.log('==================');
+
+
+
+
 
     return (
         <div className={styles.container}>
