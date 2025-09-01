@@ -148,3 +148,5 @@ Davi Ulisses Moretto Gusso
 João Victor Pilger
 Victor Andrin Bonissoni
 Yuri Tedesco Germano
+
+Obs: Se tiverem algum problema em rodar o projeto, por gentileza falar conosco.
