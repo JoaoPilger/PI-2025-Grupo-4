@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useSearchParams, useNavigate } from 'react-router-dom';
 import styles from './novocomodo.module.css';
 
@@ -45,13 +45,22 @@ function EditableTitle({ defaultText = "Clique para editar", comodoId }) {
   const persistIfValid = async (newTitle) => {
     const trimmed = String(newTitle || '').trim();
     if (!comodoId || trimmed === '') return;
+    
+    console.log('Tentando atualizar cômodo:', comodoId, 'com nome:', trimmed);
+    
     try {
-      await fetch(`http://localhost:3000/comodos/${comodoId}`, {
+      const response = await fetch(`http://localhost:3000/comodos/${comodoId}`, {
         method: 'PUT',
         credentials: 'include',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ nomeComodo: trimmed })
       });
+      
+      if (response.ok) {
+        console.log('Cômodo atualizado com sucesso');
+      } else {
+        console.error('Erro ao atualizar cômodo:', response.status);
+      }
     } catch (err) {
       console.error('Erro ao atualizar cômodo:', err);
     }
@@ -61,6 +70,7 @@ function EditableTitle({ defaultText = "Clique para editar", comodoId }) {
     await persistIfValid(title);
     setIsEditing(false);
   };
+  
   const handleKeyDown = async (e) => {
     if (e.key === "Enter") {
       await persistIfValid(title);
@@ -220,6 +230,7 @@ function NovoComodo() {
   const [searchParams] = useSearchParams();
   const comodoId = searchParams.get('id');
   const navigate = useNavigate();
+  const hasCreatedComodo = useRef(false);
 
   const [selecionados, setSelecionados] = useState([]);
   const [modalAberto, setModalAberto] = useState(false);
@@ -228,8 +239,9 @@ function NovoComodo() {
 
   useEffect(() => {
     const fetchComodo = async () => {
-      if (!comodoId) {
-        // Se não houver ID, cria um novo cômodo
+      if (!comodoId && !hasCreatedComodo.current) {
+        // Se não houver ID e ainda não criou um cômodo, cria um novo
+        hasCreatedComodo.current = true;
         try {
           const response = await fetch('http://localhost:3000/comodos', {
             method: 'POST',
@@ -245,12 +257,13 @@ function NovoComodo() {
           }
           const data = await response.json();
           // Redireciona para a página com o ID do cômodo criado
-          navigate(`/novocomodo?id=${data.id}`);
+          navigate(`/novocomodo?id=${data.id}`, { replace: true });
         } catch (error) {
           console.error('Erro ao criar cômodo:', error);
           alert('Não foi possível criar o cômodo. Tente novamente.');
+          hasCreatedComodo.current = false; // Reset para tentar novamente
         }
-      } else {
+      } else if (comodoId) {
         // Se houver ID, carrega os eletrodomésticos existentes do cômodo
         try {
           const response = await fetch(`http://localhost:3000/comodos/${comodoId}/eletros`, {

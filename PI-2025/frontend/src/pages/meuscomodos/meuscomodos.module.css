@@ -931,6 +931,14 @@
     border-color: #ccc;
 }
 
+.painelComodo.comodoSelecionado {
+    border-color: #4CAF50;
+    border-width: 3px;
+    background-color: #f0f8f0;
+    transform: translateY(-5px);
+    box-shadow: 0 15px 30px rgba(76, 175, 80, 0.3);
+}
+
 /* Card de Criar Cômodo */
 .criarComodo {
     border: 3px dashed #666;
@@ -1084,6 +1092,8 @@
     transform: translateY(-2px);
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
+
+
 
 /* Informações do Cômodo */
 .comodoInfo {
@@ -1275,6 +1285,8 @@
     .comodoActions {
         width: 100%;
         justify-content: space-between;
+        flex-wrap: wrap;
+        gap: 4px;
     }
     
     .toggleButton,
@@ -1283,6 +1295,8 @@
         margin: 0 2px;
         font-size: 9px;
         padding: 5px 8px;
+        min-width: 45px;
+        max-width: calc(50% - 4px);
     }
     
     .nomeComodo {
@@ -1345,6 +1359,23 @@
         width: 160px;
         min-height: 280px;
         padding: 15px;
+    }
+    
+    .comodoActions {
+        width: 100%;
+        justify-content: space-between;
+        flex-wrap: wrap;
+        gap: 3px;
+    }
+    
+    .toggleButton,
+    .editButton {
+        flex: 1;
+        margin: 0 1px;
+        font-size: 8px;
+        padding: 4px 6px;
+        min-width: 40px;
+        max-width: calc(50% - 2px);
     }
     
     .nomeComodo {
