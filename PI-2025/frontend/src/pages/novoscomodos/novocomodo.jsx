@@ -6,7 +6,6 @@ import styles from './novocomodo.module.css';
 const aparelhos = [
   { nome: 'ar condicionado', img: '/imagens/air.png', consumo: 0, custo: 0, tarifa: 0 },
   { nome: 'alarme', img: '/imagens/alarm.png', consumo: 0, custo: 0, tarifa: 0 },
-  { nome: 'blender', img: '/imagens/blender.png', consumo: 0, custo: 0, tarifa: 0 },
   { nome: 'cafeteira', img: '/imagens/coffee.png', consumo: 0, custo: 0, tarifa: 0 },
   { nome: 'computador', img: '/imagens/desktop.png', consumo: 0, custo: 0, tarifa: 0 },
   { nome: 'lava louças', img: '/imagens/dishwasher.png', consumo: 0, custo: 0, tarifa: 0 },
@@ -234,9 +233,49 @@ function NovoComodo() {
   const [modalAberto, setModalAberto] = useState(false);
   const [eletroSelecionado, setEletroSelecionado] = useState(null);
   const [detalhesEletros, setDetalhesEletros] = useState({});
+  const [tarifaCliente, setTarifaCliente] = useState(0);
+
+  // Função para buscar a tarifa do cliente
+  const fetchTarifaCliente = async () => {
+    try {
+      // Usar o endpoint correto /auth/session
+      const response = await fetch('http://localhost:3000/auth/session', {
+        credentials: 'include'
+      });
+      if (response.ok) {
+        const data = await response.json();
+        if (data.loggedIn && data.user) {
+          // Buscar dados completos do cliente incluindo distribuidora
+          const clienteResponse = await fetch(`http://localhost:3000/clientes/${data.user.id}`, {
+            credentials: 'include'
+          });
+          if (clienteResponse.ok) {
+            const clienteData = await clienteResponse.json();
+            const tarifa = Number(clienteData.distribuidora?.tarifa || 0);
+            setTarifaCliente(tarifa);
+          } else {
+            console.error('Erro ao buscar dados do cliente:', clienteResponse.status);
+            // Fallback: usar uma tarifa padrão se não conseguir buscar
+            setTarifaCliente(0.50);
+          }
+        }
+      } else {
+        console.error('Erro ao verificar sessão:', response.status);
+        // Fallback: usar uma tarifa padrão se não conseguir verificar sessão
+        setTarifaCliente(0.50);
+      }
+    } catch (error) {
+      console.error('Erro ao buscar tarifa do cliente:', error);
+      // Fallback: usar uma tarifa padrão em caso de erro
+      setTarifaCliente(0.50);
+    }
+  };
 
   useEffect(() => {
     const fetchComodo = async () => {
+      // Buscar tarifa do cliente primeiro
+      await fetchTarifaCliente();
+      
       if (!comodoId && !hasCreatedComodo.current) {
         // Se não houver ID e ainda não criou um cômodo, cria um novo
         hasCreatedComodo.current = true;
@@ -366,11 +405,15 @@ function NovoComodo() {
     const potencia = cur.potencia || 0;
     const horasUso = cur.horasUsoDia || 0;
     const quantidade = cur.quantidade || 1;
-    return acc + ((potencia * horasUso * quantidade * 30) / 1000); // kWh por mês
+    const consumoEletro = (potencia * horasUso * quantidade * 30) / 1000; // kWh por mês
+    return acc + consumoEletro;
   }, 0);
   
-  const totalCusto = totalConsumo * 0.5; // Tarifa média estimada
-  const tarifaMedia = "0.50"; // Tarifa média fixa para simplificar
+  // Calcular custo total usando a tarifa do cliente
+  const totalCusto = totalConsumo * tarifaCliente;
+  
+  // A tarifa média é a tarifa do cliente (todos os eletrodomésticos usam a mesma tarifa)
+  const tarifaMedia = tarifaCliente.toFixed(2);
 
   return (
     <div className={styles["novo-comodo-container"]}>

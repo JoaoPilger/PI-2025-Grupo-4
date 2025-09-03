@@ -33,15 +33,9 @@ export default function MeusComodos() {
                 ? 'http://localhost:3000/comodos/ativos'
                 : 'http://localhost:3000/comodos';
             
-            console.log('Modo simulação:', isSimulacaoMode);
-            console.log('URL chamada:', url);
-            
             const response = await axios.get(url, {
                 withCredentials: true
             });
-            
-            console.log('Resposta do backend:', response.data);
-            console.log('Total de cômodos recebidos:', response.data.length);
             
             setComodos(response.data);
             // Sempre ter pelo menos 1 página
@@ -253,18 +247,6 @@ export default function MeusComodos() {
             descricaoCriar: 'Clique para adicionar um novo cômodo'
         }]);
     }
-
-    // Debug final
-    console.log('=== DEBUG FINAL ===');
-    console.log('comodos:', comodos);
-    console.log('allCards:', allCards);
-    console.log('rows:', rows);
-    console.log('isSimulacaoMode:', isSimulacaoMode);
-    console.log('==================');
-
-
-
-
 
     return (
         <div className={styles.container}>
