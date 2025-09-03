@@ -41,7 +41,12 @@ npm install
 
 ### Passo 3: Configuração do Backend
 
-1. **Configure o banco de dados:**
+1. **Configure o banco PostgreSQL:**
+   - Crie um banco de dados PostgreSQL
+   - Execute: `npx prisma migrate dev`
+   - Execute: `npx prisma db push`
+
+2. **Configure o banco de dados:**
    
    Crie um arquivo `.env` na pasta `backend`:
    ```env
@@ -115,10 +120,6 @@ npm install
    (20, 'BOA VISTA ENERGIA', 0.86),
    (21, 'EFLUL', 0.65),
    (22, 'DME Poços de Caldas', 0.636);
-
-2. **Configure o banco PostgreSQL:**
-   - Crie um banco de dados PostgreSQL
-   - Execute: `npx prisma migrate dev`
 
 3. **Inicie o servidor:**
    ```bash
