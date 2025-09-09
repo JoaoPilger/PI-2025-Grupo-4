@@ -205,7 +205,6 @@ body {
 
 @media (max-width: 600px) {
   h1, input[type="text"] {
-    font-size: 48px;
     max-width: 95vw;
     height: auto;
     word-break: break-word;

@@ -202,14 +202,14 @@ function Header() {
                                                 // Aqui você pode adicionar navegação para perfil
                                             }}
                                         >
-                                            <span className="action-icon">👤</span>
+                                            <span className="action-icon"></span>
                                             Meu Perfil
                                         </button>
                                         <button 
                                             className="dropdown-item logout-button"
                                             onClick={handleLogout}
                                         >
-                                            <span className="action-icon">🚪</span>
+                                            <span className="action-icon"></span>
                                             Sair
                                         </button>
                                     </div>
