@@ -239,7 +239,7 @@ body {
 }
 
 .modal-content {
-  background: white;
+ background: #e6ebdd;
   border-radius: 8px;
   padding: 20px;
   max-width: 500px;
@@ -305,15 +305,9 @@ body {
 .form-group input[type="text"],
 .form-group input[type="number"] {
   padding: 12px;
-  border: 1px solid #ddd;
+  border: 2px solid #000000;
   border-radius: 4px;
   font-size: 1rem;
-}
-
-.form-group input[type="text"]:focus,
-.form-group input[type="number"]:focus {
-  outline: none;
-  border-color: #007bff;
 }
 
 .form-group input[type="radio"] {
@@ -326,9 +320,9 @@ body {
   gap: 20px;
   align-items: center;
   padding: 10px;
-  background: #f8f9fa;
+  background: #ffffff;
   border-radius: 4px;
-  border: 1px solid #dee2e6;
+  border: 2px solid #000000;
 }
 
 .radio-option {
@@ -346,7 +340,7 @@ body {
 }
 
 .radio-option input[type="radio"]:checked + span {
-  color: #007bff;
+  color: #000000;
   font-weight: 600;
 }
 
@@ -375,19 +369,19 @@ body {
 }
 
 .btn-cancel {
-  background: #6c757d;
-  color: white;
+  background: #d5d8ba;
+  color: black;
 }
 
 .btn-cancel:hover {
-  background: #5a6268;
+  background: #b7b99e;
 }
 
 .btn-save {
-  background: #007bff;
-  color: white;
+  background: #d5d8ba;
+  color: rgb(0, 0, 0);
 }
 
 .btn-save:hover {
-  background: #0056b3;
+  background: #b7b99e;
 }
