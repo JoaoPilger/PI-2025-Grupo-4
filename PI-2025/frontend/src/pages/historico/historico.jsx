@@ -92,8 +92,8 @@ function Historico() {
           <div className={styles["estatistica-direita"]}>
             <span className={styles["valor-estatistica"]}>
               {simulacoes.length > 0
-                ? `R$ ${(simulacoes.reduce((a, b) => a + (b.tarifa ?? 0), 0) / simulacoes.length).toFixed(4)} / kWh`
-                : 'R$ 0,0000 / kWh'}
+                ? `R$ ${(simulacoes.reduce((a, b) => a + (b.tarifa ?? 0), 0) / simulacoes.length).toFixed(2)} / kWh`
+                : 'R$ 0,00 / kWh'}
             </span>
           </div>
         </div>
@@ -118,7 +118,7 @@ function Historico() {
                 <td>{sim.nomeSimulacao}</td>
                 <td>{new Date(sim.data).toLocaleDateString()}</td>
                 <td>{(sim.consumo ?? 0).toFixed(2)} kWh</td>
-                <td>R$ {(sim.tarifa ?? 0).toFixed(4)}/kWh</td>
+                <td>R$ {(sim.tarifa ?? 0).toFixed(2)}/kWh</td>
                 <td>R$ {(sim.custo ?? 0).toFixed(2)}</td>
               </tr>
             ))}
